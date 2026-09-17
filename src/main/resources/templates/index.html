@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragmentos/layout :: cabecera('Zona Burger', 'styles-custom.css')}">
+</head>
+
+<body>
+
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav th:replace="~{fragmentos/layout :: barraNavegacion('inicio')}"></nav>
+
+
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main>
+        <section class="banner-inicio">
+            <div class="container">
+                <div class="row align-items-center">
+                    <!-- TEXTO -->
+                    <div class="col-12 col-md-6">
+                        <p class="fs-5 mb-2 texto-destacado fw-bold">
+                            ¡El sabor que estabas buscando!
+                        </p>
+                        <h1 class="display-3 fw-bold">
+                            Disfruta tu hamburguesa favorita
+                        </h1>
+                        <p class="fs-4 mt-3">
+                            Combos deliciosos, rápidos y preparados para ti.
+                        </p>
+                        <a th:href="@{/productos}" class="btn btn-warning btn-lg mt-3">
+                            <i class="bi bi-basket-fill"></i>
+                            Ver menú
+                        </a>
+                    </div>
+                    <!-- IMAGEN -->
+                    <div class="col-12 col-md-6 text-center mt-4 mt-md-0">
+
+                        <img th:src="@{/img/hamburguesa.png}" class="img-fluid imagen-banner" alt="Hamburguesa Zona Burger">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+            <!-- PRODUCTOS RECOMENDADOS -->
+<section class="productos-recomendados py-5">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <p class="text-warning fw-bold mb-2">
+                Lo mejor de Zona Burger
+            </p>
+            <h2 class="fw-bold">
+                Productos recomendados
+            </h2>
+            <p class="text-muted">
+                Prueba algunas de nuestras opciones favoritas.
+            </p>
+        </div>
+
+
+        <div class="row">
+            <!-- PRODUCTO 1 -->
+<div class="col-12 col-md-6 col-lg-4 mb-4">
+    <div class="card h-100 shadow">
+        <img th:src="@{/img/promo2.png}" class="card-img-top" alt="Combo BBQ">
+
+        <div class="card-body">
+            <h5 class="card-title fw-bold">
+                Combo BBQ
+            </h5>
+
+            <p class="card-text">
+                Burger BBQ, papas fritas y bebida personal.
+            </p>
+
+            <p class="fw-bold fs-5">
+                S/ 22.90
+            </p>
+
+            <a th:href="@{/productos#promo2}" class="btn btn-warning">
+                <i class="bi bi-eye-fill"></i>
+                Ver producto
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<!-- PRODUCTO 2 -->
+<div class="col-12 col-md-6 col-lg-4 mb-4">
+    <div class="card h-100 shadow">
+        <img th:src="@{/img/duo3.png}" class="card-img-top" alt="Dúo Mixto">
+
+        <div class="card-body">
+            <h5 class="card-title fw-bold">
+                Dúo Mixto
+            </h5>
+
+            <p class="card-text">
+                1 Burger Clásica, 1 Burger Doble, 2 porciones de papas fritas y 2 bebidas.
+            </p>
+
+            <p class="fw-bold fs-5">
+                S/ 42.90
+            </p>
+
+            <a th:href="@{/productos#duo3}" class="btn btn-warning">
+                <i class="bi bi-eye-fill"></i>
+                Ver producto
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<!-- PRODUCTO 3 -->
+<div class="col-12 col-md-6 col-lg-4 mb-4">
+    <div class="card h-100 shadow">
+        <img th:src="@{/img/salchipapa2.png}" class="card-img-top" alt="Salchipapa Full">
+
+        <div class="card-body">
+            <h5 class="card-title fw-bold">
+                Salchipapa Full
+            </h5>
+
+            <p class="card-text">
+                Papas fritas, salchicha, tocino, chorizo, huevo frito, salsas y bebida personal.
+            </p>
+
+            <p class="fw-bold fs-5">
+                S/ 22.90
+            </p>
+
+            <a th:href="@{/productos#salchipapa2}" class="btn btn-warning">
+                <i class="bi bi-eye-fill"></i>
+                Ver producto
+            </a>
+        </div>
+    </div>
+</div>
+        </div>
+
+
+        <!-- BOTÓN CATÁLOGO -->
+        <div class="text-center mt-3">
+
+            <a th:href="@{/productos}" class="btn btn-dark btn-lg">
+
+                <i class="bi bi-grid-fill"></i>
+                Ver catálogo completo
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+    </main>
+
+
+
+    <!-- PIE DE PÁGINA -->
+    <footer th:replace="~{fragmentos/layout :: pie}"></footer>
+
+
+    <!-- SCRIPTS COMUNES -->
+    <th:block th:replace="~{fragmentos/layout :: scripts}"></th:block>
+
+</body>
+
+</html>

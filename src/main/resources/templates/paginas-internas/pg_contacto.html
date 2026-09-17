@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragmentos/layout :: cabecera('Zona Burger - Contáctanos', 'styles-custom.css')}">
+</head>
+
+<body>
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav th:replace="~{fragmentos/layout :: barraNavegacion('contacto')}"></nav>
+    <!-- Contenido Principal -->
+    <main>
+        <!-- ENCABEZADO -->
+        <section class="encabezado-productos py-5">
+
+            <div class="container text-center">
+
+                <p class="text-warning fw-bold mb-2">
+                    Zona Burger
+                </p>
+
+                <h1 class="fw-bold text-white">
+                    Contáctanos
+                </h1>
+
+                <p class="text-light">
+                    ¿Tienes alguna consulta, sugerencia o quieres realizar un pedido?
+                    Déjanos tus datos y nos pondremos en contacto contigo.
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- Formulario de Contacto -->
+        <div class="card formulario-contacto">
+            <div class="card-body">
+                <h3 class="card-title">
+                    Datos del cliente
+                </h3>
+                <form id="formularioContacto">
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">
+                                Nombre
+                            </label>
+                            <input type="text" id="nombre" class="form-control" placeholder="Ingrese su nombre"
+                                required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">
+                                Apellido
+                            </label>
+                            <input type="text" id="apellido" class="form-control" placeholder="Ingrese su apellido"
+                                required>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">
+                                Correo electrónico
+                            </label>
+                            <input type="email" id="correo" class="form-control" placeholder="ejemplo@correo.com"
+                                required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">
+                                Teléfono
+                            </label>
+                            <input type="tel" id="telefono" class="form-control"
+                                placeholder="Ingrese su número de teléfono" required>
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Motivo de contacto
+                        </label>
+
+                        <select id="motivo" class="form-select" required>
+
+                            <option value="">
+                                Seleccione una opción
+                            </option>
+
+                            <option value="Consulta sobre productos">
+                                Consulta sobre productos
+                            </option>
+
+                            <option value="Pedido">
+                                Pedido
+                            </option>
+
+                            <option value="Reserva">
+                                Reserva
+                            </option>
+
+                            <option value="Reclamo">
+                                Reclamo
+                            </option>
+
+                            <option value="Sugerencia">
+                                Sugerencia
+                            </option>
+
+                            <option value="Otro">
+                                Otro
+                            </option>
+
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Mensaje
+                        </label>
+
+                        <textarea id="mensaje" class="form-control" rows="4"
+                            placeholder="Escriba aquí su consulta o comentario..." required></textarea>
+
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-send-fill"></i>
+                        Enviar mensaje
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <!-- Modal -->
+
+        <div class="modal fade" id="modalContacto" tabindex="-1">
+
+            <div class="modal-dialog">
+
+                <div class="modal-content">
+
+                    <div class="modal-header bg-success text-white">
+
+                        <h5 class="modal-title">
+                            Mensaje enviado
+                        </h5>
+
+                        <button class="btn-close btn-close-white" data-bs-dismiss="modal">
+                        </button>
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <p>
+                            ¡Gracias por contactarnos!
+                            Hemos recibido correctamente sus datos.
+                        </p>
+
+                        <hr>
+
+                        <p id="resumenContacto"></p>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cerrar
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+            ```
+
+        </div>
+
+
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer th:replace="~{fragmentos/layout :: pie}"></footer>
+
+    <!-- SCRIPTS COMUNES -->
+    <th:block th:replace="~{fragmentos/layout :: scripts}"></th:block>
+
+    <!-- JavaScript propio -->
+    <script th:src="@{/js/script-contacto.js}"></script>
+
+</body>
+
+</html>

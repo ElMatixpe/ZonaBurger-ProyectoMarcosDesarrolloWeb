@@ -1,0 +1,331 @@
+/* CONFIGURACIÓN GENERAL */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+
+/* BARRA DE NAVEGACIÓN */
+
+.barra-navegacion-zona {
+    background-color: #111111;
+    padding: 15px 0;
+}
+
+.logo-texto {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.logo-texto i {
+    margin-right: 8px;
+    color: #ffc107;
+}
+
+.barra-navegacion-zona .nav-link {
+    color: #ffffff;
+    margin-left: 15px;
+    font-weight: 500;
+}
+
+.barra-navegacion-zona .nav-link:hover,
+.barra-navegacion-zona .nav-link.active {
+    color: #ffc107;
+}
+
+.logo-navegacion {
+    width: 150px;
+    height: 55px;
+    object-fit: contain;
+}
+
+.nav-separador {
+    display: block;
+    width: 1px;
+    height: 28px;
+    background-color: rgba(255, 255, 255, 0.35);
+    margin: 0 10px;
+}
+
+/* AJUSTE DE LOS ICONOS DEL NAVBAR */
+.barra-navegacion-zona .nav-link i {
+    margin-right: 6px;
+}
+
+
+
+
+/* SECCIÓN DE INICIO DE SESIÓN */
+
+.seccion-inicio-sesion {
+    min-height: calc(100vh - 130px);
+    display: flex;
+    align-items: center;
+    padding: 50px 0;
+}
+
+
+/* PRESENTACIÓN */
+
+.presentacion {
+    padding: 40px;
+}
+
+.icono-presentacion {
+    width: 90px;
+    height: 90px;
+    background-color: #ffc107;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.icono-presentacion i {
+    font-size: 45px;
+    color: #111111;
+}
+
+.presentacion h1 {
+    font-size: 42px;
+    font-weight: bold;
+    color: #111111;
+    margin-bottom: 20px;
+}
+
+.presentacion h1 span {
+    color: #d62828;
+}
+
+.presentacion p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: #666666;
+    max-width: 500px;
+}
+
+.beneficios {
+    margin-top: 30px;
+}
+
+.beneficios div {
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.beneficios i {
+    color: #d62828;
+    margin-right: 10px;
+}
+
+
+/* TARJETA DE INICIO DE SESIÓN */
+
+.contenedor-inicio-sesion {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.encabezado-inicio-sesion {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo-inicio-sesion {
+    width: 140px;
+    height: 140px;
+    background-color: #ffc107;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-inicio-sesion img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.encabezado-inicio-sesion h2 {
+    font-weight: bold;
+    color: #111111;
+}
+
+.encabezado-inicio-sesion p {
+    color: #777777;
+    margin-bottom: 0;
+}
+
+
+/* FORMULARIO */
+
+.form-label {
+    font-weight: 600;
+}
+
+.input-group-text {
+    background-color: #f1f1f1;
+}
+
+.form-control {
+    padding: 11px;
+}
+
+.form-control:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.20);
+}
+
+
+/* BOTÓN DE INICIO DE SESIÓN */
+
+.btn-inicio-sesion {
+    background-color: #d62828;
+    color: #ffffff;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+.btn-inicio-sesion:hover {
+    background-color: #b71c1c;
+    color: #ffffff;
+}
+
+.btn-inicio-sesion i {
+    margin-right: 7px;
+}
+
+
+/* ENLACE PARA RECUPERAR CONTRASEÑA */
+
+.enlace-recuperar {
+    color: #d62828;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.enlace-recuperar:hover {
+    text-decoration: underline;
+}
+
+
+/* REGISTRO */
+
+.registro {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #eeeeee;
+}
+
+.registro p {
+    margin: 0;
+    color: #666666;
+}
+
+.registro a {
+    color: #d62828;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.registro a:hover {
+    text-decoration: underline;
+}
+
+
+/* MENSAJES DE ERROR */
+
+.mensaje-error {
+    color: #d62828;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+
+/* PIE DE PÁGINA */
+
+.pie-pagina-zona {
+    background-color: #111111;
+    color: #ffffff;
+    text-align: center;
+    padding: 15px;
+}
+
+.pie-pagina-zona p {
+    margin: 0;
+    font-size: 14px;
+}
+
+
+/* DISEÑO RESPONSIVE */
+
+@media (max-width: 991px) {
+
+    .seccion-inicio-sesion {
+        padding: 40px 15px;
+    }
+
+    .contenedor-inicio-sesion {
+        padding: 35px;
+    }
+
+    .nav-separador {
+        display: none;
+    }
+
+    .barra-navegacion-zona .nav-link {
+        margin-left: 0;
+        padding: 10px 0;
+    }
+
+}
+
+
+@media (max-width: 576px) {
+
+    .logo-texto {
+        font-size: 20px;
+    }
+
+    .seccion-inicio-sesion {
+        padding: 25px 10px;
+    }
+
+    .contenedor-inicio-sesion {
+        padding: 25px 20px;
+        border-radius: 10px;
+    }
+
+    .encabezado-inicio-sesion h2 {
+        font-size: 25px;
+    }
+
+    .enlace-recuperar {
+        font-size: 12px;
+    }
+
+    .presentacion {
+        display: none;
+    }
+
+}

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/layout :: cabecera('Zona Burger - Registrarse', 'estilo_login.css')}">
+</head>
+<body>
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav th:replace="~{fragmentos/layout :: barraNavegacion('registro')}"></nav>
+<main class="seccion-inicio-sesion" id="registroSesion">
+
+        <div class="container">
+
+            <div class="row justify-content-center align-items-center">
+
+                <div class="col-lg-6 d-none d-lg-block">
+
+                    <div class="presentacion">
+
+                        <div class="icono-presentacion">
+                            <i class="bi bi-person-badge-fill"></i>
+                        </div>
+
+                        <h1>
+                            Únete a <span>Zona Burger</span>
+                        </h1>
+
+                        <p>
+                            Crea tu cuenta en pocos pasos y empieza a disfrutar de las mejores promociones y un proceso de compra más rápido.
+                        </p>
+
+                        <div class="beneficios">
+
+                            <div>
+                                <i class="bi bi-check-circle-fill"></i>
+                                Descuentos exclusivos
+                            </div>
+
+                            <div>
+                                <i class="bi bi-check-circle-fill"></i>
+                                Historial de pedidos
+                            </div>
+
+                            <div>
+                                <i class="bi bi-check-circle-fill"></i>
+                                Guarda tus direcciones
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-12 col-md-8 col-lg-5">
+
+                    <div class="contenedor-inicio-sesion">
+
+                        <div class="encabezado-inicio-sesion">
+
+                            <div class="logo-inicio-sesion">
+                                <img th:src="@{/img/logo.png}" alt="Logo Zona Burger">
+                            </div>
+
+                            <h2>Crear Cuenta</h2>
+
+                            <p>
+                                Completa tus datos para registrarte.
+                            </p>
+
+                        </div>
+
+                        <form id="formularioRegistro">
+
+                            <div class="mb-3">
+
+                                <label for="nombreCompleto" class="form-label">
+                                    Nombre Completo
+                                </label>
+
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-card-heading"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="nombreCompleto" placeholder="Ingrese su nombre completo" required>
+                                </div>
+
+                                <div id="errorNombre" class="mensaje-error"></div>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label for="correoRegistro" class="form-label">
+                                    Correo Electrónico
+                                </label>
+
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-envelope"></i>
+                                    </span>
+                                    <input type="email" class="form-control" id="correoRegistro" placeholder="ejemplo@correo.com" required>
+                                </div>
+
+                                <div id="errorCorreo" class="mensaje-error"></div>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label for="usuarioRegistro" class="form-label">
+                                    Usuario
+                                </label>
+
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-person"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="usuarioRegistro" placeholder="Cree un nombre de usuario" required>
+                                </div>
+
+                                <div id="errorUsuarioRegistro" class="mensaje-error"></div>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label for="contrasenaRegistro" class="form-label">
+                                    Contraseña
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+                                        <i class="bi bi-lock"></i>
+                                    </span>
+
+                                    <input type="password" class="form-control" id="contrasenaRegistro" placeholder="Cree una contraseña" required>
+
+                                    <button type="button" class="btn btn-outline-secondary" id="btnMostrarContrasena">
+                                        <i class="bi bi-eye" id="iconoContrasena"></i>
+                                    </button>
+
+                                </div>
+
+                                <div id="errorContrasenaRegistro" class="mensaje-error"></div>
+
+                            </div>
+
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="aceptoTerminos" required>
+                                <label class="form-check-label" for="aceptoTerminos">
+                                    Acepto los <a href="#" class="enlace-recuperar">términos y condiciones</a>
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn btn-inicio-sesion w-100">
+                                <i class="bi bi-person-plus-fill"></i>
+                                Registrarse
+                            </button>
+
+                            <div id="mensajeRegistro" class="alert mt-3 d-none" role="alert"></div>
+
+                        </form>
+
+                        <div class="registro">
+                            <p>
+                                ¿Ya tienes una cuenta?
+                                <a th:href="@{/login}">Inicia sesión aquí</a>
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer th:replace="~{fragmentos/layout :: pie}"></footer>
+    <!-- SCRIPTS COMUNES -->
+    <th:block th:replace="~{fragmentos/layout :: scripts}"></th:block>
+    <script th:src="@{/js/javaS_registro.js}"></script>
+
+</body>
+</html>

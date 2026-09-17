@@ -1,0 +1,408 @@
+/* CONFIGURACIÓN GENERAL */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f8f8f8;
+    color: #333333;
+}
+
+/* BARRA DE NAVEGACIÓN */
+
+.barra-navegacion-zona {
+    background-color: #111111;
+    padding: 15px 0;
+}
+
+.logo-navegacion {
+    width: 150px;
+    height: 55px;
+    object-fit: contain;
+}
+
+.barra-navegacion-zona .nav-link {
+    color: #ffffff;
+    margin-left: 15px;
+    font-weight: 500;
+}
+
+.barra-navegacion-zona .nav-link:hover,
+.barra-navegacion-zona .nav-link.active {
+    color: #ffc107;
+}
+
+.barra-navegacion-zona .nav-link i {
+    margin-right: 6px;
+}
+
+
+/* SEPARADOR DEL MENÚ */
+
+.nav-separador {
+    display: block;
+    width: 1px;
+    height: 28px;
+    background-color: rgba(255, 255, 255, 0.35);
+    margin: 0 10px;
+}
+
+/* CONTENIDO PRINCIPAL */
+
+.contenedor-administracion {
+    min-height: calc(100vh - 130px);
+    padding-bottom: 40px;
+}
+
+/* ENCABEZADO DE ADMINISTRACIÓN */
+
+.encabezado-administracion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.encabezado-administracion h1 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #111111;
+    margin-bottom: 8px;
+}
+
+.encabezado-administracion h1 i {
+    color: #d62828;
+    margin-right: 8px;
+}
+
+.encabezado-administracion p {
+    color: #666666;
+    margin-bottom: 0;
+    font-size: 16px;
+}
+
+/* USUARIO ADMINISTRADOR */
+
+.usuario-administrador {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #ffffff;
+    padding: 10px 15px;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.usuario-administrador > i {
+    font-size: 35px;
+    color: #d62828;
+}
+
+.usuario-administrador div {
+    display: flex;
+    flex-direction: column;
+}
+
+.usuario-administrador strong {
+    color: #111111;
+    font-size: 15px;
+}
+
+.usuario-administrador small {
+    color: #777777;
+    font-size: 12px;
+}
+
+/* TARJETAS DE RESUMEN */
+
+.tarjeta-resumen {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tarjeta-resumen:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.tarjeta-resumen .card-body {
+    padding: 25px;
+}
+
+.icono-resumen {
+    width: 50px;
+    height: 50px;
+    background-color: #ffc107;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.icono-resumen i {
+    font-size: 25px;
+    color: #111111;
+}
+
+.tarjeta-resumen h6 {
+    color: #666666;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.tarjeta-resumen h2 {
+    color: #111111;
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.tarjeta-resumen p {
+    color: #888888;
+    font-size: 13px;
+    margin: 0;
+}
+
+/* SECCIONES DE ADMINISTRACIÓN */
+
+.seccion-administracion {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #ffffff;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+}
+
+.seccion-administracion .card-header {
+    background-color: #111111;
+    color: #ffffff;
+    padding: 16px 20px;
+    border: none;
+}
+
+.seccion-administracion .card-header h5 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.seccion-administracion .card-header h5 i {
+    color: #ffc107;
+    margin-right: 7px;
+}
+
+.seccion-administracion .card-body {
+    padding: 20px;
+}
+
+/* TABLAS */
+
+.table {
+    margin-bottom: 0;
+}
+
+.table thead th {
+    background-color: #f1f1f1;
+    color: #333333;
+    font-size: 14px;
+    font-weight: bold;
+    border-bottom: 2px solid #dddddd;
+    padding: 12px;
+}
+
+.table tbody td {
+    padding: 12px;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.table tbody tr:hover {
+    background-color: #fff9e6;
+}
+
+/* ESTADOS DE PEDIDOS */
+
+.estado-pendiente {
+    background-color: #ffc107;
+    color: #111111;
+    padding: 7px 10px;
+    border-radius: 20px;
+}
+
+.estado-preparacion {
+    background-color: #0d6efd;
+    color: #ffffff;
+    padding: 7px 10px;
+    border-radius: 20px;
+}
+
+.estado-entregado {
+    background-color: #198754;
+    color: #ffffff;
+    padding: 7px 10px;
+    border-radius: 20px;
+}
+
+.estado-cancelado {
+    background-color: #d62828;
+    color: #ffffff;
+    padding: 7px 10px;
+    border-radius: 20px;
+}
+
+/* BOTÓN PRINCIPAL */
+
+.btn-inicio-sesion {
+    background-color: #d62828;
+    color: #ffffff;
+    border: none;
+    padding: 9px 14px;
+    font-weight: bold;
+    border-radius: 7px;
+}
+
+.btn-inicio-sesion:hover {
+    background-color: #b71c1c;
+    color: #ffffff;
+}
+
+/* BOTONES DE ACCIÓN */
+
+.btn-outline-dark {
+    border-radius: 6px;
+}
+
+.btn-outline-primary,
+.btn-outline-danger {
+    margin-right: 3px;
+}
+
+/* ACCESOS RÁPIDOS */
+
+.btn-acceso {
+    background-color: #f8f8f8;
+    border: 1px solid #dddddd;
+    color: #333333;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-acceso i {
+    color: #d62828;
+    font-size: 20px;
+}
+
+.btn-acceso:hover {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #111111;
+}
+
+.btn-acceso:hover i {
+    color: #111111;
+}
+
+/* PIE DE PÁGINA */
+
+.pie-pagina-zona {
+    background-color: #111111;
+    color: #ffffff;
+    text-align: center;
+    padding: 15px;
+}
+
+.pie-pagina-zona p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* DISEÑO RESPONSIVE */
+
+@media (max-width: 991px) {
+
+    .barra-navegacion-zona .nav-link {
+        margin-left: 0;
+        padding: 10px 0;
+    }
+
+    .nav-separador {
+        display: none;
+    }
+
+    .encabezado-administracion {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .usuario-administrador {
+        width: 100%;
+    }
+
+}
+
+
+@media (max-width: 576px) {
+
+    .logo-navegacion {
+        width: 130px;
+        height: 50px;
+    }
+
+    .contenedor-administracion {
+        padding-bottom: 25px;
+    }
+
+    .encabezado-administracion h1 {
+        font-size: 25px;
+    }
+
+    .encabezado-administracion p {
+        font-size: 14px;
+    }
+
+    .usuario-administrador {
+        padding: 10px;
+    }
+
+    .tarjeta-resumen .card-body {
+        padding: 20px;
+    }
+
+    .tarjeta-resumen h2 {
+        font-size: 23px;
+    }
+
+    .seccion-administracion .card-header {
+        padding: 14px;
+    }
+
+    .seccion-administracion .card-header h5 {
+        font-size: 16px;
+    }
+
+    .seccion-administracion .card-body {
+        padding: 15px;
+    }
+
+    .table thead th,
+    .table tbody td {
+        font-size: 13px;
+        padding: 10px;
+    }
+
+}

@@ -1,0 +1,311 @@
+/* CONFIGURACIÓN GENERAL */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+
+/* BARRA DE NAVEGACIÓN */
+
+.barra-navegacion-zona {
+    background-color: #111111;
+    padding: 15px 0;
+}
+
+.logo-texto {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.logo-texto i {
+    margin-right: 8px;
+    color: #ffc107;
+}
+
+.barra-navegacion-zona .nav-link {
+    color: #ffffff;
+    margin-left: 15px;
+    font-weight: 500;
+}
+
+.barra-navegacion-zona .nav-link:hover,
+.barra-navegacion-zona .nav-link.active {
+    color: #ffc107;
+}
+
+.logo-navegacion {
+    width: 150px;
+    height: 55px;
+    object-fit: contain;
+}
+
+
+/* SEPARADOR DEL MENÚ */
+
+.nav-separador {
+    display: block;
+    width: 1px;
+    height: 28px;
+    background-color: rgba(255, 255, 255, 0.35);
+    margin: 0 10px;
+}
+
+
+/* AJUSTE DE LOS ICONOS DEL NAVBAR */
+
+.barra-navegacion-zona .nav-link i {
+    margin-right: 6px;
+}
+
+/* BANNER PRINCIPAL */
+
+.banner-inicio {
+    background-color: #111111;
+    color: white;
+    padding: 80px 0;
+}
+
+.banner-inicio h1 {
+    line-height: 1.1;
+}
+
+.banner-inicio .texto-destacado {
+    color: #ffc107;
+}
+
+.imagen-banner {
+    max-height: 430px;
+}
+
+/* PRODUCTOS RECOMENDADOS */
+
+.productos-recomendados {
+    background-color: #ffffff;
+}
+
+.productos-recomendados .card-img-top {
+    height: 230px;
+    object-fit: cover;
+}
+
+.productos-recomendados .card {
+    transition: transform 0.3s;
+}
+
+.productos-recomendados .card:hover {
+    transform: translateY(-5px);
+}
+
+/* PIE DE PÁGINA */
+
+.pie-pagina-zona {
+    background-color: #111111;
+    color: #ffffff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.pie-pagina-zona p {
+    margin: 0;
+}
+
+
+
+
+/*--------------------------------------------------------------*/
+/*--------------------------------------------------------------*/
+/*--------------------------------------------------------------*/
+/*--------------------------------------------------------------*/
+/*--------------------------------------------------------------*/
+/*---------------------- PRODUCTOS -----------------------------*/
+/*--------------------------------------------------------------*/
+/*--------------------------------------------------------------*/
+/*--------------------------------------------------------------*/
+/*--------------------------------------------------------------*/
+/*--------------------------------------------------------------*/
+
+/* ENCABEZADO DE PRODUCTOS */
+
+.encabezado-productos {
+    background-color: #111111;
+}
+
+
+/* FONDOS DE SECCIONES */
+
+.promociones {
+    background-color: #ffffff;
+}
+
+.hamburguesas-uno {
+    background-color: #f8f9fa;
+}
+
+.hamburguesas-dos {
+    background-color: #ffffff;
+}
+
+.salchipapas {
+    background-color: #f8f9fa;
+}
+
+
+/* CARDS DE PRODUCTOS */
+
+.card-producto {
+    transition: transform 0.3s;
+}
+
+.card-producto:hover {
+    transform: translateY(-5px);
+}
+
+.card-producto .card-img-top {
+    height: 230px;
+    object-fit: contain;
+    padding: 10px;
+}
+
+
+/* FORMULARIO DE CONTACTO  */
+.formulario-contacto {
+    max-width: 1000px;
+    margin: 40px auto;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.formulario-contacto .card-body {
+    padding: 35px 40px;
+}
+
+.formulario-contacto .card-title {
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.formulario-contacto .form-label {
+    font-weight: 600;
+}
+
+.formulario-contacto .form-control,
+.formulario-contacto .form-select {
+    border-radius: 8px;
+    padding: 11px 14px;
+    transition: all 0.3s ease;
+}
+
+.formulario-contacto .form-control:focus,
+.formulario-contacto .form-select:focus {
+    border-color: #f5b400;
+    box-shadow: 0 0 0 0.2rem rgba(245, 180, 0, 0.20);
+}
+
+.formulario-contacto textarea {
+    resize: vertical;
+    min-height: 130px;
+}
+
+.formulario-contacto button[type="submit"] {
+    background-color: #f5b400;
+    border: none;
+    color: #111;
+    font-weight: bold;
+    padding: 11px 22px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.formulario-contacto button[type="submit"]:hover {
+    background-color: #d99d00;
+    transform: translateY(-2px);
+}
+
+
+/* =========================================
+   SOBRE NOSOTROS - ZONA BURGER
+   ========================================= */
+
+.seccion-informacion {
+    background-color: #ffffff;
+    color: #222;
+}
+
+.seccion-informacion h2 {
+    color: #222;
+}
+
+.seccion-informacion p {
+    line-height: 1.7;
+}
+
+
+/* Sección oscura */
+
+.seccion-oscura {
+    background-color: #111;
+    color: #ffffff;
+}
+
+.seccion-oscura h2 {
+    color: #ffffff;
+}
+
+
+/* Iconos */
+
+.icono-informacion {
+    font-size: 110px;
+    color: #f5b400;
+    transition: 0.3s;
+}
+
+.icono-informacion:hover {
+    transform: scale(1.08);
+}
+
+
+/* Texto amarillo */
+
+.seccion-informacion .text-warning {
+    color: #f5b400 !important;
+}
+
+/* PIE DE PÁGINA */
+
+.pie-pagina-zona {
+    background-color: #111111;
+    color: #ffffff;
+    text-align: center;
+    padding: 15px;
+}
+
+.pie-pagina-zona p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+    .icono-informacion {
+        font-size: 80px;
+    }
+
+    .seccion-informacion {
+        text-align: center;
+    }
+
+}

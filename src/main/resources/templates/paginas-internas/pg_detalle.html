@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragmentos/layout :: cabecera('Zona Burger - Detalle', 'styles-custom.css')}">
+</head>
+
+<body>
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav th:replace="~{fragmentos/layout :: barraNavegacion('detalle')}"></nav>
+    <!-- MAIN -->
+    <main>
+
+        <!-- ENCABEZADO -->
+        <section class="encabezado-productos py-5">
+
+            <div class="container text-center">
+
+                <p class="text-warning fw-bold mb-2">
+                    Zona Burger
+                </p>
+
+                <h1 class="fw-bold text-white">
+                    Sobre Nosotros
+                </h1>
+
+                <p class="text-light">
+                    Conoce nuestra historia, misión y visión como restaurante.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- HISTORIA -->
+        <section class="seccion-informacion py-5">
+
+            <div class="container">
+
+                <div class="row align-items-center g-4">
+
+                    <!-- TEXTO -->
+                    <div class="col-md-7">
+
+                        <p class="text-warning fw-bold mb-2">
+                            Nuestra historia
+                        </p>
+
+                        <h2 class="fw-bold mb-3">
+                            El sabor que nos representa
+                        </h2>
+
+                        <p>
+                            Zona Burger nació con la idea de ofrecer hamburguesas
+                            deliciosas, preparadas con ingredientes de calidad y
+                            con un sabor que haga que cada visita sea una
+                            experiencia especial.
+                        </p>
+
+                        <p>
+                            Desde nuestros inicios, nos hemos enfocado en brindar
+                            productos frescos, una atención cercana y un ambiente
+                            agradable para nuestros clientes.
+                        </p>
+
+                        <p>
+                            Nuestro objetivo es seguir creciendo y convertirnos
+                            en una opción reconocida para todos aquellos que
+                            disfrutan de una buena hamburguesa.
+                        </p>
+
+                    </div>
+
+                    <!-- Video -->
+                    <div class="col-md-5 text-center">
+
+                        <video autoplay th:src="@{/video/nuestrahistoria.mp4}"></video>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- MISIÓN -->
+        <section class="seccion-informacion seccion-oscura py-5">
+
+            <div class="container">
+
+                <div class="row align-items-center g-4">
+
+                    <!-- Video -->
+                    <div class="col-md-5 text-center">
+
+                        <video autoplay th:src="@{/video/objetivo.mp4}"></video>
+
+                    </div>
+
+                    <!-- TEXTO -->
+                    <div class="col-md-7">
+
+                        <p class="text-warning fw-bold mb-2">
+                            Nuestra misión
+                        </p>
+
+                        <h2 class="fw-bold mb-3">
+                            Ofrecer una experiencia deliciosa
+                        </h2>
+
+                        <p>
+                            Nuestra misión es preparar hamburguesas y productos
+                            de calidad, utilizando ingredientes seleccionados y
+                            brindando una atención rápida, amable y eficiente.
+                        </p>
+
+                        <p>
+                            Buscamos satisfacer a nuestros clientes ofreciendo
+                            una experiencia agradable en cada pedido y en cada
+                            visita a Zona Burger.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- VISIÓN -->
+        <section class="seccion-informacion py-5">
+
+            <div class="container">
+
+                <div class="row align-items-center g-4">
+
+                    <!-- TEXTO -->
+                    <div class="col-md-7">
+
+                        <p class="text-warning fw-bold mb-2">
+                            Nuestra visión
+                        </p>
+
+                        <h2 class="fw-bold mb-3">
+                            Crecer junto a nuestros clientes
+                        </h2>
+
+                        <p>
+                            Nuestra visión es convertir a Zona Burger en un
+                            restaurante reconocido por la calidad de sus
+                            productos, la atención a sus clientes y el sabor
+                            de sus hamburguesas.
+                        </p>
+
+                        <p>
+                            Aspiramos a seguir innovando, ampliar nuestra
+                            variedad de productos y mantener siempre el
+                            compromiso de ofrecer una experiencia que nuestros
+                            clientes quieran repetir.
+                        </p>
+
+                    </div>
+
+                    <!-- Video -->
+                    <div class="col-md-5 text-center">
+
+                        <video autoplay th:src="@{/video/vision.mp4}"></video>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer th:replace="~{fragmentos/layout :: pie}"></footer>
+
+    <!-- SCRIPTS COMUNES -->
+    <th:block th:replace="~{fragmentos/layout :: scripts}"></th:block>
+
+</body>
+
+</html>

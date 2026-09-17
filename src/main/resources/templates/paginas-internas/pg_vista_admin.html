@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/layout :: cabecera('Zona Burger - Administración', 'estilo_vista_admin.css')}">
+</head>
+
+<body>
+
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav th:replace="~{fragmentos/layout :: barraNavegacion('admin')}"></nav>
+
+
+    <!-- CONTENIDO PRINCIPAL -->
+
+    <main class="contenedor-administracion">
+
+        <div class="container py-5">
+
+
+            <!-- ENCABEZADO -->
+            <div class="encabezado-administracion mb-4">
+
+                <div>
+
+                    <h1>
+                        <i class="bi bi-speedometer2"></i>
+                        Panel de Administración
+                    </h1>
+
+                    <p>
+                        Gestiona y consulta la información principal
+                        de Zona Burger.
+                    </p>
+
+                </div>
+
+
+                <div class="usuario-administrador">
+
+                    <i class="bi bi-person-circle"></i>
+
+                    <div>
+
+                        <strong>Administrador</strong>
+
+                        <small>
+                            Sesión activa
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TARJETAS DE RESUMEN -->
+
+            <div class="row g-4 mb-5">
+
+                <!-- PEDIDOS -->
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="card tarjeta-resumen h-100">
+
+                        <div class="card-body">
+
+                            <div class="icono-resumen">
+
+                                <i class="bi bi-cart-check-fill"></i>
+
+                            </div>
+
+                            <h6>
+                                Pedidos de hoy
+                            </h6>
+
+                            <h2>
+                                24
+                            </h2>
+
+                            <p>
+                                Pedidos registrados
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PRODUCTOS -->
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="card tarjeta-resumen h-100">
+
+                        <div class="card-body">
+
+                            <div class="icono-resumen">
+
+                                <i class="bi bi-basket-fill"></i>
+
+                            </div>
+
+                            <h6>
+                                Productos
+                            </h6>
+
+                            <h2>
+                                18
+                            </h2>
+
+                            <p>
+                                Productos disponibles
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CLIENTES -->
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="card tarjeta-resumen h-100">
+
+                        <div class="card-body">
+
+                            <div class="icono-resumen">
+
+                                <i class="bi bi-people-fill"></i>
+
+                            </div>
+
+                            <h6>
+                                Clientes
+                            </h6>
+
+                            <h2>
+                                156
+                            </h2>
+
+                            <p>
+                                Clientes registrados
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- VENTAS -->
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="card tarjeta-resumen h-100">
+
+                        <div class="card-body">
+
+                            <div class="icono-resumen">
+
+                                <i class="bi bi-cash-stack"></i>
+
+                            </div>
+
+                            <h6>
+                                Ventas del día
+                            </h6>
+
+                            <h2>
+                                S/ 845.50
+                            </h2>
+
+                            <p>
+                                Total generado
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- PEDIDOS RECIENTES -->
+
+            <div class="card seccion-administracion mb-4">
+
+                <div class="card-header">
+
+                    <h5>
+                        <i class="bi bi-cart3"></i>
+                        Pedidos recientes
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>N.º Pedido</th>
+                                    <th>Cliente</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                    <th>Acción</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td>#001</td>
+
+                                    <td>
+                                        Juan Pérez
+                                    </td>
+
+                                    <td>
+                                        S/ 35.00
+                                    </td>
+
+                                    <td>
+
+                                        <span class="badge estado-pendiente">
+                                            Pendiente
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        <button
+                                            class="btn btn-sm btn-outline-dark">
+
+                                            <i class="bi bi-eye"></i>
+                                            Ver
+
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>#002</td>
+
+                                    <td>
+                                        María López
+                                    </td>
+
+                                    <td>
+                                        S/ 48.50
+                                    </td>
+
+                                    <td>
+
+                                        <span class="badge estado-preparacion">
+                                            En preparación
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        <button
+                                            class="btn btn-sm btn-outline-dark">
+
+                                            <i class="bi bi-eye"></i>
+                                            Ver
+
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>#003</td>
+
+                                    <td>
+                                        Carlos Díaz
+                                    </td>
+
+                                    <td>
+                                        S/ 27.00
+                                    </td>
+
+                                    <td>
+
+                                        <span class="badge estado-entregado">
+                                            Entregado
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        <button
+                                            class="btn btn-sm btn-outline-dark">
+
+                                            <i class="bi bi-eye"></i>
+                                            Ver
+
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>#004</td>
+
+                                    <td>
+                                        Ana Torres
+                                    </td>
+
+                                    <td>
+                                        S/ 52.00
+                                    </td>
+
+                                    <td>
+
+                                        <span class="badge estado-cancelado">
+                                            Cancelado
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        <button
+                                            class="btn btn-sm btn-outline-dark">
+
+                                            <i class="bi bi-eye"></i>
+                                            Ver
+
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- PRODUCTOS -->
+
+            <div class="card seccion-administracion mb-4">
+
+                <div class="card-header d-flex justify-content-between align-items-center">
+
+                    <h5>
+                        <i class="bi bi-basket-fill"></i>
+                        Productos
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn btn-inicio-sesion btn-sm">
+
+                        <i class="bi bi-plus-lg"></i>
+                        Agregar producto
+
+                    </button>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Producto</th>
+                                    <th>Categoría</th>
+                                    <th>Precio</th>
+                                    <th>Disponibilidad</th>
+                                    <th>Acción</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td>
+                                        Hamburguesa Clásica
+                                    </td>
+
+                                    <td>
+                                        Hamburguesas
+                                    </td>
+
+                                    <td>
+                                        S/ 15.00
+                                    </td>
+
+                                    <td>
+
+                                        <span class="badge bg-success">
+                                            Disponible
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        <button
+                                            class="btn btn-sm btn-outline-primary">
+
+                                            <i class="bi bi-pencil"></i>
+
+                                        </button>
+
+                                        <button
+                                            class="btn btn-sm btn-outline-danger">
+
+                                            <i class="bi bi-trash"></i>
+
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>
+                                        Hamburguesa BBQ
+                                    </td>
+
+                                    <td>
+                                        Hamburguesas
+                                    </td>
+
+                                    <td>
+                                        S/ 18.00
+                                    </td>
+
+                                    <td>
+
+                                        <span class="badge bg-success">
+                                            Disponible
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        <button
+                                            class="btn btn-sm btn-outline-primary">
+
+                                            <i class="bi bi-pencil"></i>
+
+                                        </button>
+
+                                        <button
+                                            class="btn btn-sm btn-outline-danger">
+
+                                            <i class="bi bi-trash"></i>
+
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>
+                                        Papas Fritas
+                                    </td>
+
+                                    <td>
+                                        Complementos
+                                    </td>
+
+                                    <td>
+                                        S/ 8.00
+                                    </td>
+
+                                    <td>
+
+                                        <span class="badge bg-success">
+                                            Disponible
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        <button
+                                            class="btn btn-sm btn-outline-primary">
+
+                                            <i class="bi bi-pencil"></i>
+
+                                        </button>
+
+                                        <button
+                                            class="btn btn-sm btn-outline-danger">
+
+                                            <i class="bi bi-trash"></i>
+
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>
+                                        Inca Kola
+                                    </td>
+
+                                    <td>
+                                        Bebidas
+                                    </td>
+
+                                    <td>
+                                        S/ 4.00
+                                    </td>
+
+                                    <td>
+
+                                        <span class="badge bg-danger">
+                                            Agotado
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        <button
+                                            class="btn btn-sm btn-outline-primary">
+
+                                            <i class="bi bi-pencil"></i>
+
+                                        </button>
+
+                                        <button
+                                            class="btn btn-sm btn-outline-danger">
+
+                                            <i class="bi bi-trash"></i>
+
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ACCESOS RÁPIDOS -->
+
+            <div class="card seccion-administracion">
+
+                <div class="card-header">
+
+                    <h5>
+                        <i class="bi bi-lightning-fill"></i>
+                        Accesos rápidos
+                    </h5>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="row g-3">
+
+
+                        <div class="col-md-4">
+
+                            <button
+                                class="btn btn-acceso w-100">
+
+                                <i class="bi bi-cart-plus-fill"></i>
+
+                                <span>
+                                    Gestionar pedidos
+                                </span>
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+
+                            <button
+                                class="btn btn-acceso w-100">
+
+                                <i class="bi bi-box-seam-fill"></i>
+
+                                <span>
+                                    Gestionar productos
+                                </span>
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+
+                            <button
+                                class="btn btn-acceso w-100">
+
+                                <i class="bi bi-people-fill"></i>
+
+                                <span>
+                                    Ver clientes
+                                </span>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer th:replace="~{fragmentos/layout :: pie}"></footer>
+
+    <!-- SCRIPTS COMUNES -->
+    <th:block th:replace="~{fragmentos/layout :: scripts}"></th:block>
+
+    <!-- Javascript PROPIO -->
+    <script th:src="@{/js/javaS_vista_admin.js}"></script>
+
+</body>
+
+</html>

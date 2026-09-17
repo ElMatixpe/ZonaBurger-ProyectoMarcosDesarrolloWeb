@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragmentos/layout :: cabecera('Zona Burger - Iniciar Sesión', 'estilo_login.css')}">
+</head>
+
+<body>
+
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav th:replace="~{fragmentos/layout :: barraNavegacion('login')}"></nav>
+
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="seccion-inicio-sesion" id="inicioSesion">
+
+        <div class="container">
+
+            <div class="row justify-content-center align-items-center">
+
+                <!-- PRESENTACIÓN -->
+                <div class="col-lg-6 d-none d-lg-block">
+
+                    <div class="presentacion">
+
+                        <div class="icono-presentacion">
+                            <i class="bi bi-emoji-heart-eyes-fill"></i>
+                        </div>
+
+                        <h1>
+                            ¡Bienvenido a
+                            <span>Zona Burger</span>!
+                        </h1>
+
+                        <p>
+                            Disfruta tus hamburguesas favoritas,
+                            realiza tus pedidos de manera rápida
+                            y sencilla.
+                        </p>
+
+                        <div class="beneficios">
+
+                            <div>
+                                <i class="bi bi-check-circle-fill"></i>
+                                Pedidos rápidos
+                            </div>
+
+                            <div>
+                                <i class="bi bi-check-circle-fill"></i>
+                                Menú variado
+                            </div>
+
+                            <div>
+                                <i class="bi bi-check-circle-fill"></i>
+                                Atención personalizada
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FORMULARIO DE INICIO DE SESIÓN -->
+                <div class="col-12 col-md-8 col-lg-5">
+
+                    <div class="contenedor-inicio-sesion">
+
+                        <div class="encabezado-inicio-sesion">
+
+                            <div class="logo-inicio-sesion">
+
+                                <img th:src="@{/img/logo.png}" alt="Logo Zona Burger">
+
+                            </div>
+
+                            <h2>Iniciar Sesión</h2>
+
+                            <p>
+                                Ingresa a tu cuenta para realizar
+                                tus pedidos.
+                            </p>
+
+                        </div>
+
+                        <form id="formularioInicioSesion">
+
+                            <!-- USUARIO -->
+                            <div class="mb-3">
+
+                                <label for="usuario" class="form-label">
+                                    Usuario
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+                                        <i class="bi bi-person"></i>
+                                    </span>
+
+                                    <input type="text" class="form-control" id="usuario"
+                                        placeholder="Ingrese su usuario" required>
+
+                                </div>
+
+                                <div id="errorUsuario" class="mensaje-error">
+                                </div>
+
+                            </div>
+
+                            <!-- CONTRASEÑA -->
+                            <div class="mb-3">
+
+                                <label for="contrasena" class="form-label">
+                                    Contraseña
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+                                        <i class="bi bi-lock"></i>
+                                    </span>
+
+                                    <input type="password" class="form-control" id="contrasena"
+                                        placeholder="Ingrese su contraseña" required>
+
+                                    <button type="button" class="btn btn-outline-secondary" id="btnMostrarContrasena">
+
+                                        <i class="bi bi-eye" id="iconoContrasena">
+                                        </i>
+
+                                    </button>
+
+                                </div>
+
+                                <div id="errorContrasena" class="mensaje-error">
+                                </div>
+
+                            </div>
+
+                            <!-- RECORDAR SESIÓN -->
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                                <div class="form-check">
+
+                                    <input class="form-check-input" type="checkbox" id="recordarSesion">
+
+                                    <label class="form-check-label" for="recordarSesion">
+
+                                        Recordarme
+
+                                    </label>
+
+                                </div>
+
+                                <a href="#" class="enlace-recuperar" data-bs-toggle="modal"
+                                    data-bs-target="#modalRecuperar">
+                                    ¿Olvidaste tu contraseña?
+                                </a>
+
+                            </div>
+
+                            <!-- BOTÓN DE INGRESO -->
+                            <button type="submit" class="btn btn-inicio-sesion w-100">
+
+                                <i class="bi bi-box-arrow-in-right"></i>
+                                Ingresar
+                            </button>
+
+                            <!-- MENSAJE DE RESULTADO -->
+                            <div id="mensajeInicioSesion" class="alert mt-3 d-none" role="alert">
+                            </div>
+
+                        </form>
+
+                        <!-- REGISTRO -->
+                        <div class="registro">
+
+                            <p>
+                                ¿No tienes una cuenta?
+                                <a th:href="@{/registro}">Regístrate aquí</a>
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- MODAL PARA RECUPERAR CONTRASEÑA -->
+    <div class="modal fade" id="modalRecuperar" tabindex="-1" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title">
+
+                        <i class="bi bi-key"></i>
+                        Recuperar contraseña
+
+                    </h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <p>
+                        Ingresa tu correo electrónico y te enviaremos
+                        instrucciones para recuperar tu contraseña.
+                    </p>
+
+                    <label for="correoRecuperacion" class="form-label">
+
+                        Correo electrónico
+
+                    </label>
+
+                    <input type="email" class="form-control" id="correoRecuperacion" placeholder="ejemplo@correo.com">
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+
+                        Cancelar
+
+                    </button>
+
+                    <button type="button" class="btn btn-inicio-sesion" id="btnRecuperarContrasena">
+
+                        <i class="bi bi-send"></i>
+                        Enviar
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PIE DE PÁGINA -->
+    <footer th:replace="~{fragmentos/layout :: pie}"></footer>
+
+
+    <!-- SCRIPTS COMUNES -->
+    <th:block th:replace="~{fragmentos/layout :: scripts}"></th:block>
+
+    <!-- JavaScript propio -->
+    <script th:src="@{/js/javaS_login.js}"></script>
+
+</body>
+
+</html>
