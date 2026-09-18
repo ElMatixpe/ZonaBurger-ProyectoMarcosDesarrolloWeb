@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 
-import com.example.zonaburger.Model.Usuario;
-import com.example.zonaburger.Service.UsuarioService;
+import com.example.zonaburger.model.Usuario;
+import com.example.zonaburger.service.UsuarioService;
 
 import jakarta.servlet.http.HttpSession;
 

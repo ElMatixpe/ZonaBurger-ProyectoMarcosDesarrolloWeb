@@ -1,4 +1,4 @@
-package com.example.zonaburger.Model;
+package com.example.zonaburger.model;
 
 public class Usuario {
 

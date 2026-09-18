@@ -1,10 +1,10 @@
-package com.example.zonaburger.Service;
+package com.example.zonaburger.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import com.example.zonaburger.Model.Usuario;
+import com.example.zonaburger.model.Usuario;
 
 @Service 
 public class UsuarioService {
