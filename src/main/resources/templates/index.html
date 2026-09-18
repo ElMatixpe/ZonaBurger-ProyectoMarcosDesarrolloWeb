@@ -21,6 +21,18 @@
                         <p class="fs-5 mb-2 texto-destacado fw-bold">
                             ¡El sabor que estabas buscando!
                         </p>
+
+                        <div th:if="${session.usuarioActivo != null}" class="mb-3">
+
+                            <span class="fw-bold">
+                                Bienvenido,
+                                <span th:text="${session.usuarioActivo.usuario}">
+                                    usuario
+                                </span>
+                            </span>
+
+                        </div>
+                        
                         <h1 class="display-3 fw-bold">
                             Disfruta tu hamburguesa favorita
                         </h1>
@@ -35,128 +47,129 @@
                     <!-- IMAGEN -->
                     <div class="col-12 col-md-6 text-center mt-4 mt-md-0">
 
-                        <img th:src="@{/img/hamburguesa.png}" class="img-fluid imagen-banner" alt="Hamburguesa Zona Burger">
+                        <img th:src="@{/img/hamburguesa.png}" class="img-fluid imagen-banner"
+                            alt="Hamburguesa Zona Burger">
                     </div>
                 </div>
             </div>
         </section>
 
 
-            <!-- PRODUCTOS RECOMENDADOS -->
-<section class="productos-recomendados py-5">
-    <div class="container">
+        <!-- PRODUCTOS RECOMENDADOS -->
+        <section class="productos-recomendados py-5">
+            <div class="container">
 
-        <div class="text-center mb-5">
-            <p class="text-warning fw-bold mb-2">
-                Lo mejor de Zona Burger
-            </p>
-            <h2 class="fw-bold">
-                Productos recomendados
-            </h2>
-            <p class="text-muted">
-                Prueba algunas de nuestras opciones favoritas.
-            </p>
-        </div>
-
-
-        <div class="row">
-            <!-- PRODUCTO 1 -->
-<div class="col-12 col-md-6 col-lg-4 mb-4">
-    <div class="card h-100 shadow">
-        <img th:src="@{/img/promo2.png}" class="card-img-top" alt="Combo BBQ">
-
-        <div class="card-body">
-            <h5 class="card-title fw-bold">
-                Combo BBQ
-            </h5>
-
-            <p class="card-text">
-                Burger BBQ, papas fritas y bebida personal.
-            </p>
-
-            <p class="fw-bold fs-5">
-                S/ 22.90
-            </p>
-
-            <a th:href="@{/productos#promo2}" class="btn btn-warning">
-                <i class="bi bi-eye-fill"></i>
-                Ver producto
-            </a>
-        </div>
-    </div>
-</div>
+                <div class="text-center mb-5">
+                    <p class="text-warning fw-bold mb-2">
+                        Lo mejor de Zona Burger
+                    </p>
+                    <h2 class="fw-bold">
+                        Productos recomendados
+                    </h2>
+                    <p class="text-muted">
+                        Prueba algunas de nuestras opciones favoritas.
+                    </p>
+                </div>
 
 
-<!-- PRODUCTO 2 -->
-<div class="col-12 col-md-6 col-lg-4 mb-4">
-    <div class="card h-100 shadow">
-        <img th:src="@{/img/duo3.png}" class="card-img-top" alt="Dúo Mixto">
+                <div class="row">
+                    <!-- PRODUCTO 1 -->
+                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow">
+                            <img th:src="@{/img/promo2.png}" class="card-img-top" alt="Combo BBQ">
 
-        <div class="card-body">
-            <h5 class="card-title fw-bold">
-                Dúo Mixto
-            </h5>
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">
+                                    Combo BBQ
+                                </h5>
 
-            <p class="card-text">
-                1 Burger Clásica, 1 Burger Doble, 2 porciones de papas fritas y 2 bebidas.
-            </p>
+                                <p class="card-text">
+                                    Burger BBQ, papas fritas y bebida personal.
+                                </p>
 
-            <p class="fw-bold fs-5">
-                S/ 42.90
-            </p>
+                                <p class="fw-bold fs-5">
+                                    S/ 22.90
+                                </p>
 
-            <a th:href="@{/productos#duo3}" class="btn btn-warning">
-                <i class="bi bi-eye-fill"></i>
-                Ver producto
-            </a>
-        </div>
-    </div>
-</div>
-
-
-<!-- PRODUCTO 3 -->
-<div class="col-12 col-md-6 col-lg-4 mb-4">
-    <div class="card h-100 shadow">
-        <img th:src="@{/img/salchipapa2.png}" class="card-img-top" alt="Salchipapa Full">
-
-        <div class="card-body">
-            <h5 class="card-title fw-bold">
-                Salchipapa Full
-            </h5>
-
-            <p class="card-text">
-                Papas fritas, salchicha, tocino, chorizo, huevo frito, salsas y bebida personal.
-            </p>
-
-            <p class="fw-bold fs-5">
-                S/ 22.90
-            </p>
-
-            <a th:href="@{/productos#salchipapa2}" class="btn btn-warning">
-                <i class="bi bi-eye-fill"></i>
-                Ver producto
-            </a>
-        </div>
-    </div>
-</div>
-        </div>
+                                <a th:href="@{/productos#promo2}" class="btn btn-warning">
+                                    <i class="bi bi-eye-fill"></i>
+                                    Ver producto
+                                </a>
+                            </div>
+                        </div>
+                    </div>
 
 
-        <!-- BOTÓN CATÁLOGO -->
-        <div class="text-center mt-3">
+                    <!-- PRODUCTO 2 -->
+                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow">
+                            <img th:src="@{/img/duo3.png}" class="card-img-top" alt="Dúo Mixto">
 
-            <a th:href="@{/productos}" class="btn btn-dark btn-lg">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">
+                                    Dúo Mixto
+                                </h5>
 
-                <i class="bi bi-grid-fill"></i>
-                Ver catálogo completo
+                                <p class="card-text">
+                                    1 Burger Clásica, 1 Burger Doble, 2 porciones de papas fritas y 2 bebidas.
+                                </p>
 
-            </a>
+                                <p class="fw-bold fs-5">
+                                    S/ 42.90
+                                </p>
 
-        </div>
+                                <a th:href="@{/productos#duo3}" class="btn btn-warning">
+                                    <i class="bi bi-eye-fill"></i>
+                                    Ver producto
+                                </a>
+                            </div>
+                        </div>
+                    </div>
 
-    </div>
 
-</section>
+                    <!-- PRODUCTO 3 -->
+                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow">
+                            <img th:src="@{/img/salchipapa2.png}" class="card-img-top" alt="Salchipapa Full">
+
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">
+                                    Salchipapa Full
+                                </h5>
+
+                                <p class="card-text">
+                                    Papas fritas, salchicha, tocino, chorizo, huevo frito, salsas y bebida personal.
+                                </p>
+
+                                <p class="fw-bold fs-5">
+                                    S/ 22.90
+                                </p>
+
+                                <a th:href="@{/productos#salchipapa2}" class="btn btn-warning">
+                                    <i class="bi bi-eye-fill"></i>
+                                    Ver producto
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- BOTÓN CATÁLOGO -->
+                <div class="text-center mt-3">
+
+                    <a th:href="@{/productos}" class="btn btn-dark btn-lg">
+
+                        <i class="bi bi-grid-fill"></i>
+                        Ver catálogo completo
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
 
     </main>
 

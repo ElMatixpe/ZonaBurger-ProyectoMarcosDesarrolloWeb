@@ -13,6 +13,7 @@
        titulo -> el texto de la pestaña del navegador
        hoja   -> la hoja de estilos propia de esa página
      ============================================================ -->
+
 <head th:fragment="cabecera(titulo, hoja)">
 
     <meta charset="UTF-8">
@@ -97,28 +98,80 @@
                     </li>
 
                     <!-- INICIAR SESIÓN -->
-                    <li class="nav-item">
+                    <li class="nav-item" th:if="${session.usuarioActivo == null}">
                         <a class="nav-link" th:classappend="${activa == 'login'} ? ' active'" th:href="@{/login}">
+
                             <i class="bi bi-box-arrow-in-right"></i>
                             Iniciar sesión
+
                         </a>
                     </li>
 
+
                     <!-- REGISTRARSE -->
-                    <li class="nav-item">
+                    <li class="nav-item" th:if="${session.usuarioActivo == null}">
                         <a class="nav-link" th:classappend="${activa == 'registro'} ? ' active'" th:href="@{/registro}">
+
                             <i class="bi bi-person-plus-fill"></i>
                             Registrarse
+
                         </a>
+                    </li>
+
+
+                    <!-- USUARIO ACTIVO -->
+                    <li class="nav-item dropdown" th:if="${session.usuarioActivo != null}">
+
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+
+                            <i class="bi bi-person-circle"></i>
+
+                            <span th:text="${session.usuarioActivo.usuario}">
+                                Usuario
+                            </span>
+
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+
+                            <li>
+                                <span class="dropdown-item-text">
+
+                                    <strong>Rol:</strong>
+
+                                    <span th:text="${session.usuarioActivo.rol}">
+                                        CLIENTE
+                                    </span>
+
+                                </span>
+                            </li>
+
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" th:href="@{/logout}">
+
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    Cerrar sesión
+
+                                </a>
+                            </li>
+
+                        </ul>
+
                     </li>
 
                     <!-- ADMINISTRACIÓN -->
-                    <li class="nav-item">
-                        <a class="nav-link" th:classappend="${activa == 'admin'} ? ' active'"
-                            th:href="@{/vista-admin}">
+                    <li class="nav-item"
+                        th:if="${session.usuarioActivo != null and session.usuarioActivo.rol == 'ADMINISTRADOR'}">
+
+                        <a class="nav-link" th:classappend="${activa == 'admin'} ? ' active'" th:href="@{/vista-admin}">
                             <i class="bi bi-gear-fill"></i>
                             Administración
                         </a>
+
                     </li>
 
                 </ul>

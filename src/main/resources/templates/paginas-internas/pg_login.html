@@ -83,7 +83,7 @@
 
                         </div>
 
-                        <form id="formularioInicioSesion">
+                        <form th:action="@{/login}" method="post" id="formularioInicioSesion">
 
                             <!-- USUARIO -->
                             <div class="mb-3">
@@ -98,7 +98,7 @@
                                         <i class="bi bi-person"></i>
                                     </span>
 
-                                    <input type="text" class="form-control" id="usuario"
+                                    <input type="text" class="form-control" id="usuario" name="usuario"
                                         placeholder="Ingrese su usuario" required>
 
                                 </div>
@@ -121,7 +121,7 @@
                                         <i class="bi bi-lock"></i>
                                     </span>
 
-                                    <input type="password" class="form-control" id="contrasena"
+                                    <input type="password" class="form-control" id="contrasena" name="contrasena"
                                         placeholder="Ingrese su contraseña" required>
 
                                     <button type="button" class="btn btn-outline-secondary" id="btnMostrarContrasena">
