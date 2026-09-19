@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragmentos/layout :: cabecera('Zona Burger - Carrito', 'styles-custom.css')}">
+</head>
+
+<body>
+
+    <!-- BARRA DE NAVEGACION -->
+    <nav th:replace="~{fragmentos/layout :: barraNavegacion('carrito')}"></nav>
+
+    <main class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="text-warning fw-bold mb-2">
+                    Tu pedido
+                </p>
+                <h1 class="fw-bold">
+                    Mi carrito
+                </h1>
+                <p class="text-muted">
+                    Revisa los productos seleccionados antes de confirmar tu pedido.
+                </p>
+            </div>
+
+
+            <!-- CARRITO VACIO -->
+            <div th:if="${#lists.isEmpty(carrito)}" class="alert alert-warning text-center">
+                <i class="bi bi-cart-x-fill"></i>
+                Tu carrito está vacío.
+                <div class="mt-3">
+                    <a th:href="@{/productos}" class="btn btn-dark">
+                        Volver a productos
+                    </a>
+                </div>
+
+            </div>
+
+
+            <!-- PRODUCTOS DEL CARRITO -->
+            <div th:if="${!#lists.isEmpty(carrito)}">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th class="text-center">Cantidad</th>
+                                <th>Subtotal</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr th:each="item : ${carrito}">
+                                <td>
+                                    <strong th:text="${item.producto.nombre}">
+                                        Producto
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    S/
+                                    <span th:text="${#numbers.formatDecimal(item.producto.precio,1,2)}">
+                                        0.00
+                                    </span>
+                                </td>
+
+                                <td class="text-center">
+                                    <a th:href="@{'/carrito/disminuir/' + ${item.producto.id}}"
+                                        class="btn btn-sm btn-outline-dark">
+                                        <i class="bi bi-dash-lg"></i>
+                                    </a>
+
+                                    <span class="mx-3 fw-bold" th:text="${item.cantidad}">
+                                        1
+                                    </span>
+
+                                    <a th:href="@{'/carrito/aumentar/' + ${item.producto.id}}"
+                                        class="btn btn-sm btn-outline-dark">
+                                        <i class="bi bi-plus-lg"></i>
+                                    </a>
+                                </td>
+
+                                <td>
+                                    S/
+                                    <span th:text="${#numbers.formatDecimal(item.subtotal,1,2)}">
+                                        0.00
+                                    </span>
+                                </td>
+
+                                <td class="text-center">
+                                    <a th:href="@{'/carrito/eliminar/' + ${item.producto.id}}"
+                                        class="btn btn-sm btn-danger">
+                                        <i class="bi bi-trash-fill"></i>
+                                        Eliminar
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <!-- TOTAL -->
+                <div class="row justify-content-end mt-4">
+                    <div class="col-12 col-md-5 col-lg-4">
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <h4 class="fw-bold">
+                                    Resumen del pedido
+                                </h4>
+                                <hr>
+
+                                <div class="d-flex justify-content-between fs-5">
+                                    <span>
+                                        Total:
+                                    </span>
+
+                                    <strong>
+                                        S/
+                                        <span th:text="${#numbers.formatDecimal(total,1,2)}">
+                                            0.00
+                                        </span>
+                                    </strong>
+                                </div>
+
+
+                                <div class="d-grid gap-2 mt-4">
+                                    <button type="button" class="btn btn-warning fw-bold" data-bs-toggle="modal"
+                                        data-bs-target="#modalPedido">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                        Confirmar pedido
+                                    </button>
+
+                                    <a th:href="@{/carrito/vaciar}" class="btn btn-outline-danger">
+                                        <i class="bi bi-trash"></i>
+                                        Vaciar carrito
+                                    </a>
+
+                                    <a th:href="@{/productos}" class="btn btn-dark">
+                                        <i class="bi bi-arrow-left"></i>
+                                        Seguir comprando
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- PIE DE PÁGINA -->
+    <footer th:replace="~{fragmentos/layout :: pie}"></footer>
+
+    <!-- SCRIPTS COMUNES -->
+    <th:block th:replace="~{fragmentos/layout :: scripts}"></th:block>
+
+    <!-- PEDIDO CONFIRMADO -->
+    <div class="modal fade" id="modalPedido" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title fw-bold">
+                        <i class="bi bi-check-circle-fill"></i>
+                        Pedido confirmado
+                    </h5>
+                </div>
+
+                <div class="modal-body text-center py-4">
+                    <i class="bi bi-bag-check-fill fs-1 text-success"></i>
+                    <h4 class="mt-3">
+                        ¡Tu pedido ha sido confirmado exitosamente!
+                    </h4>
+                    <p class="text-muted">
+                        Gracias por realizar tu pedido en Zona Burger
+                    </p>
+                </div>
+
+                <div class="modal-footer justify-content-center">
+                    <a th:href="@{/carrito/confirmar}" class="btn btn-warning fw-bold">
+                        Ir al inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

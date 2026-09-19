@@ -5,6 +5,7 @@
 </head>
 
 <body>
+
     <!-- BARRA DE NAVEGACIÓN -->
     <nav th:replace="~{fragmentos/layout :: barraNavegacion('productos')}"></nav>
 
@@ -12,349 +13,305 @@
 
         <!-- ENCABEZADO DE PRODUCTOS -->
         <section class="encabezado-productos py-5">
-
             <div class="container text-center">
+
                 <p class="text-warning fw-bold mb-2">
                     Nuestro menú
                 </p>
+
                 <h1 class="fw-bold text-white">
                     Productos
                 </h1>
+
                 <p class="text-light">
                     Encuentra promociones y opciones para disfrutar solo o acompañado.
                 </p>
+
             </div>
         </section>
 
 
         <!-- PROMOCIONES -->
         <section class="promociones py-5">
+
             <div class="container">
+
                 <div class="text-center mb-5">
+
                     <p class="text-warning fw-bold mb-2">
                         Aprovecha nuestras ofertas
                     </p>
+
                     <h2 class="fw-bold">
                         Promociones
                     </h2>
+
                 </div>
 
                 <div class="row">
 
-                    <!-- PROMOCIÓN 1 -->
-                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="col-12 col-md-6 col-lg-4 mb-4"
+                         th:each="producto : ${productos}"
+                         th:if="${producto.id >= 1 and producto.id <= 3}">
+
                         <div class="card h-100 shadow card-producto">
-                            <img th:src="@{/img/promo1.png}" class="card-img-top" alt="Combo Clásico">
+
+                            <img th:src="@{'/img/' + ${producto.imagen}}"
+                                 class="card-img-top"
+                                 th:alt="${producto.nombre}">
+
                             <div class="card-body">
-                                <h5 class="card-title fw-bold">
-                                    Combo Clásico
+
+                                <h5 class="card-title fw-bold"
+                                    th:text="${producto.nombre}">
+                                    Nombre producto
                                 </h5>
-                                <p class="card-text">
-                                    Burger Clásica, papas fritas y bebida personal.
+
+                                <p class="card-text"
+                                   th:text="${producto.descripcion}">
+                                    Descripción
                                 </p>
+
                                 <p class="fw-bold fs-5">
-                                    S/ 19.90
+                                    S/
+                                    <span th:text="${#numbers.formatDecimal(producto.precio,1,2)}">
+                                        0.00
+                                    </span>
                                 </p>
-                                <a th:href="@{/contacto}" class="btn btn-warning">
-                                    <i class="bi bi-chat-dots-fill"></i>
-                                    Consultar
+
+                                <a th:href="@{'/carrito/agregar/' + ${producto.id}}"
+                                   class="btn btn-warning">
+
+                                    <i class="bi bi-cart-plus-fill"></i>
+                                    Agregar al carrito
+
                                 </a>
+
                             </div>
+
                         </div>
+
                     </div>
 
-
-                    <!-- PROMOCIÓN 2 -->
-                    <div class="col-12 col-md-6 col-lg-4 mb-4" id="promo2">
-                        <div class="card h-100 shadow card-producto">
-                            <img th:src="@{/img/promo2.png}" class="card-img-top" alt="Combo BBQ">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold">
-                                    Combo BBQ
-                                </h5>
-                                <p class="card-text">
-                                    Burger BBQ, papas fritas y bebida personal.
-                                </p>
-                                <p class="fw-bold fs-5">
-                                    S/ 22.90
-                                </p>
-                                <a th:href="@{/contacto}" class="btn btn-warning">
-                                    <i class="bi bi-chat-dots-fill"></i>
-                                    Consultar
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- PROMOCIÓN 3 -->
-                    <div class="col-12 col-md-6 col-lg-4 mb-4">
-                        <div class="card h-100 shadow card-producto">
-                            <img th:src="@{/img/promo3.png}" class="card-img-top" alt="Combo Doble">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold">
-                                    Combo Doble
-                                </h5>
-                                <p class="card-text">
-                                    Burger Doble, papas fritas y bebida personal.
-                                </p>
-                                <p class="fw-bold fs-5">
-                                    S/ 25.90
-                                </p>
-                                <a th:href="@{/contacto}" class="btn btn-warning">
-                                    <i class="bi bi-chat-dots-fill"></i>
-                                    Consultar
-                                </a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-            </div>
-        </section>
 
+            </div>
+
+        </section>
 
 
         <!-- HAMBURGUESAS PARA 1 -->
         <section class="hamburguesas-uno py-5">
+
             <div class="container">
+
                 <div class="text-center mb-5">
+
                     <p class="text-warning fw-bold mb-2">
                         Para disfrutar tú solo
                     </p>
+
                     <h2 class="fw-bold">
                         Hamburguesas para 1
                     </h2>
+
                 </div>
 
                 <div class="row">
-                    <!-- BURGER CLÁSICA -->
-                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+
+                    <div class="col-12 col-md-6 col-lg-4 mb-4"
+                         th:each="producto : ${productos}"
+                         th:if="${producto.id >= 4 and producto.id <= 6}">
+
                         <div class="card h-100 shadow card-producto">
-                            <img th:src="@{/img/clasica.png}" class="card-img-top" alt="Burger Clásica">
+
+                            <img th:src="@{'/img/' + ${producto.imagen}}"
+                                 class="card-img-top"
+                                 th:alt="${producto.nombre}">
+
                             <div class="card-body">
-                                <h5 class="card-title fw-bold">
-                                    Burger Clásica
+
+                                <h5 class="card-title fw-bold"
+                                    th:text="${producto.nombre}">
+                                    Nombre producto
                                 </h5>
-                                <p class="card-text">
-                                    Carne, queso, lechuga, tomate y papas fritas.
+
+                                <p class="card-text"
+                                   th:text="${producto.descripcion}">
+                                    Descripción
                                 </p>
+
                                 <p class="fw-bold fs-5">
-                                    S/ 15.90
+                                    S/
+                                    <span th:text="${#numbers.formatDecimal(producto.precio,1,2)}">
+                                        0.00
+                                    </span>
                                 </p>
-                                <a th:href="@{/contacto}" class="btn btn-warning">
-                                    <i class="bi bi-chat-dots-fill"></i>
-                                    Consultar
+
+                                <a th:href="@{'/carrito/agregar/' + ${producto.id}}"
+                                   class="btn btn-warning">
+
+                                    <i class="bi bi-cart-plus-fill"></i>
+                                    Agregar al carrito
+
                                 </a>
+
                             </div>
+
                         </div>
+
                     </div>
 
-
-                    <!-- BURGER BBQ -->
-                    <div class="col-12 col-md-6 col-lg-4 mb-4">
-                        <div class="card h-100 shadow card-producto">
-                            <img th:src="@{/img/bbq.png}" class="card-img-top" alt="Burger BBQ">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold">
-                                    Burger BBQ
-                                </h5>
-                                <p class="card-text">
-                                    Carne, queso, tocino, cebolla y deliciosa salsa BBQ.
-                                </p>
-                                <p class="fw-bold fs-5">
-                                    S/ 18.90
-                                </p>
-                                <a th:href="@{/contacto}" class="btn btn-warning">
-                                    <i class="bi bi-chat-dots-fill"></i>
-                                    Consultar
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!-- BURGER DOBLE -->
-                    <div class="col-12 col-md-6 col-lg-4 mb-4">
-                        <div class="card h-100 shadow card-producto">
-                            <img th:src="@{/img/doble.png}" class="card-img-top" alt="Burger Doble">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold">
-                                    Burger Doble
-                                </h5>
-                                <p class="card-text">
-                                    Doble carne, doble queso y papas fritas.
-                                </p>
-                                <p class="fw-bold fs-5">
-                                    S/ 21.90
-                                </p>
-                                <a th:href="@{/contacto}" class="btn btn-warning">
-                                    <i class="bi bi-chat-dots-fill"></i>
-                                    Consultar
-                                </a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+
             </div>
+
         </section>
-
-
-
 
 
         <!-- HAMBURGUESAS PARA 2 -->
         <section class="hamburguesas-dos py-5">
+
             <div class="container">
+
                 <div class="text-center mb-5">
+
                     <p class="text-warning fw-bold mb-2">
                         Para compartir
                     </p>
+
                     <h2 class="fw-bold">
                         Hamburguesas para 2
                     </h2>
+
                     <p class="text-muted">
                         Combos pensados para disfrutar acompañado.
                     </p>
+
                 </div>
 
                 <div class="row">
-                    <!-- COMBO DUO CLÁSICO -->
-                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+
+                    <div class="col-12 col-md-6 col-lg-4 mb-4"
+                         th:each="producto : ${productos}"
+                         th:if="${producto.id >= 7 and producto.id <= 9}">
+
                         <div class="card h-100 shadow card-producto">
-                            <img th:src="@{/img/duo1.png}" class="card-img-top" alt="Dúo Clásico">
+
+                            <img th:src="@{'/img/' + ${producto.imagen}}"
+                                 class="card-img-top"
+                                 th:alt="${producto.nombre}">
+
                             <div class="card-body">
-                                <h5 class="card-title fw-bold">
-                                    Dúo Clásico
+
+                                <h5 class="card-title fw-bold"
+                                    th:text="${producto.nombre}">
+                                    Nombre producto
                                 </h5>
-                                <p class="card-text">
-                                    2 Burger Clásicas, 2 porciones de papas fritas y 2 bebidas personales.
+
+                                <p class="card-text"
+                                   th:text="${producto.descripcion}">
+                                    Descripción
                                 </p>
+
                                 <p class="fw-bold fs-5">
-                                    S/ 34.90
+                                    S/
+                                    <span th:text="${#numbers.formatDecimal(producto.precio,1,2)}">
+                                        0.00
+                                    </span>
                                 </p>
-                                <a th:href="@{/contacto}" class="btn btn-warning">
-                                    <i class="bi bi-chat-dots-fill"></i>
-                                    Consultar
+
+                                <a th:href="@{'/carrito/agregar/' + ${producto.id}}"
+                                   class="btn btn-warning">
+
+                                    <i class="bi bi-cart-plus-fill"></i>
+                                    Agregar al carrito
+
                                 </a>
+
                             </div>
+
                         </div>
+
                     </div>
 
-
-                    <!-- COMBO DUO BBQ -->
-                    <div class="col-12 col-md-6 col-lg-4 mb-4">
-                        <div class="card h-100 shadow card-producto">
-                            <img th:src="@{/img/duo2.png}" class="card-img-top" alt="Dúo BBQ">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold">
-                                    Dúo BBQ
-                                </h5>
-                                <p class="card-text">
-                                    2 Burger BBQ, 2 porciones de papas fritas y 2 bebidas personales.
-                                </p>
-                                <p class="fw-bold fs-5">
-                                    S/ 39.90
-                                </p>
-                                <a th:href="@{/contacto}" class="btn btn-warning">
-                                    <i class="bi bi-chat-dots-fill"></i>
-                                    Consultar
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!-- COMBO DUO MIXTO -->
-                    <div class="col-12 col-md-6 col-lg-4 mb-4" id="duo3">
-                        <div class="card h-100 shadow card-producto">
-                            <img th:src="@{/img/duo3.png}" class="card-img-top" alt="Dúo Mixto">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold">
-                                    Dúo Mixto
-                                </h5>
-                                <p class="card-text">
-                                    1 Burger Clásica, 1 Burger Doble, 2 porciones de papas fritas y 2 bebidas.
-                                </p>
-                                <p class="fw-bold fs-5">
-                                    S/ 42.90
-                                </p>
-                                <a th:href="@{/contacto}" class="btn btn-warning">
-                                    <i class="bi bi-chat-dots-fill"></i>
-                                    Consultar
-                                </a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-            </div>
-        </section>
 
+            </div>
+
+        </section>
 
 
         <!-- SALCHIPAPAS -->
         <section class="salchipapas py-5">
+
             <div class="container">
+
                 <div class="text-center mb-5">
+
                     <p class="text-warning fw-bold mb-2">
                         Para algo diferente
                     </p>
+
                     <h2 class="fw-bold">
                         Salchipapas
                     </h2>
+
                     <p class="text-muted">
                         Disfruta nuestras salchipapas acompañadas de una bebida personal.
                     </p>
+
                 </div>
+
                 <div class="row justify-content-center">
 
-                    <!-- SALCHIPAPA CLÁSICA -->
-                    <div class="col-12 col-md-6 col-lg-5 mb-4">
+                    <div class="col-12 col-md-6 col-lg-5 mb-4"
+                         th:each="producto : ${productos}"
+                         th:if="${producto.id >= 10 and producto.id <= 11}">
+
                         <div class="card h-100 shadow card-producto">
-                            <img th:src="@{/img/salchipapa1.png}" class="card-img-top" alt="Salchipapa con huevo">
+
+                            <img th:src="@{'/img/' + ${producto.imagen}}"
+                                 class="card-img-top"
+                                 th:alt="${producto.nombre}">
+
                             <div class="card-body">
-                                <h5 class="card-title fw-bold">
-                                    Salchipapa Especial
+
+                                <h5 class="card-title fw-bold"
+                                    th:text="${producto.nombre}">
+                                    Nombre producto
                                 </h5>
-                                <p class="card-text">
-                                    Papas fritas, salchicha, huevo frito,
-                                    salsas y bebida personal.
+
+                                <p class="card-text"
+                                   th:text="${producto.descripcion}">
+                                    Descripción
                                 </p>
+
                                 <p class="fw-bold fs-5">
-                                    S/ 16.90
+                                    S/
+                                    <span th:text="${#numbers.formatDecimal(producto.precio,1,2)}">
+                                        0.00
+                                    </span>
                                 </p>
-                                <a th:href="@{/contacto}" class="btn btn-warning">
-                                    <i class="bi bi-chat-dots-fill"></i>
-                                    Consultar
+
+                                <a th:href="@{'/carrito/agregar/' + ${producto.id}}"
+                                   class="btn btn-warning">
+
+                                    <i class="bi bi-cart-plus-fill"></i>
+                                    Agregar al carrito
+
                                 </a>
+
                             </div>
+
                         </div>
+
                     </div>
 
-
-                    <!-- SALCHIPAPA FULL -->
-                    <div class="col-12 col-md-6 col-lg-5 mb-4" id="salchipapa2">
-                        <div class="card h-100 shadow card-producto">
-                            <img th:src="@{/img/salchipapa2.png}" class="card-img-top" alt="Salchipapa Full">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold">
-                                    Salchipapa Full
-                                </h5>
-                                <p class="card-text">
-                                    Papas fritas, salchicha, tocino,
-                                    chorizo, huevo frito, salsas
-                                    y bebida personal.
-                                </p>
-                                <p class="fw-bold fs-5">
-                                    S/ 22.90
-                                </p>
-                                <a th:href="@{/contacto}" class="btn btn-warning">
-                                    <i class="bi bi-chat-dots-fill"></i>
-                                    Consultar
-                                </a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+
             </div>
+
         </section>
 
     </main>

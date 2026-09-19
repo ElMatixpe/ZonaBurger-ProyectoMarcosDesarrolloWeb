@@ -76,6 +76,16 @@
                         </a>
                     </li>
 
+                    <!-- CARRITO -->
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${activa == 'carrito'} ? ' active'" th:href="@{/carrito}">
+
+                            <i class="bi bi-cart-fill"></i>
+                            Carrito
+
+                        </a>
+                    </li>
+
                     <!-- DETALLE -->
                     <li class="nav-item">
                         <a class="nav-link" th:classappend="${activa == 'detalle'} ? ' active'" th:href="@{/detalle}">
