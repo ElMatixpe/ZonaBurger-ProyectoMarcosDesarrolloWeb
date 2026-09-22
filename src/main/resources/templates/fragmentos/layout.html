@@ -1,19 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
-<!--
-    ARCHIVO DE FRAGMENTOS REUTILIZABLES
-    Este archivo no es una página: no tiene ruta en el controlador.
-    Solo guarda los trozos de HTML que se repiten en todas las páginas.
--->
-
-<!-- ============================================================
-     CABECERA (<head>)
-     Recibe dos parámetros:
-       titulo -> el texto de la pestaña del navegador
-       hoja   -> la hoja de estilos propia de esa página
-     ============================================================ -->
-
 <head th:fragment="cabecera(titulo, hoja)">
 
     <meta charset="UTF-8">
@@ -193,10 +180,53 @@
     <!-- ============================================================
          PIE DE PÁGINA
          ============================================================ -->
-    <footer th:fragment="pie" class="pie-pagina-zona">
-        <p>
-            © 2026 Zona Burger - Todos los derechos reservados
-        </p>
+    <footer th:fragment="pie" class="footer">
+        <div class="footer-redes">
+            <div class="contenedor-imagen">
+            <img th:src="@{/img/logo.png}" alt="Logo Zona Burger">
+            </div>
+            <p>Síguenos en nuestras redes sociales</p>
+            <div class="redes">
+                <a href="#"> <i class="bi bi-instagram"></i> Instagram</a>
+                <a href="#"> <i class="bi bi-facebook"></i> Facebook</a>
+                <a href="#"> <i class="bi bi-tiktok"></i> TikTok</a>
+                <a href="#"> <i class="bi bi-youtube"></i> YouTube</a>
+            </div>
+        </div>
+
+        <div class="footer-contenido">
+
+            <!-- Atención al cliente -->
+            <div class="footer-seccion">
+                <h3>Atención al cliente</h3>
+                <a href="#"> Contáctanos</a>
+                <a href="#">Preguntas frecuentes</a>
+                <a href="#">Libro de reclamaciones</a>
+                <a href="#">WhatsApp</a>
+            </div>
+
+            <!-- Sobre nosotros -->
+            <div class="footer-seccion">
+                <h3>Sobre Zona Burger</h3>
+                <a href="#">Nosotros</a>
+                <a href="#">Nuestra historia</a>
+                <a href="#">Trabaja con nosotros</a>
+                <a href="#">Nuestros locales</a>
+            </div>
+
+            <!-- Información -->
+            <div class="footer-seccion">
+                <h3>Información</h3>
+                <a href="#">Términos y condiciones</a>
+                <a href="#">Política de privacidad</a>
+                <a href="#">Política de delivery</a>
+                <a href="#">Métodos de pago</a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p> Zona Burger © 2026 - Todos los derechos reservados</p>
+        </div>
     </footer>
 
 
