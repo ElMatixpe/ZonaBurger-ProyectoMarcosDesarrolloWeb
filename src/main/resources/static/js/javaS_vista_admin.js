@@ -1,9 +1,40 @@
-/* ADMINISTRACIÓN SIMULADA - ZONA BURGER */
+/* ADMINISTRACIÓN - ZONA BURGER */
+/* Las tablas de Pedidos, Productos, Clientes y Administradores se llenan
+   con datos reales que vienen del controlador (ProductoService,
+   UsuarioService y PedidoService). Este script agrega interacciones sobre
+   esos datos (ver pedido, agregar/editar/eliminar producto, cliente o
+   administrador, buscador y accesos rápidos). Las acciones de
+   editar/eliminar/agregar todavía son simulaciones en pantalla: el
+   backend no tiene endpoints para persistir esos cambios.        */
 
-/* MOSTRAR INFORMACIÓN DE PEDIDO */
+/* ============================================================
+   ACCESOS RÁPIDOS: llevan directo a cada sección de la página
+   ============================================================ */
+
+const botonesAcceso =
+    document.querySelectorAll(".btn-acceso");
+
+botonesAcceso.forEach(function (boton) {
+
+    boton.addEventListener("click", function () {
+
+        const destino =
+            document.getElementById(boton.dataset.destino);
+
+        if (destino) {
+            destino.scrollIntoView({ behavior: "smooth" });
+        }
+
+    });
+
+});
+
+/* ============================================================
+   PEDIDOS: ver detalle
+   ============================================================ */
 
 const botonesVerPedido =
-    document.querySelectorAll(".btn-outline-dark");
+    document.querySelectorAll("#tablaPedidos .btn-outline-dark");
 
 botonesVerPedido.forEach(function (boton) {
 
@@ -12,13 +43,13 @@ botonesVerPedido.forEach(function (boton) {
         const fila = boton.closest("tr");
 
         const numeroPedido =
-            fila.cells[0].textContent.trim();
+            fila.cells[4].textContent.trim();
 
         const cliente =
             fila.cells[1].textContent.trim();
 
         const total =
-            fila.cells[2].textContent.trim();
+            fila.cells[4].textContent.trim();
 
         const estado =
             fila.cells[3].textContent.trim();
@@ -36,7 +67,11 @@ botonesVerPedido.forEach(function (boton) {
 
 });
 
-/* AGREGAR PRODUCTO */
+/* ============================================================
+   PRODUCTOS
+   ============================================================ */
+
+/* AGREGAR PRODUCTO (simulado en pantalla) */
 
 const botonAgregarProducto =
     document.querySelector(".btn-inicio-sesion");
@@ -61,16 +96,16 @@ if (botonAgregarProducto) {
         }
 
 
-        const categoria =
-            prompt("Ingrese la categoría del producto:");
+        const descripcion =
+            prompt("Ingrese la descripción del producto:");
 
-        if (categoria === null) {
+        if (descripcion === null) {
             return;
         }
 
-        if (categoria.trim() === "") {
+        if (descripcion.trim() === "") {
 
-            alert("Debe ingresar la categoría.");
+            alert("Debe ingresar la descripción.");
 
             return;
         }
@@ -93,8 +128,10 @@ if (botonAgregarProducto) {
 
         alert(
             "Producto agregado correctamente.\n\n" +
+            "Nota: este panel aún no guarda el producto en el servidor, " +
+            "solo lo simula en pantalla.\n\n" +
             "Producto: " + nombreProducto + "\n" +
-            "Categoría: " + categoria + "\n" +
+            "Descripción: " + descripcion + "\n" +
             "Precio: S/ " + precio
         );
 
@@ -102,40 +139,31 @@ if (botonAgregarProducto) {
 
 }
 
-/* EDITAR PRODUCTO */
+/* EDITAR / ELIMINAR PRODUCTO (simulado en pantalla) */
+/* Columnas: 0 = Producto, 1 = Precio, 2 = Descripción, 3 = Acción */
 
-const botonesEditar =
-    document.querySelectorAll(".btn-outline-primary");
-
-botonesEditar.forEach(function (boton) {
+document.querySelectorAll("#tablaProductos .btn-outline-primary").forEach(function (boton) {
 
     boton.addEventListener("click", function () {
 
         const fila = boton.closest("tr");
 
         const productoActual =
-            fila.cells[0].textContent.trim();
+            fila.cells[4].textContent.trim();
 
         const precioActual =
-            fila.cells[2].textContent.trim();
+            fila.cells[1].textContent.trim();
 
 
         const nuevoNombre =
-            prompt(
-                "Editar nombre del producto:",
-                productoActual
-            );
-
+            prompt("Editar nombre del producto:", productoActual);
 
         if (nuevoNombre === null) {
             return;
         }
 
-
         if (nuevoNombre.trim() === "") {
-
             alert("El nombre no puede estar vacío.");
-
             return;
         }
 
@@ -146,63 +174,47 @@ botonesEditar.forEach(function (boton) {
                 precioActual.replace("S/", "").trim()
             );
 
-
         if (nuevoPrecio === null) {
             return;
         }
 
-
         if (nuevoPrecio.trim() === "") {
-
             alert("El precio no puede estar vacío.");
-
             return;
         }
 
 
-        fila.cells[0].textContent =
-            nuevoNombre;
-
-        fila.cells[2].textContent =
-            "S/ " + nuevoPrecio;
-
+        fila.cells[4].textContent = nuevoNombre;
+        fila.cells[1].textContent = "S/ " + nuevoPrecio;
 
         alert(
-            "Producto actualizado correctamente."
+            "Producto actualizado en pantalla.\n\n" +
+            "Nota: el cambio todavía no se guarda en el servidor."
         );
 
     });
 
 });
 
-/* ELIMINAR PRODUCTO */
-
-const botonesEliminar =
-    document.querySelectorAll(".btn-outline-danger");
-
-botonesEliminar.forEach(function (boton) {
+document.querySelectorAll("#tablaProductos .btn-outline-danger").forEach(function (boton) {
 
     boton.addEventListener("click", function () {
 
         const fila = boton.closest("tr");
 
         const nombreProducto =
-            fila.cells[0].textContent.trim();
-
+            fila.cells[4].textContent.trim();
 
         const confirmar =
-            confirm(
-                "¿Está seguro de eliminar el producto:\n\n" +
-                nombreProducto + "?"
-            );
-
+            confirm("¿Está seguro de eliminar el producto:\n\n" + nombreProducto + "?");
 
         if (confirmar) {
 
             fila.remove();
 
             alert(
-                "Producto eliminado correctamente."
+                "Producto eliminado de la vista.\n\n" +
+                "Nota: el cambio todavía no se guarda en el servidor."
             );
 
         }
@@ -211,62 +223,145 @@ botonesEliminar.forEach(function (boton) {
 
 });
 
-/* ACCESOS RÁPIDOS */
+/* ============================================================
+   CLIENTES Y ADMINISTRADORES
+   Ambas tablas comparten la misma estructura de columnas:
+   0 = Nombre, 1 = Correo, 2 = Usuario, 3 = Rol, 4 = Acción
+   ============================================================ */
 
-const botonesAcceso =
-    document.querySelectorAll(".btn-acceso");
+function habilitarEdicionUsuarios(idTabla, etiqueta) {
 
+    document.querySelectorAll("#" + idTabla + " .btn-outline-primary").forEach(function (boton) {
 
-botonesAcceso.forEach(function (boton) {
+        boton.addEventListener("click", function () {
 
-    boton.addEventListener("click", function () {
+            const fila = boton.closest("tr");
 
-        const texto =
-            boton.querySelector("span").textContent.trim();
+            const usuarioActual =
+                fila.cells[2].textContent.trim();
 
+            const nuevoUsuario =
+                prompt("Editar nombre de usuario de " + etiqueta + ":", usuarioActual);
 
-        if (texto === "Gestionar pedidos") {
+            if (nuevoUsuario === null) {
+                return;
+            }
 
-            alert(
-                "Módulo de pedidos seleccionado.\n\n" +
-                "Aquí se podrán consultar y gestionar " +
-                "los pedidos realizados."
-            );
+            if (nuevoUsuario.trim() === "") {
+                alert("El nombre de usuario no puede estar vacío.");
+                return;
+            }
 
-        }
-
-
-        else if (texto === "Gestionar productos") {
-
-            alert(
-                "Módulo de productos seleccionado.\n\n" +
-                "Aquí se podrán agregar, editar y eliminar " +
-                "productos."
-            );
-
-        }
-
-
-        else if (texto === "Ver clientes") {
+            fila.cells[2].textContent = nuevoUsuario;
 
             alert(
-                "Módulo de clientes seleccionado.\n\n" +
-                "Aquí se podrá consultar la información " +
-                "de los clientes registrados."
+                etiqueta + " actualizado en pantalla.\n\n" +
+                "Nota: el cambio todavía no se guarda en el servidor."
             );
+
+        });
+
+    });
+
+    document.querySelectorAll("#" + idTabla + " .btn-outline-danger").forEach(function (boton) {
+
+        boton.addEventListener("click", function () {
+
+            const fila = boton.closest("tr");
+
+            const usuarioActual =
+                fila.cells[2].textContent.trim();
+
+            const confirmar =
+                confirm("¿Está seguro de eliminar a " + etiqueta.toLowerCase() + ":\n\n" + usuarioActual + "?");
+
+            if (confirmar) {
+
+                fila.remove();
+
+                alert(
+                    etiqueta + " eliminado de la vista.\n\n" +
+                    "Nota: el cambio todavía no se guarda en el servidor."
+                );
+
+            }
+
+        });
+
+    });
+
+}
+
+habilitarEdicionUsuarios("tablaClientes", "Cliente");
+habilitarEdicionUsuarios("tablaAdministradores", "Administrador");
+
+/* ============================================================
+   BUSCADORES POR NOMBRE (uno por cada tabla)
+   ============================================================ */
+
+function habilitarBusqueda(idInput, idTabla, indiceColumna) {
+
+    const input = document.getElementById(idInput);
+    const tabla = document.getElementById(idTabla);
+
+    if (!input || !tabla) {
+        return;
+    }
+
+    const mensajeSinResultados =
+        document.querySelector('.mensaje-sin-resultados[data-tabla="' + idTabla + '"]');
+
+    input.addEventListener("input", function () {
+
+        const termino = input.value.trim().toLowerCase();
+
+        const filas = tabla.querySelectorAll("tbody tr:not(.fila-vacia)");
+
+        let coincidencias = 0;
+
+        filas.forEach(function (fila) {
+
+            const celda = fila.cells[indiceColumna];
+
+            if (!celda) {
+                return;
+            }
+
+            const texto = celda.textContent.trim().toLowerCase();
+            const coincide = texto.includes(termino);
+
+            fila.style.display = coincide ? "" : "none";
+
+            if (coincide) {
+                coincidencias++;
+            }
+
+        });
+
+        if (mensajeSinResultados) {
+
+            const sinResultados =
+                termino !== "" && coincidencias === 0 && filas.length > 0;
+
+            mensajeSinResultados.classList.toggle("d-none", !sinResultados);
 
         }
 
     });
 
-});
+}
+
+habilitarBusqueda("buscarPedidos", "tablaPedidos", 1);
+habilitarBusqueda("buscarProductos", "tablaProductos", 0);
+habilitarBusqueda("buscarClientes", "tablaClientes", 2);
+habilitarBusqueda("buscarAdministradores", "tablaAdministradores", 2);
 
 /* MENSAJE DE BIENVENIDA */
 
 window.addEventListener("load", function () {
 
     console.log(
-        "Panel de Administración de Zona Burger cargado correctamente."
+        "Panel de Administración de Zona Burger cargado con datos reales de los servicios."
     );
 
 });

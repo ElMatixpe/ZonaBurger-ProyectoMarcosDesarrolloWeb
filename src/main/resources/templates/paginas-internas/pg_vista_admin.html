@@ -40,11 +40,91 @@
 
                     <div>
 
-                        <strong>Administrador</strong>
+                        <strong th:text="${session.usuarioActivo != null ? session.usuarioActivo.usuario : 'Administrador'}">
+                            Administrador
+                        </strong>
 
-                        <small>
+                        <small th:text="${session.usuarioActivo != null ? session.usuarioActivo.rol : 'Sesión activa'}">
                             Sesión activa
                         </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ACCESOS RÁPIDOS -->
+
+            <div class="card seccion-administracion mb-4">
+
+                <div class="card-header">
+
+                    <h5>
+                        <i class="bi bi-lightning-fill"></i>
+                        Accesos rápidos
+                    </h5>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="row g-3">
+
+
+                        <div class="col-md-4">
+
+                            <button
+                                type="button"
+                                class="btn btn-acceso w-100"
+                                data-destino="seccionPedidos">
+
+                                <i class="bi bi-cart-plus-fill"></i>
+
+                                <span>
+                                    Gestionar pedidos
+                                </span>
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+
+                            <button
+                                type="button"
+                                class="btn btn-acceso w-100"
+                                data-destino="seccionProductos">
+
+                                <i class="bi bi-box-seam-fill"></i>
+
+                                <span>
+                                    Gestionar productos
+                                </span>
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+
+                            <button
+                                type="button"
+                                class="btn btn-acceso w-100"
+                                data-destino="seccionClientes">
+
+                                <i class="bi bi-people-fill"></i>
+
+                                <span>
+                                    Ver clientes
+                                </span>
+
+                            </button>
+
+                        </div>
 
                     </div>
 
@@ -71,11 +151,11 @@
                             </div>
 
                             <h6>
-                                Pedidos de hoy
+                                Pedidos
                             </h6>
 
-                            <h2>
-                                24
+                            <h2 th:text="${#lists.size(pedidos)}">
+                                0
                             </h2>
 
                             <p>
@@ -106,8 +186,8 @@
                                 Productos
                             </h6>
 
-                            <h2>
-                                18
+                            <h2 th:text="${#lists.size(productos)}">
+                                0
                             </h2>
 
                             <p>
@@ -138,8 +218,8 @@
                                 Clientes
                             </h6>
 
-                            <h2>
-                                156
+                            <h2 th:text="${#lists.size(clientes)}">
+                                0
                             </h2>
 
                             <p>
@@ -167,11 +247,11 @@
                             </div>
 
                             <h6>
-                                Ventas del día
+                                Ventas totales
                             </h6>
 
-                            <h2>
-                                S/ 845.50
+                            <h2 th:text="${'S/ ' + #numbers.formatDecimal(ventasTotales, 1, 2)}">
+                                S/ 0.00
                             </h2>
 
                             <p>
@@ -186,16 +266,21 @@
 
             </div>
 
-            <!-- PEDIDOS RECIENTES -->
+            <!-- PEDIDOS -->
 
-            <div class="card seccion-administracion mb-4">
+            <div class="card seccion-administracion mb-4" id="seccionPedidos">
 
-                <div class="card-header">
+                <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
 
                     <h5>
                         <i class="bi bi-cart3"></i>
                         Pedidos recientes
                     </h5>
+
+                    <div class="input-group input-group-sm buscador-administracion">
+                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                        <input type="text" id="buscarPedidos" class="form-control" placeholder="Buscar por cliente...">
+                    </div>
 
                 </div>
 
@@ -203,7 +288,7 @@
 
                     <div class="table-responsive">
 
-                        <table class="table table-hover align-middle">
+                        <table class="table table-hover align-middle" id="tablaPedidos">
 
                             <thead>
 
@@ -222,24 +307,26 @@
 
                             <tbody>
 
-                                <tr>
+                                <tr th:each="pedido : ${pedidos}">
 
-                                    <td>#001</td>
+                                    <td th:text="${'#00' + pedido.id}">
+                                        #001
+                                    </td>
 
-                                    <td>
-                                        Juan Pérez
+                                    <td th:text="${pedido.cliente}">
+                                        Cliente
+                                    </td>
+
+                                    <td th:text="${'S/ ' + #numbers.formatDecimal(pedido.total, 1, 2)}">
+                                        S/ 0.00
                                     </td>
 
                                     <td>
-                                        S/ 35.00
-                                    </td>
-
-                                    <td>
-
-                                        <span class="badge estado-pendiente">
+                                        <span class="badge"
+                                            th:classappend="${pedido.estado == 'Pendiente'} ? 'estado-pendiente' : (${pedido.estado == 'En preparación'} ? 'estado-preparacion' : (${pedido.estado == 'Entregado'} ? 'estado-entregado' : 'estado-cancelado'))"
+                                            th:text="${pedido.estado}">
                                             Pendiente
                                         </span>
-
                                     </td>
 
                                     <td>
@@ -256,107 +343,10 @@
 
                                 </tr>
 
+                                <tr class="fila-vacia" th:if="${#lists.isEmpty(pedidos)}">
 
-                                <tr>
-
-                                    <td>#002</td>
-
-                                    <td>
-                                        María López
-                                    </td>
-
-                                    <td>
-                                        S/ 48.50
-                                    </td>
-
-                                    <td>
-
-                                        <span class="badge estado-preparacion">
-                                            En preparación
-                                        </span>
-
-                                    </td>
-
-                                    <td>
-
-                                        <button
-                                            class="btn btn-sm btn-outline-dark">
-
-                                            <i class="bi bi-eye"></i>
-                                            Ver
-
-                                        </button>
-
-                                    </td>
-
-                                </tr>
-
-
-                                <tr>
-
-                                    <td>#003</td>
-
-                                    <td>
-                                        Carlos Díaz
-                                    </td>
-
-                                    <td>
-                                        S/ 27.00
-                                    </td>
-
-                                    <td>
-
-                                        <span class="badge estado-entregado">
-                                            Entregado
-                                        </span>
-
-                                    </td>
-
-                                    <td>
-
-                                        <button
-                                            class="btn btn-sm btn-outline-dark">
-
-                                            <i class="bi bi-eye"></i>
-                                            Ver
-
-                                        </button>
-
-                                    </td>
-
-                                </tr>
-
-
-                                <tr>
-
-                                    <td>#004</td>
-
-                                    <td>
-                                        Ana Torres
-                                    </td>
-
-                                    <td>
-                                        S/ 52.00
-                                    </td>
-
-                                    <td>
-
-                                        <span class="badge estado-cancelado">
-                                            Cancelado
-                                        </span>
-
-                                    </td>
-
-                                    <td>
-
-                                        <button
-                                            class="btn btn-sm btn-outline-dark">
-
-                                            <i class="bi bi-eye"></i>
-                                            Ver
-
-                                        </button>
-
+                                    <td colspan="5" class="text-center text-muted">
+                                        No hay pedidos registrados.
                                     </td>
 
                                 </tr>
@@ -364,6 +354,10 @@
                             </tbody>
 
                         </table>
+
+                        <p class="text-center text-muted mensaje-sin-resultados d-none" data-tabla="tablaPedidos">
+                            No se encontraron pedidos con ese nombre.
+                        </p>
 
                     </div>
 
@@ -373,23 +367,32 @@
 
             <!-- PRODUCTOS -->
 
-            <div class="card seccion-administracion mb-4">
+            <div class="card seccion-administracion mb-4" id="seccionProductos">
 
-                <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
 
                     <h5>
                         <i class="bi bi-basket-fill"></i>
                         Productos
                     </h5>
 
-                    <button
-                        type="button"
-                        class="btn btn-inicio-sesion btn-sm">
+                    <div class="d-flex flex-wrap align-items-center gap-2">
 
-                        <i class="bi bi-plus-lg"></i>
-                        Agregar producto
+                        <div class="input-group input-group-sm buscador-administracion">
+                            <span class="input-group-text"><i class="bi bi-search"></i></span>
+                            <input type="text" id="buscarProductos" class="form-control" placeholder="Buscar por producto...">
+                        </div>
 
-                    </button>
+                        <button
+                            type="button"
+                            class="btn btn-inicio-sesion btn-sm">
+
+                            <i class="bi bi-plus-lg"></i>
+                            Agregar producto
+
+                        </button>
+
+                    </div>
 
                 </div>
 
@@ -398,16 +401,15 @@
 
                     <div class="table-responsive">
 
-                        <table class="table table-hover align-middle">
+                        <table class="table table-hover align-middle" id="tablaProductos">
 
                             <thead>
 
                                 <tr>
 
                                     <th>Producto</th>
-                                    <th>Categoría</th>
                                     <th>Precio</th>
-                                    <th>Disponibilidad</th>
+                                    <th>Descripción</th>
                                     <th>Acción</th>
 
                                 </tr>
@@ -416,26 +418,18 @@
 
                             <tbody>
 
-                                <tr>
+                                <tr th:each="producto : ${productos}" th:attr="data-id=${producto.id}">
 
-                                    <td>
-                                        Hamburguesa Clásica
+                                    <td th:text="${producto.nombre}">
+                                        Producto
                                     </td>
 
-                                    <td>
-                                        Hamburguesas
+                                    <td th:text="${'S/ ' + #numbers.formatDecimal(producto.precio, 1, 2)}">
+                                        S/ 0.00
                                     </td>
 
-                                    <td>
-                                        S/ 15.00
-                                    </td>
-
-                                    <td>
-
-                                        <span class="badge bg-success">
-                                            Disponible
-                                        </span>
-
+                                    <td th:text="${producto.descripcion}">
+                                        Descripción
                                     </td>
 
                                     <td>
@@ -458,128 +452,10 @@
 
                                 </tr>
 
-                                <tr>
+                                <tr class="fila-vacia" th:if="${#lists.isEmpty(productos)}">
 
-                                    <td>
-                                        Hamburguesa BBQ
-                                    </td>
-
-                                    <td>
-                                        Hamburguesas
-                                    </td>
-
-                                    <td>
-                                        S/ 18.00
-                                    </td>
-
-                                    <td>
-
-                                        <span class="badge bg-success">
-                                            Disponible
-                                        </span>
-
-                                    </td>
-
-                                    <td>
-
-                                        <button
-                                            class="btn btn-sm btn-outline-primary">
-
-                                            <i class="bi bi-pencil"></i>
-
-                                        </button>
-
-                                        <button
-                                            class="btn btn-sm btn-outline-danger">
-
-                                            <i class="bi bi-trash"></i>
-
-                                        </button>
-
-                                    </td>
-
-                                </tr>
-
-                                <tr>
-
-                                    <td>
-                                        Papas Fritas
-                                    </td>
-
-                                    <td>
-                                        Complementos
-                                    </td>
-
-                                    <td>
-                                        S/ 8.00
-                                    </td>
-
-                                    <td>
-
-                                        <span class="badge bg-success">
-                                            Disponible
-                                        </span>
-
-                                    </td>
-
-                                    <td>
-
-                                        <button
-                                            class="btn btn-sm btn-outline-primary">
-
-                                            <i class="bi bi-pencil"></i>
-
-                                        </button>
-
-                                        <button
-                                            class="btn btn-sm btn-outline-danger">
-
-                                            <i class="bi bi-trash"></i>
-
-                                        </button>
-
-                                    </td>
-
-                                </tr>
-
-                                <tr>
-
-                                    <td>
-                                        Inca Kola
-                                    </td>
-
-                                    <td>
-                                        Bebidas
-                                    </td>
-
-                                    <td>
-                                        S/ 4.00
-                                    </td>
-
-                                    <td>
-
-                                        <span class="badge bg-danger">
-                                            Agotado
-                                        </span>
-
-                                    </td>
-
-                                    <td>
-
-                                        <button
-                                            class="btn btn-sm btn-outline-primary">
-
-                                            <i class="bi bi-pencil"></i>
-
-                                        </button>
-
-                                        <button
-                                            class="btn btn-sm btn-outline-danger">
-
-                                            <i class="bi bi-trash"></i>
-
-                                        </button>
-
+                                    <td colspan="4" class="text-center text-muted">
+                                        No hay productos registrados.
                                     </td>
 
                                 </tr>
@@ -588,77 +464,213 @@
 
                         </table>
 
+                        <p class="text-center text-muted mensaje-sin-resultados d-none" data-tabla="tablaProductos">
+                            No se encontraron productos con ese nombre.
+                        </p>
+
                     </div>
 
                 </div>
 
             </div>
 
-            <!-- ACCESOS RÁPIDOS -->
+            <!-- CLIENTES -->
 
-            <div class="card seccion-administracion">
+            <div class="card seccion-administracion mb-4" id="seccionClientes">
 
-                <div class="card-header">
+                <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
 
                     <h5>
-                        <i class="bi bi-lightning-fill"></i>
-                        Accesos rápidos
+                        <i class="bi bi-people-fill"></i>
+                        Clientes
                     </h5>
+
+                    <div class="input-group input-group-sm buscador-administracion">
+                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                        <input type="text" id="buscarClientes" class="form-control" placeholder="Buscar por usuario...">
+                    </div>
 
                 </div>
 
+                <div class="card-body">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle" id="tablaClientes">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Nombre completo</th>
+                                    <th>Correo electrónico</th>
+                                    <th>Usuario</th>
+                                    <th>Rol</th>
+                                    <th>Acción</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr th:each="cliente : ${clientes}">
+
+                                    <td th:text="${cliente.nombreCompleto}">
+                                        Nombre completo
+                                    </td>
+
+                                    <td th:text="${cliente.correo}">
+                                        correo@zonaburger.com
+                                    </td>
+
+                                    <td th:text="${cliente.usuario}">
+                                        usuario
+                                    </td>
+
+                                    <td>
+                                        <span class="badge bg-success" th:text="${cliente.rol}">
+                                            CLIENTE
+                                        </span>
+                                    </td>
+
+                                    <td>
+
+                                        <button
+                                            class="btn btn-sm btn-outline-primary">
+
+                                            <i class="bi bi-pencil"></i>
+
+                                        </button>
+
+                                        <button
+                                            class="btn btn-sm btn-outline-danger">
+
+                                            <i class="bi bi-trash"></i>
+
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr class="fila-vacia" th:if="${#lists.isEmpty(clientes)}">
+
+                                    <td colspan="5" class="text-center text-muted">
+                                        No hay clientes registrados.
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                        <p class="text-center text-muted mensaje-sin-resultados d-none" data-tabla="tablaClientes">
+                            No se encontraron clientes con ese nombre.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ADMINISTRADORES -->
+
+            <div class="card seccion-administracion" id="seccionAdministradores">
+
+                <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+
+                    <h5>
+                        <i class="bi bi-person-badge-fill"></i>
+                        Administradores
+                    </h5>
+
+                    <div class="input-group input-group-sm buscador-administracion">
+                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                        <input type="text" id="buscarAdministradores" class="form-control" placeholder="Buscar por usuario...">
+                    </div>
+
+                </div>
 
                 <div class="card-body">
 
-                    <div class="row g-3">
+                    <div class="table-responsive">
 
+                        <table class="table table-hover align-middle" id="tablaAdministradores">
 
-                        <div class="col-md-4">
+                            <thead>
 
-                            <button
-                                class="btn btn-acceso w-100">
+                                <tr>
 
-                                <i class="bi bi-cart-plus-fill"></i>
+                                    <th>Nombre completo</th>
+                                    <th>Correo electrónico</th>
+                                    <th>Usuario</th>
+                                    <th>Rol</th>
+                                    <th>Acción</th>
 
-                                <span>
-                                    Gestionar pedidos
-                                </span>
+                                </tr>
 
-                            </button>
+                            </thead>
 
-                        </div>
+                            <tbody>
 
+                                <tr th:each="admin : ${administradores}">
 
-                        <div class="col-md-4">
+                                    <td th:text="${admin.nombreCompleto}">
+                                        Nombre completo
+                                    </td>
 
-                            <button
-                                class="btn btn-acceso w-100">
+                                    <td th:text="${admin.correo}">
+                                        correo@zonaburger.com
+                                    </td>
 
-                                <i class="bi bi-box-seam-fill"></i>
+                                    <td th:text="${admin.usuario}">
+                                        admin
+                                    </td>
 
-                                <span>
-                                    Gestionar productos
-                                </span>
+                                    <td>
+                                        <span class="badge bg-dark" th:text="${admin.rol}">
+                                            ADMINISTRADOR
+                                        </span>
+                                    </td>
 
-                            </button>
+                                    <td>
 
-                        </div>
+                                        <button
+                                            class="btn btn-sm btn-outline-primary">
 
+                                            <i class="bi bi-pencil"></i>
 
-                        <div class="col-md-4">
+                                        </button>
 
-                            <button
-                                class="btn btn-acceso w-100">
+                                        <button
+                                            class="btn btn-sm btn-outline-danger">
 
-                                <i class="bi bi-people-fill"></i>
+                                            <i class="bi bi-trash"></i>
 
-                                <span>
-                                    Ver clientes
-                                </span>
+                                        </button>
 
-                            </button>
+                                    </td>
 
-                        </div>
+                                </tr>
+
+                                <tr class="fila-vacia" th:if="${#lists.isEmpty(administradores)}">
+
+                                    <td colspan="5" class="text-center text-muted">
+                                        No hay administradores registrados.
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                        <p class="text-center text-muted mensaje-sin-resultados d-none" data-tabla="tablaAdministradores">
+                            No se encontraron administradores con ese nombre.
+                        </p>
 
                     </div>
 

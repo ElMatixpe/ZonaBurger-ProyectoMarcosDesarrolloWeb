@@ -68,7 +68,7 @@
 
                         </div>
 
-                        <form id="formularioRegistro">
+                        <form id="formularioRegistro" th:action="@{/registro}" method="post">
 
                             <div class="mb-3">
 
@@ -80,7 +80,7 @@
                                     <span class="input-group-text">
                                         <i class="bi bi-card-heading"></i>
                                     </span>
-                                    <input type="text" class="form-control" id="nombreCompleto" placeholder="Ingrese su nombre completo" required>
+                                    <input type="text" class="form-control" id="nombreCompleto" name="nombreCompleto" placeholder="Ingrese su nombre completo" required>
                                 </div>
 
                                 <div id="errorNombre" class="mensaje-error"></div>
@@ -97,7 +97,7 @@
                                     <span class="input-group-text">
                                         <i class="bi bi-envelope"></i>
                                     </span>
-                                    <input type="email" class="form-control" id="correoRegistro" placeholder="ejemplo@correo.com" required>
+                                    <input type="email" class="form-control" id="correoRegistro" name="correo" placeholder="ejemplo@correo.com" required>
                                 </div>
 
                                 <div id="errorCorreo" class="mensaje-error"></div>
@@ -114,7 +114,7 @@
                                     <span class="input-group-text">
                                         <i class="bi bi-person"></i>
                                     </span>
-                                    <input type="text" class="form-control" id="usuarioRegistro" placeholder="Cree un nombre de usuario" required>
+                                    <input type="text" class="form-control" id="usuarioRegistro" name="usuario" placeholder="Cree un nombre de usuario" required>
                                 </div>
 
                                 <div id="errorUsuarioRegistro" class="mensaje-error"></div>
@@ -133,7 +133,7 @@
                                         <i class="bi bi-lock"></i>
                                     </span>
 
-                                    <input type="password" class="form-control" id="contrasenaRegistro" placeholder="Cree una contraseña" required>
+                                    <input type="password" class="form-control" id="contrasenaRegistro" name="contrasena" placeholder="Cree una contraseña" required>
 
                                     <button type="button" class="btn btn-outline-secondary" id="btnMostrarContrasena">
                                         <i class="bi bi-eye" id="iconoContrasena"></i>
@@ -157,7 +157,10 @@
                                 Registrarse
                             </button>
 
-                            <div id="mensajeRegistro" class="alert mt-3 d-none" role="alert"></div>
+                            <div th:if="${errorRegistro}" class="alert alert-danger mt-3" role="alert">
+                                <i class="bi bi-exclamation-triangle-fill"></i>
+                                <span th:text="${errorRegistro}">No se pudo registrar la cuenta.</span>
+                            </div>
 
                         </form>
 

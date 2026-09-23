@@ -168,7 +168,14 @@
                             </button>
 
                             <!-- MENSAJE DE RESULTADO -->
-                            <div id="mensajeInicioSesion" class="alert mt-3 d-none" role="alert">
+                            <div th:if="${errorLogin}" class="alert alert-danger mt-3" role="alert">
+                                <i class="bi bi-exclamation-triangle-fill"></i>
+                                <span th:text="${errorLogin}">Usuario o contraseña incorrectos.</span>
+                            </div>
+
+                            <div th:if="${registroExitoso}" class="alert alert-success mt-3" role="alert">
+                                <i class="bi bi-check-circle-fill"></i>
+                                <span th:text="${registroExitoso}">Cuenta creada correctamente.</span>
                             </div>
 
                         </form>
