@@ -317,20 +317,6 @@ body {
     color: #111111;
 }
 
-/* PIE DE PÁGINA */
-
-.pie-pagina-zona {
-    background-color: #111111;
-    color: #ffffff;
-    text-align: center;
-    padding: 15px;
-}
-
-.pie-pagina-zona p {
-    margin: 0;
-    font-size: 14px;
-}
-
 /* DISEÑO RESPONSIVE */
 
 @media (max-width: 991px) {
