@@ -38,7 +38,7 @@ public class CarritoController {
         if (producto != null) {
             carritoService.agregarProducto(producto);
         }
-        return "redirect:/productos";
+        return "redirect:/carrito";
     }
 
     @GetMapping("/carrito/aumentar/{id}")
