@@ -23,13 +23,7 @@
 
 <body>
 
-    <!-- ============================================================
-         BARRA DE NAVEGACIÓN
-         Recibe un parámetro:
-           activa -> nombre de la página actual, para marcar su enlace
-                     ('inicio', 'productos', 'detalle', 'contacto',
-                      'login', 'registro', 'admin')
-         ============================================================ -->
+    <!-- BARRA DE NAVEGACIÓN -->
     <nav th:fragment="barraNavegacion(activa)" class="navbar navbar-expand-lg navbar-dark barra-navegacion-zona">
         <div class="container">
 
@@ -179,9 +173,7 @@
     </nav>
 
 
-    <!-- ============================================================
-         PIE DE PÁGINA
-         ============================================================ -->
+    <!-- PIE DE PÁGINA -->
     <footer th:fragment="pie" class="footer">
         <div class="footer-redes">
             <div class="contenedor-imagen">
@@ -232,9 +224,7 @@
     </footer>
 
 
-    <!-- ============================================================
-         SCRIPTS COMUNES (Bootstrap)
-         ============================================================ -->
+    <!-- SCRIPTS BOOSTRAP -->
     <th:block th:fragment="scripts">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </th:block>

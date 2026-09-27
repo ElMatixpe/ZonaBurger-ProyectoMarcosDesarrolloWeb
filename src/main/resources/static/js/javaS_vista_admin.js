@@ -1,16 +1,6 @@
 /* ADMINISTRACIÓN - ZONA BURGER */
-/* Las tablas de Pedidos, Productos, Clientes y Administradores se llenan
-   con datos reales que vienen del controlador (ProductoService,
-   UsuarioService y PedidoService). Este script agrega interacciones sobre
-   esos datos (ver pedido, agregar/editar/eliminar producto, cliente o
-   administrador, buscador y accesos rápidos). Las acciones de
-   editar/eliminar/agregar todavía son simulaciones en pantalla: el
-   backend no tiene endpoints para persistir esos cambios.        */
 
-/* ============================================================
-   ACCESOS RÁPIDOS: llevan directo a cada sección de la página
-   ============================================================ */
-
+/* ACCESOS RÁPIDOS: llevan directo a cada sección de la página */
 const botonesAcceso =
     document.querySelectorAll(".btn-acceso");
 
@@ -29,9 +19,7 @@ botonesAcceso.forEach(function (boton) {
 
 });
 
-/* ============================================================
-   PEDIDOS: ver detalle
-   ============================================================ */
+/* PEDIDOS: ver detalle */
 
 const botonesVerPedido =
     document.querySelectorAll("#tablaPedidos .btn-outline-dark");
@@ -67,11 +55,7 @@ botonesVerPedido.forEach(function (boton) {
 
 });
 
-/* ============================================================
-   PRODUCTOS
-   ============================================================ */
-
-/* AGREGAR PRODUCTO (simulado en pantalla) */
+/* AGREGAR PRODUCTO */
 
 const botonAgregarProducto =
     document.querySelector(".btn-inicio-sesion");
@@ -139,8 +123,7 @@ if (botonAgregarProducto) {
 
 }
 
-/* EDITAR / ELIMINAR PRODUCTO (simulado en pantalla) */
-/* Columnas: 0 = Producto, 1 = Precio, 2 = Descripción, 3 = Acción */
+/* EDITAR / ELIMINAR PRODUCTO*/
 
 document.querySelectorAll("#tablaProductos .btn-outline-primary").forEach(function (boton) {
 
@@ -223,11 +206,7 @@ document.querySelectorAll("#tablaProductos .btn-outline-danger").forEach(functio
 
 });
 
-/* ============================================================
-   CLIENTES Y ADMINISTRADORES
-   Ambas tablas comparten la misma estructura de columnas:
-   0 = Nombre, 1 = Correo, 2 = Usuario, 3 = Rol, 4 = Acción
-   ============================================================ */
+/*  CLIENTES Y ADMINISTRADORES */
 
 function habilitarEdicionUsuarios(idTabla, etiqueta) {
 
@@ -295,9 +274,7 @@ function habilitarEdicionUsuarios(idTabla, etiqueta) {
 habilitarEdicionUsuarios("tablaClientes", "Cliente");
 habilitarEdicionUsuarios("tablaAdministradores", "Administrador");
 
-/* ============================================================
-   BUSCADORES POR NOMBRE (uno por cada tabla)
-   ============================================================ */
+/* BUSCADORES POR NOMBRE */
 
 function habilitarBusqueda(idInput, idTabla, indiceColumna) {
 

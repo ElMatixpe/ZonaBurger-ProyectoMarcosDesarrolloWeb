@@ -12,7 +12,6 @@ body {
     color: #333;
 }
 
-
 /* BARRA DE NAVEGACIÓN */
 
 .barra-navegacion-zona {
@@ -60,9 +59,6 @@ body {
 .barra-navegacion-zona .nav-link i {
     margin-right: 6px;
 }
-
-
-
 
 /* SECCIÓN DE INICIO DE SESIÓN */
 
@@ -129,7 +125,6 @@ body {
     margin-right: 10px;
 }
 
-
 /* TARJETA DE INICIO DE SESIÓN */
 
 .contenedor-inicio-sesion {
@@ -172,7 +167,6 @@ body {
     margin-bottom: 0;
 }
 
-
 /* FORMULARIO */
 
 .form-label {
@@ -191,7 +185,6 @@ body {
     border-color: #ffc107;
     box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.20);
 }
-
 
 /* BOTÓN DE INICIO DE SESIÓN */
 
@@ -214,7 +207,6 @@ body {
     margin-right: 7px;
 }
 
-
 /* ENLACE PARA RECUPERAR CONTRASEÑA */
 
 .enlace-recuperar {
@@ -226,7 +218,6 @@ body {
 .enlace-recuperar:hover {
     text-decoration: underline;
 }
-
 
 /* REGISTRO */
 
@@ -251,7 +242,6 @@ body {
 .registro a:hover {
     text-decoration: underline;
 }
-
 
 /* MENSAJES DE ERROR */
 
@@ -283,7 +273,6 @@ body {
     }
 
 }
-
 
 @media (max-width: 576px) {
 
