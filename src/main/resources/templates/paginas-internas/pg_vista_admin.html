@@ -2,18 +2,15 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragmentos/layout :: cabecera('Zona Burger - Administración', 'estilo_vista_admin.css')}">
 </head>
-
 <body>
 
     <!-- BARRA DE NAVEGACIÓN -->
     <nav th:replace="~{fragmentos/layout :: barraNavegacion('admin')}"></nav>
 
-
     <!-- CONTENIDO PRINCIPAL -->
-    <main class="contenedor-administracion">
+    <main class="contenedor-administracion" th:attr="data-base=@{/vista-admin}">
 
         <div class="container py-5">
-
 
             <!-- ENCABEZADO -->
             <div class="encabezado-administracion mb-4">
@@ -32,7 +29,6 @@
 
                 </div>
 
-
                 <div class="usuario-administrador">
 
                     <i class="bi bi-person-circle"></i>
@@ -46,11 +42,21 @@
                         <small th:text="${session.usuarioActivo != null ? session.usuarioActivo.rol : 'Sesión activa'}">
                             Sesión activa
                         </small>
-
                     </div>
-
                 </div>
+            </div>
 
+            <!-- MENSAJES -->
+            <div class="alert alert-success alert-dismissible fade show" th:if="${mensajeAdmin != null}">
+                <i class="bi bi-check-circle-fill"></i>
+                <span th:text="${mensajeAdmin}">Operación realizada correctamente.</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
+
+            <div class="alert alert-danger alert-dismissible fade show" th:if="${errorAdmin != null}">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                <span th:text="${errorAdmin}">Ocurrió un error.</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
             </div>
 
             <!-- ACCESOS RÁPIDOS -->
@@ -65,7 +71,6 @@
                     </h5>
 
                 </div>
-
 
                 <div class="card-body">
 
@@ -89,7 +94,6 @@
 
                         </div>
 
-
                         <div class="col-md-4">
 
                             <button
@@ -106,7 +110,6 @@
                             </button>
 
                         </div>
-
 
                         <div class="col-md-4">
 
@@ -131,9 +134,7 @@
 
             </div>
 
-
             <!-- TARJETAS DE RESUMEN -->
-
             <div class="row g-4 mb-5">
 
                 <!-- PEDIDOS -->
@@ -166,7 +167,6 @@
                     </div>
 
                 </div>
-
 
                 <!-- PRODUCTOS -->
                 <div class="col-md-6 col-xl-3">
@@ -231,7 +231,6 @@
 
                 </div>
 
-
                 <!-- VENTAS -->
                 <div class="col-md-6 col-xl-3">
 
@@ -266,7 +265,6 @@
             </div>
 
             <!-- PEDIDOS -->
-
             <div class="card seccion-administracion mb-4" id="seccionPedidos">
 
                 <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
@@ -303,7 +301,6 @@
 
                             </thead>
 
-
                             <tbody>
 
                                 <tr th:each="pedido : ${pedidos}">
@@ -330,13 +327,23 @@
 
                                     <td>
 
-                                        <button
-                                            class="btn btn-sm btn-outline-dark">
-
+                                        <button type="button" class="btn btn-sm btn-outline-dark btn-ver-pedido"
+                                            title="Ver detalle"
+                                            th:attr="data-id=${pedido.id},data-cliente=${pedido.cliente},data-estado=${pedido.estado},data-total=${'S/ ' + #numbers.formatDecimal(pedido.total, 1, 2)}">
                                             <i class="bi bi-eye"></i>
-                                            Ver
-
                                         </button>
+
+                                        <button type="button" class="btn btn-sm btn-outline-primary btn-editar-pedido"
+                                            title="Cambiar estado"
+                                            th:attr="data-id=${pedido.id},data-cliente=${pedido.cliente},data-estado=${pedido.estado}">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+
+                                        <!-- Productos del pedido (los lee el modal de detalle) -->
+                                        <div class="d-none detalle-items">
+                                            <div th:each="item : ${pedido.items}" class="item-detalle"
+                                                th:attr="data-nombre=${item.producto.nombre},data-cantidad=${item.cantidad},data-subtotal=${'S/ ' + #numbers.formatDecimal(item.subtotal, 1, 2)}"></div>
+                                        </div>
 
                                     </td>
 
@@ -365,7 +372,6 @@
             </div>
 
             <!-- PRODUCTOS -->
-
             <div class="card seccion-administracion mb-4" id="seccionProductos">
 
                 <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
@@ -384,7 +390,8 @@
 
                         <button
                             type="button"
-                            class="btn btn-inicio-sesion btn-sm">
+                            class="btn btn-inicio-sesion btn-sm"
+                            id="btnAgregarProducto">
 
                             <i class="bi bi-plus-lg"></i>
                             Agregar producto
@@ -394,7 +401,6 @@
                     </div>
 
                 </div>
-
 
                 <div class="card-body">
 
@@ -417,7 +423,7 @@
 
                             <tbody>
 
-                                <tr th:each="producto : ${productos}" th:attr="data-id=${producto.id}">
+                                <tr th:each="producto : ${productos}">
 
                                     <td th:text="${producto.nombre}">
                                         Producto
@@ -433,18 +439,16 @@
 
                                     <td>
 
-                                        <button
-                                            class="btn btn-sm btn-outline-primary">
-
+                                        <button type="button" class="btn btn-sm btn-outline-primary btn-editar-producto"
+                                            title="Editar"
+                                            th:attr="data-id=${producto.id},data-nombre=${producto.nombre},data-descripcion=${producto.descripcion},data-precio=${#numbers.formatDecimal(producto.precio, 1, 2, 'POINT')},data-imagen=${producto.imagen}">
                                             <i class="bi bi-pencil"></i>
-
                                         </button>
 
-                                        <button
-                                            class="btn btn-sm btn-outline-danger">
-
+                                        <button type="button" class="btn btn-sm btn-outline-danger btn-eliminar"
+                                            title="Eliminar"
+                                            th:attr="data-url=@{/vista-admin/productos/{id}/eliminar(id=${producto.id})},data-texto=${'el producto ' + producto.nombre}">
                                             <i class="bi bi-trash"></i>
-
                                         </button>
 
                                     </td>
@@ -474,7 +478,6 @@
             </div>
 
             <!-- CLIENTES -->
-
             <div class="card seccion-administracion mb-4" id="seccionClientes">
 
                 <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
@@ -529,24 +532,22 @@
 
                                     <td>
                                         <span class="badge bg-success" th:text="${cliente.rol}">
-                                            CLIENTE
+                                            ROL
                                         </span>
                                     </td>
 
                                     <td>
 
-                                        <button
-                                            class="btn btn-sm btn-outline-primary">
-
+                                        <button type="button" class="btn btn-sm btn-outline-primary btn-editar-usuario"
+                                            title="Editar"
+                                            th:attr="data-id=${cliente.id},data-nombre=${cliente.nombreCompleto},data-correo=${cliente.correo},data-usuario=${cliente.usuario},data-rol=${cliente.rol}">
                                             <i class="bi bi-pencil"></i>
-
                                         </button>
 
-                                        <button
-                                            class="btn btn-sm btn-outline-danger">
-
+                                        <button type="button" class="btn btn-sm btn-outline-danger btn-eliminar"
+                                            title="Eliminar"
+                                            th:attr="data-url=@{/vista-admin/usuarios/{id}/eliminar(id=${cliente.id})},data-texto=${'a ' + cliente.usuario}">
                                             <i class="bi bi-trash"></i>
-
                                         </button>
 
                                     </td>
@@ -568,15 +569,11 @@
                         <p class="text-center text-muted mensaje-sin-resultados d-none" data-tabla="tablaClientes">
                             No se encontraron clientes con ese nombre.
                         </p>
-
                     </div>
-
                 </div>
-
             </div>
 
             <!-- ADMINISTRADORES -->
-
             <div class="card seccion-administracion" id="seccionAdministradores">
 
                 <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
@@ -586,11 +583,24 @@
                         Administradores
                     </h5>
 
-                    <div class="input-group input-group-sm buscador-administracion">
-                        <span class="input-group-text"><i class="bi bi-search"></i></span>
-                        <input type="text" id="buscarAdministradores" class="form-control" placeholder="Buscar por usuario...">
-                    </div>
+                    <div class="d-flex flex-wrap align-items-center gap-2">
 
+                        <div class="input-group input-group-sm buscador-administracion">
+                            <span class="input-group-text"><i class="bi bi-search"></i></span>
+                            <input type="text" id="buscarAdministradores" class="form-control" placeholder="Buscar por usuario...">
+                        </div>
+
+                        <button
+                            type="button"
+                            class="btn btn-inicio-sesion btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalNuevoAdministrador">
+
+                            <i class="bi bi-person-plus-fill"></i>
+                            Agregar administrador
+
+                        </button>
+                    </div>
                 </div>
 
                 <div class="card-body">
@@ -626,29 +636,27 @@
                                     </td>
 
                                     <td th:text="${admin.usuario}">
-                                        admin
+                                        usuario
                                     </td>
 
                                     <td>
                                         <span class="badge bg-dark" th:text="${admin.rol}">
-                                            ADMINISTRADOR
+                                            ROL
                                         </span>
                                     </td>
 
                                     <td>
 
-                                        <button
-                                            class="btn btn-sm btn-outline-primary">
-
+                                        <button type="button" class="btn btn-sm btn-outline-primary btn-editar-usuario"
+                                            title="Editar"
+                                            th:attr="data-id=${admin.id},data-nombre=${admin.nombreCompleto},data-correo=${admin.correo},data-usuario=${admin.usuario},data-rol=${admin.rol}">
                                             <i class="bi bi-pencil"></i>
-
                                         </button>
 
-                                        <button
-                                            class="btn btn-sm btn-outline-danger">
-
+                                        <button type="button" class="btn btn-sm btn-outline-danger btn-eliminar"
+                                            title="Eliminar"
+                                            th:attr="data-url=@{/vista-admin/usuarios/{id}/eliminar(id=${admin.id})},data-texto=${'a ' + admin.usuario}">
                                             <i class="bi bi-trash"></i>
-
                                         </button>
 
                                     </td>
@@ -672,14 +680,347 @@
                         </p>
 
                     </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL: AGREGAR NUEVO ADMINISTRADOR -->
+    <div class="modal fade" id="modalNuevoAdministrador" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <form th:action="@{/vista-admin/administradores/agregar}" method="post" id="formularioNuevoAdministrador">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="bi bi-person-plus-fill"></i>
+                            Agregar nuevo administrador
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+                            <label for="nombreNuevoAdmin" class="form-label">Nombre completo</label>
+                            <input type="text" class="form-control" id="nombreNuevoAdmin" name="nombreCompleto"
+                                placeholder="Ingrese el nombre completo" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="correoNuevoAdmin" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="correoNuevoAdmin" name="correo"
+                                placeholder="ejemplo@zonaburger.com" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="usuarioNuevoAdmin" class="form-label">Usuario</label>
+                            <input type="text" class="form-control" id="usuarioNuevoAdmin" name="usuario"
+                                placeholder="Nombre de usuario" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="contrasenaNuevoAdmin" class="form-label">Contraseña</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="contrasenaNuevoAdmin" name="contrasena"
+                                    placeholder="Cree una contraseña segura"
+                                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s])\S{8,}"
+                                    title="Mínimo 8 caracteres, una mayúscula, una minúscula, un número y un signo especial (sin espacios)."
+                                    required>
+                                <button type="button" class="btn btn-outline-secondary btn-ojo-contrasena"
+                                    data-objetivo="contrasenaNuevoAdmin" aria-label="Mostrar u ocultar contraseña">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <div class="form-text">
+                                Mínimo 8 caracteres, con una mayúscula, una minúscula, un número y un signo especial.
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-dark">
+                            <i class="bi bi-check-lg"></i>
+                            Guardar administrador
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: AGREGAR / EDITAR PRODUCTO -->
+    <div class="modal fade" id="modalProducto" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <form method="post" id="formularioProducto">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="bi bi-basket-fill"></i>
+                            <span id="tituloModalProducto">Agregar producto</span>
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+                            <label for="productoNombre" class="form-label">Nombre del producto</label>
+                            <input type="text" class="form-control" id="productoNombre" name="nombre"
+                                maxlength="100" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="productoDescripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="productoDescripcion" name="descripcion"
+                                rows="3" maxlength="255" required></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label for="productoPrecio" class="form-label">Precio (S/)</label>
+                                <input type="number" class="form-control" id="productoPrecio" name="precio"
+                                    step="0.01" min="0.01" required>
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <label for="productoImagen" class="form-label">Imagen (archivo)</label>
+                                <input type="text" class="form-control" id="productoImagen" name="imagen"
+                                    placeholder="ejemplo.png" maxlength="100" required>
+                            </div>
+                        </div>
+
+                        <div class="form-text">
+                            La imagen debe estar en la carpeta <strong>img</strong> del proyecto.
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-dark">
+                            <i class="bi bi-check-lg"></i>
+                            Guardar
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: EDITAR CLIENTE / ADMINISTRADOR -->
+    <div class="modal fade" id="modalUsuario" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <form method="post" id="formularioUsuario">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="bi bi-pencil-square"></i>
+                            <span id="tituloModalUsuario">Editar usuario</span>
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+                            <label for="usuarioNombre" class="form-label">Nombre completo</label>
+                            <input type="text" class="form-control" id="usuarioNombre" name="nombreCompleto"
+                                maxlength="120" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="usuarioCorreo" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="usuarioCorreo" name="correo"
+                                maxlength="120" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="usuarioUsuario" class="form-label">Usuario</label>
+                            <input type="text" class="form-control" id="usuarioUsuario" name="usuario"
+                                maxlength="50" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="usuarioContrasena" class="form-label">Nueva contraseña</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="usuarioContrasena" name="contrasena"
+                                    placeholder="Dejar vacío para no cambiarla"
+                                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s])\S{8,}"
+                                    title="Mínimo 8 caracteres, una mayúscula, una minúscula, un número y un signo especial (sin espacios)."
+                                    autocomplete="new-password">
+                                <button type="button" class="btn btn-outline-secondary btn-ojo-contrasena"
+                                    data-objetivo="usuarioContrasena" aria-label="Mostrar u ocultar contraseña">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <div class="form-text">
+                                Si la dejas vacía se conserva la actual. Mínimo 8 caracteres, con mayúscula,
+                                minúscula, número y signo especial.
+                            </div>
+                        </div>
+
+                        <div class="mb-1">
+                            <label class="form-label">Rol</label>
+                            <input type="text" class="form-control" id="usuarioRol" disabled>
+                            <div class="form-text">El rol no se puede modificar.</div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-dark">
+                            <i class="bi bi-check-lg"></i>
+                            Guardar cambios
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: CAMBIAR ESTADO DE PEDIDO -->
+    <div class="modal fade" id="modalPedidoEstado" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <form method="post" id="formularioPedidoEstado">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="bi bi-pencil-square"></i>
+                            Cambiar estado del pedido <span id="estadoNumeroPedido"></span>
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+                            <label class="form-label">Cliente</label>
+                            <input type="text" class="form-control" id="estadoClientePedido" disabled>
+                        </div>
+
+                        <div class="mb-1">
+                            <label for="estadoPedido" class="form-label">Estado</label>
+                            <select class="form-select" id="estadoPedido" name="estado" required>
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="En preparación">En preparación</option>
+                                <option value="Entregado">Entregado</option>
+                                <option value="Cancelado">Cancelado</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-dark">
+                            <i class="bi bi-check-lg"></i>
+                            Guardar estado
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: DETALLE DE PEDIDO -->
+    <div class="modal fade" id="modalPedidoDetalle" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-receipt"></i>
+                        Detalle del pedido <span id="detalleNumeroPedido"></span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <p class="mb-1"><strong>Cliente:</strong> <span id="detalleClientePedido"></span></p>
+                    <p class="mb-3"><strong>Estado:</strong> <span id="detalleEstadoPedido"></span></p>
+
+                    <table class="table table-sm align-middle mb-2">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th class="text-center">Cant.</th>
+                                <th class="text-end">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detalleItemsPedido"></tbody>
+                    </table>
+
+                    <p class="text-end fs-5 mb-0"><strong>Total: <span id="detalleTotalPedido"></span></strong></p>
 
                 </div>
 
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+
             </div>
-
         </div>
+    </div>
 
-    </main>
+    <!-- MODAL: CONFIRMAR ELIMINACIÓN -->
+    <div class="modal fade" id="modalEliminar" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <form method="post" id="formularioEliminar">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="bi bi-exclamation-triangle-fill text-danger"></i>
+                            Confirmar eliminación
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p class="mb-1">¿Está seguro de eliminar <strong id="textoEliminar"></strong>?</p>
+                        <p class="text-muted mb-0">Esta acción no se puede deshacer.</p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            No, cancelar
+                        </button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash"></i>
+                            Sí, eliminar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- SCRIPTS -->
     <th:block th:replace="~{fragmentos/layout :: scripts}"></th:block>
@@ -688,5 +1029,4 @@
     <script th:src="@{/js/javaS_vista_admin.js}"></script>
 
 </body>
-
 </html>

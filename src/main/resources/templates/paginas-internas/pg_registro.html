@@ -133,12 +133,19 @@
                                         <i class="bi bi-lock"></i>
                                     </span>
 
-                                    <input type="password" class="form-control" id="contrasenaRegistro" name="contrasena" placeholder="Cree una contraseña" required>
+                                    <input type="password" class="form-control" id="contrasenaRegistro" name="contrasena" placeholder="Cree una contraseña"
+                                        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s])\S{8,}"
+                                        title="Mínimo 8 caracteres, una mayúscula, una minúscula, un número y un signo especial (sin espacios)."
+                                        required>
 
                                     <button type="button" class="btn btn-outline-secondary" id="btnMostrarContrasena">
                                         <i class="bi bi-eye" id="iconoContrasena"></i>
                                     </button>
 
+                                </div>
+
+                                <div class="form-text">
+                                    Mínimo 8 caracteres, con una mayúscula, una minúscula, un número y un signo especial.
                                 </div>
 
                                 <div id="errorContrasenaRegistro" class="mensaje-error"></div>

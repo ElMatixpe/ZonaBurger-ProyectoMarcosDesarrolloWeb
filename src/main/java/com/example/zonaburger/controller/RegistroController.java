@@ -5,8 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.example.zonaburger.service.UsuarioService;
+import com.example.zonaburger.util.ValidadorContrasena;
 
 @Controller
 public class RegistroController {
@@ -29,6 +29,11 @@ public class RegistroController {
             @RequestParam("usuario") String usuario,
             @RequestParam("contrasena") String contrasena,
             Model model) {
+
+        if (!ValidadorContrasena.esValida(contrasena)) {
+            model.addAttribute("errorRegistro", ValidadorContrasena.MENSAJE);
+            return "paginas-internas/pg_registro";
+        }
 
         if (usuarioService.existeUsuario(usuario)) {
             model.addAttribute("errorRegistro", "El usuario ya está registrado.");

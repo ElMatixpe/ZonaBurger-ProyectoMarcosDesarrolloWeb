@@ -1,57 +1,118 @@
 package com.example.zonaburger.service;
 
-import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import com.example.zonaburger.model.Usuario;
+import com.example.zonaburger.repository.UsuarioRepository;
+import com.example.zonaburger.util.ValidadorContrasena;
 
 @Service
 public class UsuarioService {
 
-    private final List<Usuario> usuarios = new ArrayList<>();
+    private final UsuarioRepository usuarioRepository;
 
-    public UsuarioService() {
-        usuarios.add(new Usuario("elMati", "123456", "CLIENTE", "Matías Cliente", "elMati@zonaburger.com"));
-        usuarios.add(new Usuario("Tavo488", "987654", "CLIENTE", "Gustavo Cliente", "tavo488@zonaburger.com"));
-        usuarios.add(new Usuario("admin", "admin123", "ADMINISTRADOR", "Administrador Zona Burger", "admin@zonaburger.com"));
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
     }
 
     public Usuario validarUsuario(String usuario, String contrasena) {
-        for (Usuario u : usuarios) {
-            if (u.getUsuario().equalsIgnoreCase(usuario) && u.getContrasena().equals(contrasena)) {
-                return u;
-            }
+        Optional<Usuario> encontrado = usuarioRepository.findByUsuarioIgnoreCase(usuario);
+
+        // La contraseña se compara aqui
+        if (encontrado.isPresent() && encontrado.get().getContrasena().equals(contrasena)) {
+            return encontrado.get();
         }
         return null;
     }
 
     public boolean existeUsuario(String usuario) {
-        return usuarios.stream().anyMatch(u -> u.getUsuario().equalsIgnoreCase(usuario));
+        return usuarioRepository.existsByUsuarioIgnoreCase(usuario);
     }
 
     public boolean existeCorreo(String correo) {
-        return usuarios.stream().anyMatch(u -> u.getCorreo().equalsIgnoreCase(correo));
+        return usuarioRepository.existsByCorreoIgnoreCase(correo);
     }
 
     public boolean registrarUsuario(String nombreCompleto, String correo, String usuario, String contrasena) {
+        return registrar(nombreCompleto, correo, usuario, contrasena, "CLIENTE");
+    }
+
+    public boolean registrarAdministrador(String nombreCompleto, String correo, String usuario, String contrasena) {
+        return registrar(nombreCompleto, correo, usuario, contrasena, "ADMINISTRADOR");
+    }
+
+    private boolean registrar(String nombreCompleto, String correo, String usuario, String contrasena, String rol) {
         if (existeUsuario(usuario) || existeCorreo(correo)) {
             return false;
         }
-        usuarios.add(new Usuario(usuario, contrasena, "CLIENTE", nombreCompleto, correo));
+        usuarioRepository.save(new Usuario(usuario, contrasena, rol, nombreCompleto, correo));
         return true;
     }
 
-    public List<Usuario> listarUsuarios() { return usuarios; }
-
-    public List<Usuario> listarPorRol(String rol) {
-        List<Usuario> resultado = new ArrayList<>();
-        for (Usuario u : usuarios) {
-            if (u.getRol().equalsIgnoreCase(rol)) resultado.add(u);
-        }
-        return resultado;
+    public List<Usuario> listarUsuarios() {
+        return usuarioRepository.findAll();
     }
 
-    public List<Usuario> listarClientes() { return listarPorRol("CLIENTE"); }
-    public List<Usuario> listarAdministradores() { return listarPorRol("ADMINISTRADOR"); }
+    public List<Usuario> listarPorRol(String rol) {
+        return usuarioRepository.findByRolIgnoreCase(rol);
+    }
+
+    public List<Usuario> listarClientes() {
+        return listarPorRol("CLIENTE");
+    }
+
+    public List<Usuario> listarAdministradores() {
+        return listarPorRol("ADMINISTRADOR");
+    }
+
+    public Usuario buscarPorId(int id) {
+        return usuarioRepository.findById(id).orElse(null);
+    }
+
+    /*Actualiza nombre, correo, usuario y (opcionalmente) contraseña. El rol no se cambia.*/
+    public String actualizarUsuario(int id, String nombreCompleto, String correo,
+            String usuario, String contrasena) {
+
+        Usuario actual = buscarPorId(id);
+        if (actual == null) {
+            return "El usuario no existe.";
+        }
+
+        String nombre = nombreCompleto == null ? "" : nombreCompleto.trim();
+        String mail = correo == null ? "" : correo.trim();
+        String user = usuario == null ? "" : usuario.trim();
+
+        if (nombre.isEmpty() || mail.isEmpty() || user.isEmpty()) {
+            return "Nombre, correo y usuario son obligatorios.";
+        }
+
+        Optional<Usuario> conMismoUsuario = usuarioRepository.findByUsuarioIgnoreCase(user);
+        if (conMismoUsuario.isPresent() && !conMismoUsuario.get().getId().equals(id)) {
+            return "El usuario ya está registrado.";
+        }
+
+        Optional<Usuario> conMismoCorreo = usuarioRepository.findByCorreoIgnoreCase(mail);
+        if (conMismoCorreo.isPresent() && !conMismoCorreo.get().getId().equals(id)) {
+            return "El correo electrónico ya está registrado.";
+        }
+
+        boolean cambiaContrasena = contrasena != null && !contrasena.isEmpty();
+        if (cambiaContrasena && !ValidadorContrasena.esValida(contrasena)) {
+            return ValidadorContrasena.MENSAJE;
+        }
+
+        actual.setNombreCompleto(nombre);
+        actual.setCorreo(mail);
+        actual.setUsuario(user);
+        if (cambiaContrasena) {
+            actual.setContrasena(contrasena);
+        }
+        usuarioRepository.save(actual);
+        return null;
+    }
+
+    public void eliminarUsuario(int id) {
+        usuarioRepository.deleteById(id);
+    }
 }

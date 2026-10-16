@@ -1,6 +1,6 @@
-/* ADMINISTRACIÓN - ZONA BURGER */
+/* ADMINISTRACIÓN ZONA BURGER */
 
-/* ACCESOS RÁPIDOS: llevan directo a cada sección de la página */
+/* ACCESOS RÁPIDOS */
 const botonesAcceso =
     document.querySelectorAll(".btn-acceso");
 
@@ -19,263 +19,178 @@ botonesAcceso.forEach(function (boton) {
 
 });
 
-/* PEDIDOS: ver detalle */
+const baseAdmin =
+    document.querySelector("main.contenedor-administracion").dataset.base || "/vista-admin";
 
-const botonesVerPedido =
-    document.querySelectorAll("#tablaPedidos .btn-outline-dark");
+function abrirModal(idModal) {
 
-botonesVerPedido.forEach(function (boton) {
-
-    boton.addEventListener("click", function () {
-
-        const fila = boton.closest("tr");
-
-        const numeroPedido =
-            fila.cells[4].textContent.trim();
-
-        const cliente =
-            fila.cells[1].textContent.trim();
-
-        const total =
-            fila.cells[4].textContent.trim();
-
-        const estado =
-            fila.cells[3].textContent.trim();
-
-
-        alert(
-            "DETALLE DEL PEDIDO\n\n" +
-            "Pedido: " + numeroPedido + "\n" +
-            "Cliente: " + cliente + "\n" +
-            "Total: " + total + "\n" +
-            "Estado: " + estado
-        );
-
-    });
-
-});
-
-/* AGREGAR PRODUCTO */
-
-const botonAgregarProducto =
-    document.querySelector(".btn-inicio-sesion");
-
-
-if (botonAgregarProducto) {
-
-    botonAgregarProducto.addEventListener("click", function () {
-
-        const nombreProducto =
-            prompt("Ingrese el nombre del producto:");
-
-        if (nombreProducto === null) {
-            return;
-        }
-
-        if (nombreProducto.trim() === "") {
-
-            alert("Debe ingresar el nombre del producto.");
-
-            return;
-        }
-
-
-        const descripcion =
-            prompt("Ingrese la descripción del producto:");
-
-        if (descripcion === null) {
-            return;
-        }
-
-        if (descripcion.trim() === "") {
-
-            alert("Debe ingresar la descripción.");
-
-            return;
-        }
-
-
-        const precio =
-            prompt("Ingrese el precio del producto:");
-
-        if (precio === null) {
-            return;
-        }
-
-        if (precio.trim() === "") {
-
-            alert("Debe ingresar el precio.");
-
-            return;
-        }
-
-
-        alert(
-            "Producto agregado correctamente.\n\n" +
-            "Nota: este panel aún no guarda el producto en el servidor, " +
-            "solo lo simula en pantalla.\n\n" +
-            "Producto: " + nombreProducto + "\n" +
-            "Descripción: " + descripcion + "\n" +
-            "Precio: S/ " + precio
-        );
-
-    });
+    bootstrap.Modal.getOrCreateInstance(document.getElementById(idModal)).show();
 
 }
 
-/* EDITAR / ELIMINAR PRODUCTO*/
-
-document.querySelectorAll("#tablaProductos .btn-outline-primary").forEach(function (boton) {
+/* MOSTRAR / OCULTAR CONTRASEÑA */
+document.querySelectorAll(".btn-ojo-contrasena").forEach(function (boton) {
 
     boton.addEventListener("click", function () {
 
-        const fila = boton.closest("tr");
+        const campo = document.getElementById(boton.dataset.objetivo);
+        const icono = boton.querySelector("i");
+        const mostrar = campo.type === "password";
 
-        const productoActual =
-            fila.cells[4].textContent.trim();
-
-        const precioActual =
-            fila.cells[1].textContent.trim();
-
-
-        const nuevoNombre =
-            prompt("Editar nombre del producto:", productoActual);
-
-        if (nuevoNombre === null) {
-            return;
-        }
-
-        if (nuevoNombre.trim() === "") {
-            alert("El nombre no puede estar vacío.");
-            return;
-        }
-
-
-        const nuevoPrecio =
-            prompt(
-                "Editar precio del producto:",
-                precioActual.replace("S/", "").trim()
-            );
-
-        if (nuevoPrecio === null) {
-            return;
-        }
-
-        if (nuevoPrecio.trim() === "") {
-            alert("El precio no puede estar vacío.");
-            return;
-        }
-
-
-        fila.cells[4].textContent = nuevoNombre;
-        fila.cells[1].textContent = "S/ " + nuevoPrecio;
-
-        alert(
-            "Producto actualizado en pantalla.\n\n" +
-            "Nota: el cambio todavía no se guarda en el servidor."
-        );
+        campo.type = mostrar ? "text" : "password";
+        icono.classList.toggle("bi-eye", !mostrar);
+        icono.classList.toggle("bi-eye-slash", mostrar);
 
     });
 
 });
 
-document.querySelectorAll("#tablaProductos .btn-outline-danger").forEach(function (boton) {
+document.querySelectorAll(".modal").forEach(function (modal) {
 
-    boton.addEventListener("click", function () {
+    modal.addEventListener("hidden.bs.modal", function () {
 
-        const fila = boton.closest("tr");
+        modal.querySelectorAll(".btn-ojo-contrasena").forEach(function (boton) {
 
-        const nombreProducto =
-            fila.cells[4].textContent.trim();
+            const campo = document.getElementById(boton.dataset.objetivo);
+            const icono = boton.querySelector("i");
 
-        const confirmar =
-            confirm("¿Está seguro de eliminar el producto:\n\n" + nombreProducto + "?");
-
-        if (confirmar) {
-
-            fila.remove();
-
-            alert(
-                "Producto eliminado de la vista.\n\n" +
-                "Nota: el cambio todavía no se guarda en el servidor."
-            );
-
-        }
-
-    });
-
-});
-
-/*  CLIENTES Y ADMINISTRADORES */
-
-function habilitarEdicionUsuarios(idTabla, etiqueta) {
-
-    document.querySelectorAll("#" + idTabla + " .btn-outline-primary").forEach(function (boton) {
-
-        boton.addEventListener("click", function () {
-
-            const fila = boton.closest("tr");
-
-            const usuarioActual =
-                fila.cells[2].textContent.trim();
-
-            const nuevoUsuario =
-                prompt("Editar nombre de usuario de " + etiqueta + ":", usuarioActual);
-
-            if (nuevoUsuario === null) {
-                return;
-            }
-
-            if (nuevoUsuario.trim() === "") {
-                alert("El nombre de usuario no puede estar vacío.");
-                return;
-            }
-
-            fila.cells[2].textContent = nuevoUsuario;
-
-            alert(
-                etiqueta + " actualizado en pantalla.\n\n" +
-                "Nota: el cambio todavía no se guarda en el servidor."
-            );
+            campo.type = "password";
+            icono.classList.add("bi-eye");
+            icono.classList.remove("bi-eye-slash");
 
         });
 
     });
 
-    document.querySelectorAll("#" + idTabla + " .btn-outline-danger").forEach(function (boton) {
+});
 
-        boton.addEventListener("click", function () {
+/* PEDIDOS: VER DETALLE */
+document.querySelectorAll(".btn-ver-pedido").forEach(function (boton) {
 
-            const fila = boton.closest("tr");
+    boton.addEventListener("click", function () {
 
-            const usuarioActual =
-                fila.cells[2].textContent.trim();
+        document.getElementById("detalleNumeroPedido").textContent = "#00" + boton.dataset.id;
+        document.getElementById("detalleClientePedido").textContent = boton.dataset.cliente;
+        document.getElementById("detalleEstadoPedido").textContent = boton.dataset.estado;
+        document.getElementById("detalleTotalPedido").textContent = boton.dataset.total;
 
-            const confirmar =
-                confirm("¿Está seguro de eliminar a " + etiqueta.toLowerCase() + ":\n\n" + usuarioActual + "?");
+        const cuerpo = document.getElementById("detalleItemsPedido");
+        cuerpo.innerHTML = "";
 
-            if (confirmar) {
+        boton.closest("td").querySelectorAll(".item-detalle").forEach(function (item) {
 
-                fila.remove();
+            const fila = document.createElement("tr");
 
-                alert(
-                    etiqueta + " eliminado de la vista.\n\n" +
-                    "Nota: el cambio todavía no se guarda en el servidor."
-                );
+            const celdaNombre = document.createElement("td");
+            celdaNombre.textContent = item.dataset.nombre;
 
-            }
+            const celdaCantidad = document.createElement("td");
+            celdaCantidad.className = "text-center";
+            celdaCantidad.textContent = item.dataset.cantidad;
+
+            const celdaSubtotal = document.createElement("td");
+            celdaSubtotal.className = "text-end";
+            celdaSubtotal.textContent = item.dataset.subtotal;
+
+            fila.append(celdaNombre, celdaCantidad, celdaSubtotal);
+            cuerpo.appendChild(fila);
 
         });
 
+        abrirModal("modalPedidoDetalle");
+
     });
 
-}
+});
 
-habilitarEdicionUsuarios("tablaClientes", "Cliente");
-habilitarEdicionUsuarios("tablaAdministradores", "Administrador");
+/* PEDIDOS: CAMBIAR ESTADO */
+document.querySelectorAll(".btn-editar-pedido").forEach(function (boton) {
+
+    boton.addEventListener("click", function () {
+
+        document.getElementById("estadoNumeroPedido").textContent = "#00" + boton.dataset.id;
+        document.getElementById("estadoClientePedido").value = boton.dataset.cliente;
+        document.getElementById("estadoPedido").value = boton.dataset.estado;
+
+        document.getElementById("formularioPedidoEstado").action =
+            baseAdmin + "/pedidos/" + boton.dataset.id + "/estado";
+
+        abrirModal("modalPedidoEstado");
+
+    });
+
+});
+
+/* PRODUCTOS: AGREGAR Y EDITAR */
+const formularioProducto = document.getElementById("formularioProducto");
+
+document.getElementById("btnAgregarProducto").addEventListener("click", function () {
+
+    formularioProducto.reset();
+    formularioProducto.action = baseAdmin + "/productos/agregar";
+    document.getElementById("tituloModalProducto").textContent = "Agregar producto";
+
+    abrirModal("modalProducto");
+
+});
+
+document.querySelectorAll(".btn-editar-producto").forEach(function (boton) {
+
+    boton.addEventListener("click", function () {
+
+        document.getElementById("productoNombre").value = boton.dataset.nombre;
+        document.getElementById("productoDescripcion").value = boton.dataset.descripcion;
+        document.getElementById("productoPrecio").value = boton.dataset.precio;
+        document.getElementById("productoImagen").value = boton.dataset.imagen;
+
+        formularioProducto.action = baseAdmin + "/productos/" + boton.dataset.id + "/editar";
+        document.getElementById("tituloModalProducto").textContent = "Editar producto";
+
+        abrirModal("modalProducto");
+
+    });
+
+});
+
+/* CLIENTES Y ADMINISTRADORES: EDITAR */
+document.querySelectorAll(".btn-editar-usuario").forEach(function (boton) {
+
+    boton.addEventListener("click", function () {
+
+        document.getElementById("usuarioNombre").value = boton.dataset.nombre;
+        document.getElementById("usuarioCorreo").value = boton.dataset.correo;
+        document.getElementById("usuarioUsuario").value = boton.dataset.usuario;
+        document.getElementById("usuarioContrasena").value = "";
+        document.getElementById("usuarioRol").value = boton.dataset.rol;
+
+        const esAdmin = boton.dataset.rol === "ADMINISTRADOR";
+        document.getElementById("tituloModalUsuario").textContent =
+            esAdmin ? "Editar administrador" : "Editar cliente";
+
+        document.getElementById("formularioUsuario").action =
+            baseAdmin + "/usuarios/" + boton.dataset.id + "/editar";
+
+        abrirModal("modalUsuario");
+
+    });
+
+});
+
+/* ELIMINAR*/
+document.querySelectorAll(".btn-eliminar").forEach(function (boton) {
+
+    boton.addEventListener("click", function () {
+
+        document.getElementById("textoEliminar").textContent = boton.dataset.texto;
+        document.getElementById("formularioEliminar").action = boton.dataset.url;
+
+        abrirModal("modalEliminar");
+
+    });
+
+});
 
 /* BUSCADORES POR NOMBRE */
-
 function habilitarBusqueda(idInput, idTabla, indiceColumna) {
 
     const input = document.getElementById(idInput);
@@ -332,8 +247,6 @@ habilitarBusqueda("buscarPedidos", "tablaPedidos", 1);
 habilitarBusqueda("buscarProductos", "tablaProductos", 0);
 habilitarBusqueda("buscarClientes", "tablaClientes", 2);
 habilitarBusqueda("buscarAdministradores", "tablaAdministradores", 2);
-
-/* MENSAJE DE BIENVENIDA */
 
 window.addEventListener("load", function () {
 

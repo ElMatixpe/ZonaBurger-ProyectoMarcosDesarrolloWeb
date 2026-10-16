@@ -24,8 +24,28 @@
             </div>
 
 
+            <!-- PEDIDO CONFIRMADO (aparece después de confirmar) -->
+            <div th:if="${pedidoConfirmado != null}" class="alert alert-success text-center">
+                <i class="bi bi-bag-check-fill fs-3"></i>
+                <h4 class="mt-2">
+                    ¡Tu pedido
+                    <strong th:text="${'#00' + pedidoConfirmado}">#001</strong>
+                    fue confirmado exitosamente!
+                </h4>
+                <p class="mb-3">
+                    Gracias por realizar tu pedido en Zona Burger. Ya aparece en el panel de administración.
+                </p>
+                <a th:href="@{/}" class="btn btn-warning fw-bold">
+                    Ir al inicio
+                </a>
+                <a th:href="@{/productos}" class="btn btn-dark">
+                    Seguir comprando
+                </a>
+            </div>
+
+
             <!-- CARRITO VACIO -->
-            <div th:if="${#lists.isEmpty(carrito)}" class="alert alert-warning text-center">
+            <div th:if="${#lists.isEmpty(carrito) and pedidoConfirmado == null}" class="alert alert-warning text-center">
                 <i class="bi bi-cart-x-fill"></i>
                 Tu carrito está vacío.
                 <div class="mt-3">
@@ -159,30 +179,50 @@
     <!-- SCRIPTS -->
     <th:block th:replace="~{fragmentos/layout :: scripts}"></th:block>
 
-    <!-- PEDIDO CONFIRMADO -->
+    <!-- CONFIRMAR PEDIDO -->
     <div class="modal fade" id="modalPedido" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-warning">
                     <h5 class="modal-title fw-bold">
                         <i class="bi bi-check-circle-fill"></i>
-                        Pedido confirmado
+                        Confirmar pedido
                     </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
 
                 <div class="modal-body text-center py-4">
                     <i class="bi bi-bag-check-fill fs-1 text-success"></i>
                     <h4 class="mt-3">
-                        ¡Tu pedido ha sido confirmado exitosamente!
+                        ¿Deseas confirmar tu pedido?
                     </h4>
-                    <p class="text-muted">
-                        Gracias por realizar tu pedido en Zona Burger
+                    <p class="fs-5 mb-1">
+                        Total a pagar:
+                        <strong>
+                            S/
+                            <span th:text="${#numbers.formatDecimal(total,1,2)}">0.00</span>
+                        </strong>
+                    </p>
+                    <p class="text-danger small mb-0" th:if="${session.usuarioActivo == null}">
+                        Debes iniciar sesión para confirmar tu pedido.
                     </p>
                 </div>
 
                 <div class="modal-footer justify-content-center">
-                    <a th:href="@{/carrito/confirmar}" class="btn btn-warning fw-bold">
-                        Ir al inicio
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <!-- Con sesión: crea el pedido -->
+                    <form th:if="${session.usuarioActivo != null}" th:action="@{/carrito/confirmar}" method="post">
+                        <button type="submit" class="btn btn-warning fw-bold">
+                            Sí, confirmar pedido
+                        </button>
+                    </form>
+
+                    <!-- Sin sesión: lleva al login -->
+                    <a th:if="${session.usuarioActivo == null}" th:href="@{/login}" class="btn btn-warning fw-bold">
+                        Iniciar sesión
                     </a>
                 </div>
             </div>

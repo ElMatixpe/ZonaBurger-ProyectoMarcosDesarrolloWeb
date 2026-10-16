@@ -3,10 +3,12 @@ package com.example.zonaburger.service;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.SessionScope;
 import com.example.zonaburger.model.ItemCarrito;
 import com.example.zonaburger.model.Producto;
 
 @Service
+@SessionScope
 public class CarritoService {
     private final List<ItemCarrito> carrito = new ArrayList<>();
     public void agregarProducto(Producto producto) {
