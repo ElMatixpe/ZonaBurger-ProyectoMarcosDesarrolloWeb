@@ -1,6 +1,5 @@
-/* ADMINISTRACIÓN ZONA BURGER */
-
-/* ACCESOS RÁPIDOS */
+/* ADMINISTRACIÓN */
+/* ACCESOS RÁPIDOS: */
 const botonesAcceso =
     document.querySelectorAll(".btn-acceso");
 
@@ -14,21 +13,18 @@ botonesAcceso.forEach(function (boton) {
         if (destino) {
             destino.scrollIntoView({ behavior: "smooth" });
         }
-
     });
-
 });
 
+/* UTILIDADES PARA LOS PANELES MODALES */
 const baseAdmin =
     document.querySelector("main.contenedor-administracion").dataset.base || "/vista-admin";
 
 function abrirModal(idModal) {
-
     bootstrap.Modal.getOrCreateInstance(document.getElementById(idModal)).show();
-
 }
 
-/* MOSTRAR / OCULTAR CONTRASEÑA */
+/* MOSTRAR / OCULTAR CONTRASEÑA*/
 document.querySelectorAll(".btn-ojo-contrasena").forEach(function (boton) {
 
     boton.addEventListener("click", function () {
@@ -36,15 +32,14 @@ document.querySelectorAll(".btn-ojo-contrasena").forEach(function (boton) {
         const campo = document.getElementById(boton.dataset.objetivo);
         const icono = boton.querySelector("i");
         const mostrar = campo.type === "password";
-
         campo.type = mostrar ? "text" : "password";
         icono.classList.toggle("bi-eye", !mostrar);
         icono.classList.toggle("bi-eye-slash", mostrar);
 
     });
-
 });
 
+// Al cerrar un modal con contraseña, vuelve a quedar oculta
 document.querySelectorAll(".modal").forEach(function (modal) {
 
     modal.addEventListener("hidden.bs.modal", function () {
@@ -53,15 +48,12 @@ document.querySelectorAll(".modal").forEach(function (modal) {
 
             const campo = document.getElementById(boton.dataset.objetivo);
             const icono = boton.querySelector("i");
-
             campo.type = "password";
             icono.classList.add("bi-eye");
             icono.classList.remove("bi-eye-slash");
 
         });
-
     });
-
 });
 
 /* PEDIDOS: VER DETALLE */
@@ -98,9 +90,7 @@ document.querySelectorAll(".btn-ver-pedido").forEach(function (boton) {
         });
 
         abrirModal("modalPedidoDetalle");
-
     });
-
 });
 
 /* PEDIDOS: CAMBIAR ESTADO */
@@ -116,9 +106,7 @@ document.querySelectorAll(".btn-editar-pedido").forEach(function (boton) {
             baseAdmin + "/pedidos/" + boton.dataset.id + "/estado";
 
         abrirModal("modalPedidoEstado");
-
     });
-
 });
 
 /* PRODUCTOS: AGREGAR Y EDITAR */
@@ -129,15 +117,14 @@ document.getElementById("btnAgregarProducto").addEventListener("click", function
     formularioProducto.reset();
     formularioProducto.action = baseAdmin + "/productos/agregar";
     document.getElementById("tituloModalProducto").textContent = "Agregar producto";
-
     abrirModal("modalProducto");
-
 });
 
 document.querySelectorAll(".btn-editar-producto").forEach(function (boton) {
 
     boton.addEventListener("click", function () {
 
+        document.getElementById("productoCategoria").value = boton.dataset.categoria;
         document.getElementById("productoNombre").value = boton.dataset.nombre;
         document.getElementById("productoDescripcion").value = boton.dataset.descripcion;
         document.getElementById("productoPrecio").value = boton.dataset.precio;
@@ -152,7 +139,7 @@ document.querySelectorAll(".btn-editar-producto").forEach(function (boton) {
 
 });
 
-/* CLIENTES Y ADMINISTRADORES: EDITAR */
+/* CLIENTES Y ADMINISTRADORES: EDITAR*/
 document.querySelectorAll(".btn-editar-usuario").forEach(function (boton) {
 
     boton.addEventListener("click", function () {
@@ -176,7 +163,7 @@ document.querySelectorAll(".btn-editar-usuario").forEach(function (boton) {
 
 });
 
-/* ELIMINAR*/
+/* ELIMINAR (productos, clientes y administradores): pide confirmación */
 document.querySelectorAll(".btn-eliminar").forEach(function (boton) {
 
     boton.addEventListener("click", function () {
@@ -249,9 +236,7 @@ habilitarBusqueda("buscarClientes", "tablaClientes", 2);
 habilitarBusqueda("buscarAdministradores", "tablaAdministradores", 2);
 
 window.addEventListener("load", function () {
-
     console.log(
         "Panel de Administración de Zona Burger cargado con datos reales de los servicios."
     );
-
 });

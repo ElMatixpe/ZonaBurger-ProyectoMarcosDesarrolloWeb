@@ -2,11 +2,13 @@ package com.example.zonaburger.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import com.example.zonaburger.form.RegistroForm;
 import com.example.zonaburger.service.UsuarioService;
-import com.example.zonaburger.util.ValidadorContrasena;
+import com.example.zonaburger.util.ErroresFormulario;
+import jakarta.validation.Valid;
 
 @Controller
 public class RegistroController {
@@ -24,16 +26,19 @@ public class RegistroController {
 
     @PostMapping("/registro")
     public String registrar(
-            @RequestParam("nombreCompleto") String nombreCompleto,
-            @RequestParam("correo") String correo,
-            @RequestParam("usuario") String usuario,
-            @RequestParam("contrasena") String contrasena,
+            @Valid RegistroForm form,
+            BindingResult resultado,
             Model model) {
 
-        if (!ValidadorContrasena.esValida(contrasena)) {
-            model.addAttribute("errorRegistro", ValidadorContrasena.MENSAJE);
+        if (resultado.hasErrors()) {
+            model.addAttribute("errorRegistro", ErroresFormulario.primerMensaje(
+                    resultado, "nombreCompleto", "correo", "usuario", "contrasena"));
             return "paginas-internas/pg_registro";
         }
+
+        String nombre = form.nombreCompleto().trim();
+        String correo = form.correo().trim();
+        String usuario = form.usuario().trim();
 
         if (usuarioService.existeUsuario(usuario)) {
             model.addAttribute("errorRegistro", "El usuario ya está registrado.");
@@ -45,7 +50,7 @@ public class RegistroController {
             return "paginas-internas/pg_registro";
         }
 
-        usuarioService.registrarUsuario(nombreCompleto, correo, usuario, contrasena);
+        usuarioService.registrarUsuario(nombre, correo, usuario, form.contrasena());
         model.addAttribute("registroExitoso", "Cuenta creada correctamente. Ahora puedes iniciar sesión.");
         return "paginas-internas/pg_login";
     }

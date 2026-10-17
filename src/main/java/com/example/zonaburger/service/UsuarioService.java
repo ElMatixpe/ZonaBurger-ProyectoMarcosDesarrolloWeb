@@ -19,7 +19,6 @@ public class UsuarioService {
     public Usuario validarUsuario(String usuario, String contrasena) {
         Optional<Usuario> encontrado = usuarioRepository.findByUsuarioIgnoreCase(usuario);
 
-        // La contraseña se compara aqui
         if (encontrado.isPresent() && encontrado.get().getContrasena().equals(contrasena)) {
             return encontrado.get();
         }
@@ -50,10 +49,6 @@ public class UsuarioService {
         return true;
     }
 
-    public List<Usuario> listarUsuarios() {
-        return usuarioRepository.findAll();
-    }
-
     public List<Usuario> listarPorRol(String rol) {
         return usuarioRepository.findByRolIgnoreCase(rol);
     }
@@ -70,7 +65,9 @@ public class UsuarioService {
         return usuarioRepository.findById(id).orElse(null);
     }
 
-    /*Actualiza nombre, correo, usuario y (opcionalmente) contraseña. El rol no se cambia.*/
+    /**
+     * Actualiza nombre, correo, usuario y contraseña. El rol no se cambia.
+     * Si contrasena viene vacía se conserva la actual. */
     public String actualizarUsuario(int id, String nombreCompleto, String correo,
             String usuario, String contrasena) {
 

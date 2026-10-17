@@ -42,7 +42,7 @@ public class CarritoController {
 
     @GetMapping("/carrito/agregar/{id}")
     public String agregarProducto(@PathVariable int id) {
-        Producto producto = productoService.buscarPorId(id);
+        Producto producto = productoService.buscarActivoPorId(id);
         if (producto != null) {
             carritoService.agregarProducto(producto);
         }

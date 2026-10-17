@@ -1,131 +1,109 @@
 package com.example.zonaburger.service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
+import com.example.zonaburger.model.Categoria;
 import com.example.zonaburger.model.Producto;
+import com.example.zonaburger.repository.CategoriaRepository;
+import com.example.zonaburger.repository.ProductoRepository;
 
 @Service
 public class ProductoService {
-        private final List<Producto> productos = new ArrayList<>();
 
-        public ProductoService() {
-                productos.add(new Producto(
-                                1,
-                                "Combo Clásico",
-                                19.90,
-                                "promo1.png",
-                                "Burger Clásica, papas fritas y bebida personal."));
+        private final ProductoRepository productoRepository;
+        private final CategoriaRepository categoriaRepository;
 
-                productos.add(new Producto(
-                                2,
-                                "Combo BBQ",
-                                22.90,
-                                "promo2.png",
-                                "Burger BBQ, papas fritas y bebida personal."));
-
-                productos.add(new Producto(
-                                3,
-                                "Combo Doble",
-                                25.90,
-                                "promo3.png",
-                                "Burger Doble, papas fritas y bebida personal."));
-
-                productos.add(new Producto(
-                                4,
-                                "Burger Clásica",
-                                15.90,
-                                "clasica.png",
-                                "Carne, queso, lechuga, tomate y papas fritas."));
-
-                productos.add(new Producto(
-                                5,
-                                "Burger BBQ",
-                                18.90,
-                                "bbq.png",
-                                "Carne, queso, tocino, cebolla y deliciosa salsa BBQ."));
-
-                productos.add(new Producto(
-                                6,
-                                "Burger Doble",
-                                21.90,
-                                "doble.png",
-                                "Doble carne, doble queso y papas fritas."));
-
-                productos.add(new Producto(
-                                7,
-                                "Dúo Clásico",
-                                34.90,
-                                "duo1.png",
-                                "2 Burger Clásicas, 2 porciones de papas fritas y 2 bebidas personales."));
-
-                productos.add(new Producto(
-                                8,
-                                "Dúo BBQ",
-                                39.90,
-                                "duo2.png",
-                                "2 Burger BBQ, 2 porciones de papas fritas y 2 bebidas personales."));
-
-                productos.add(new Producto(
-                                9,
-                                "Dúo Mixto",
-                                42.90,
-                                "duo3.png",
-                                "1 Burger Clásica, 1 Burger Doble, 2 porciones de papas fritas y 2 bebidas."));
-
-                productos.add(new Producto(
-                                10,
-                                "Salchipapa Especial",
-                                16.90,
-                                "salchipapa1.png",
-                                "Papas fritas, salchicha, huevo frito, salsas y bebida personal."));
-
-                productos.add(new Producto(
-                                11,
-                                "Salchipapa Full",
-                                22.90,
-                                "salchipapa2.png",
-                                "Papas fritas, salchicha, tocino, chorizo, huevo frito, salsas y bebida personal."));
+        public ProductoService(ProductoRepository productoRepository,
+                        CategoriaRepository categoriaRepository) {
+                this.productoRepository = productoRepository;
+                this.categoriaRepository = categoriaRepository;
         }
 
+        /** Solo los productos activos (los "eliminados" no se muestran). */
         public List<Producto> listarProductos() {
-                return productos;
+                return productoRepository.findByActivoTrueOrderByIdAsc();
         }
 
+        public List<Categoria> listarCategorias() {
+                return categoriaRepository.findAllByOrderByIdAsc();
+        }
+
+        /** Busca cualquier producto, activo o no (lo usan los pedidos antiguos). */
         public Producto buscarPorId(int id) {
-                for (Producto p : productos) {
-                        if (p.getId() == id) {
-                                return p;
-                        }
+                return productoRepository.findById(id).orElse(null);
+        }
+
+        /** Busca solo productos activos (lo usa el carrito). */
+        public Producto buscarActivoPorId(int id) {
+                return productoRepository.findByIdAndActivoTrue(id).orElse(null);
+        }
+
+        public String agregarProducto(int categoriaId, String nombre, double precio,
+                        String imagen, String descripcion) {
+
+                Categoria categoria = categoriaRepository.findById(categoriaId).orElse(null);
+                if (categoria == null) {
+                        return "La categoría seleccionada no existe.";
                 }
+
+                Optional<Producto> existente = productoRepository.findByNombreIgnoreCase(nombre);
+
+                if (existente.isPresent()) {
+                        Producto p = existente.get();
+
+                        if (p.isActivo()) {
+                                return "Ya existe un producto con ese nombre.";
+                        }
+
+                        p.setCategoria(categoria);
+                        p.setNombre(nombre);
+                        p.setPrecio(precio);
+                        p.setImagen(imagen);
+                        p.setDescripcion(descripcion);
+                        p.setActivo(true);
+                        productoRepository.save(p);
+                        return null;
+                }
+
+                productoRepository.save(new Producto(categoria, nombre, precio, imagen, descripcion));
                 return null;
         }
 
-        public Producto agregarProducto(String nombre, double precio, String imagen, String descripcion) {
-                int nuevoId = 1;
-                for (Producto p : productos) {
-                        if (p.getId() >= nuevoId) {
-                                nuevoId = p.getId() + 1;
-                        }
-                }
-                Producto nuevo = new Producto(nuevoId, nombre, precio, imagen, descripcion);
-                productos.add(nuevo);
-                return nuevo;
-        }
+        public String actualizarProducto(int id, int categoriaId, String nombre, double precio,
+                        String imagen, String descripcion) {
 
-        public boolean actualizarProducto(int id, String nombre, double precio, String imagen, String descripcion) {
-                Producto p = buscarPorId(id);
-                if (p == null) {
-                        return false;
+                Producto producto = productoRepository.findByIdAndActivoTrue(id).orElse(null);
+                if (producto == null) {
+                        return "El producto no existe.";
                 }
-                p.setNombre(nombre);
-                p.setPrecio(precio);
-                p.setImagen(imagen);
-                p.setDescripcion(descripcion);
-                return true;
+
+                Categoria categoria = categoriaRepository.findById(categoriaId).orElse(null);
+                if (categoria == null) {
+                        return "La categoría seleccionada no existe.";
+                }
+
+                Optional<Producto> conMismoNombre = productoRepository.findByNombreIgnoreCase(nombre);
+                if (conMismoNombre.isPresent() && conMismoNombre.get().getId() != id) {
+                        return "Ya existe un producto con ese nombre.";
+                }
+
+                producto.setCategoria(categoria);
+                producto.setNombre(nombre);
+                producto.setPrecio(precio);
+                producto.setImagen(imagen);
+                producto.setDescripcion(descripcion);
+                productoRepository.save(producto);
+                return null;
         }
 
         public boolean eliminarProducto(int id) {
-                return productos.removeIf(p -> p.getId() == id);
+                Producto producto = productoRepository.findByIdAndActivoTrue(id).orElse(null);
+                if (producto == null) {
+                        return false;
+                }
+                producto.setActivo(false);
+                productoRepository.save(producto);
+                return true;
         }
 }

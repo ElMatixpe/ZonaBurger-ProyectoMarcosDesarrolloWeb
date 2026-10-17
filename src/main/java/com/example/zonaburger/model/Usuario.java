@@ -33,10 +33,6 @@ public class Usuario {
     protected Usuario() {
     }
 
-    public Usuario(String usuario, String contrasena, String rol) {
-        this(usuario, contrasena, rol, "", "");
-    }
-
     public Usuario(String usuario, String contrasena, String rol, String nombreCompleto, String correo) {
         this.usuario = usuario;
         this.contrasena = contrasena;

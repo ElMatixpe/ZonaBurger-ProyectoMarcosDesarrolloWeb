@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="~{fragmentos/layout :: cabecera('Zona Burger - Productos', 'styles-custom.css')}">
 </head>
-
 <body>
 
     <!-- BARRA DE NAVEGACIÓN -->
     <nav th:replace="~{fragmentos/layout :: barraNavegacion('productos')}"></nav>
-
     <main>
-
         <!-- ENCABEZADO DE PRODUCTOS -->
         <section class="encabezado-productos py-5">
             <div class="container text-center">
@@ -26,18 +22,13 @@
                 <p class="text-light">
                     Encuentra promociones y opciones para disfrutar solo o acompañado.
                 </p>
-
             </div>
         </section>
 
-
         <!-- PROMOCIONES -->
         <section class="promociones py-5">
-
             <div class="container">
-
                 <div class="text-center mb-5">
-
                     <p class="text-warning fw-bold mb-2">
                         Aprovecha nuestras ofertas
                     </p>
@@ -45,30 +36,24 @@
                     <h2 class="fw-bold">
                         Promociones
                     </h2>
-
                 </div>
 
                 <div class="row">
-
-                    <div class="col-12 col-md-6 col-lg-4 mb-4"
-                         th:each="producto : ${productos}"
-                         th:if="${producto.id >= 1 and producto.id <= 3}">
+                    <div class="col-12 col-md-6 col-lg-4 mb-4" th:each="producto : ${productos}"
+                        th:if="${producto.categoria.id == 1}">
 
                         <div class="card h-100 shadow card-producto">
 
-                            <img th:src="@{'/img/' + ${producto.imagen}}"
-                                 class="card-img-top"
-                                 th:alt="${producto.nombre}">
+                            <img th:src="@{'/img/' + ${producto.imagen}}" class="card-img-top"
+                                th:alt="${producto.nombre}">
 
                             <div class="card-body">
 
-                                <h5 class="card-title fw-bold"
-                                    th:text="${producto.nombre}">
+                                <h5 class="card-title fw-bold" th:text="${producto.nombre}">
                                     Nombre producto
                                 </h5>
 
-                                <p class="card-text"
-                                   th:text="${producto.descripcion}">
+                                <p class="card-text" th:text="${producto.descripcion}">
                                     Descripción
                                 </p>
 
@@ -79,34 +64,22 @@
                                     </span>
                                 </p>
 
-                                <a th:href="@{'/carrito/agregar/' + ${producto.id}}"
-                                   class="btn btn-warning">
+                                <a th:href="@{'/carrito/agregar/' + ${producto.id}}" class="btn btn-warning">
 
                                     <i class="bi bi-cart-plus-fill"></i>
                                     Agregar al carrito
-
                                 </a>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </section>
-
 
         <!-- HAMBURGUESAS PARA 1 -->
         <section class="hamburguesas-uno py-5">
-
             <div class="container">
-
                 <div class="text-center mb-5">
-
                     <p class="text-warning fw-bold mb-2">
                         Para disfrutar tú solo
                     </p>
@@ -114,30 +87,25 @@
                     <h2 class="fw-bold">
                         Hamburguesas para 1
                     </h2>
-
                 </div>
 
                 <div class="row">
 
-                    <div class="col-12 col-md-6 col-lg-4 mb-4"
-                         th:each="producto : ${productos}"
-                         th:if="${producto.id >= 4 and producto.id <= 6}">
+                    <div class="col-12 col-md-6 col-lg-4 mb-4" th:each="producto : ${productos}"
+                        th:if="${producto.categoria.id == 2}">
 
                         <div class="card h-100 shadow card-producto">
 
-                            <img th:src="@{'/img/' + ${producto.imagen}}"
-                                 class="card-img-top"
-                                 th:alt="${producto.nombre}">
+                            <img th:src="@{'/img/' + ${producto.imagen}}" class="card-img-top"
+                                th:alt="${producto.nombre}">
 
                             <div class="card-body">
 
-                                <h5 class="card-title fw-bold"
-                                    th:text="${producto.nombre}">
+                                <h5 class="card-title fw-bold" th:text="${producto.nombre}">
                                     Nombre producto
                                 </h5>
 
-                                <p class="card-text"
-                                   th:text="${producto.descripcion}">
+                                <p class="card-text" th:text="${producto.descripcion}">
                                     Descripción
                                 </p>
 
@@ -148,34 +116,22 @@
                                     </span>
                                 </p>
 
-                                <a th:href="@{'/carrito/agregar/' + ${producto.id}}"
-                                   class="btn btn-warning">
+                                <a th:href="@{'/carrito/agregar/' + ${producto.id}}" class="btn btn-warning">
 
                                     <i class="bi bi-cart-plus-fill"></i>
                                     Agregar al carrito
-
                                 </a>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </section>
-
 
         <!-- HAMBURGUESAS PARA 2 -->
         <section class="hamburguesas-dos py-5">
-
             <div class="container">
-
                 <div class="text-center mb-5">
-
                     <p class="text-warning fw-bold mb-2">
                         Para compartir
                     </p>
@@ -187,30 +143,24 @@
                     <p class="text-muted">
                         Combos pensados para disfrutar acompañado.
                     </p>
-
                 </div>
 
                 <div class="row">
-
-                    <div class="col-12 col-md-6 col-lg-4 mb-4"
-                         th:each="producto : ${productos}"
-                         th:if="${producto.id >= 7 and producto.id <= 9}">
+                    <div class="col-12 col-md-6 col-lg-4 mb-4" th:each="producto : ${productos}"
+                        th:if="${producto.categoria.id == 3}">
 
                         <div class="card h-100 shadow card-producto">
 
-                            <img th:src="@{'/img/' + ${producto.imagen}}"
-                                 class="card-img-top"
-                                 th:alt="${producto.nombre}">
+                            <img th:src="@{'/img/' + ${producto.imagen}}" class="card-img-top"
+                                th:alt="${producto.nombre}">
 
                             <div class="card-body">
 
-                                <h5 class="card-title fw-bold"
-                                    th:text="${producto.nombre}">
+                                <h5 class="card-title fw-bold" th:text="${producto.nombre}">
                                     Nombre producto
                                 </h5>
 
-                                <p class="card-text"
-                                   th:text="${producto.descripcion}">
+                                <p class="card-text" th:text="${producto.descripcion}">
                                     Descripción
                                 </p>
 
@@ -221,32 +171,21 @@
                                     </span>
                                 </p>
 
-                                <a th:href="@{'/carrito/agregar/' + ${producto.id}}"
-                                   class="btn btn-warning">
+                                <a th:href="@{'/carrito/agregar/' + ${producto.id}}" class="btn btn-warning">
 
                                     <i class="bi bi-cart-plus-fill"></i>
                                     Agregar al carrito
-
                                 </a>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </section>
-
 
         <!-- SALCHIPAPAS -->
         <section class="salchipapas py-5">
-
             <div class="container">
-
                 <div class="text-center mb-5">
 
                     <p class="text-warning fw-bold mb-2">
@@ -265,25 +204,21 @@
 
                 <div class="row justify-content-center">
 
-                    <div class="col-12 col-md-6 col-lg-5 mb-4"
-                         th:each="producto : ${productos}"
-                         th:if="${producto.id >= 10 and producto.id <= 11}">
+                    <div class="col-12 col-md-6 col-lg-5 mb-4" th:each="producto : ${productos}"
+                        th:if="${producto.categoria.id == 4}">
 
                         <div class="card h-100 shadow card-producto">
 
-                            <img th:src="@{'/img/' + ${producto.imagen}}"
-                                 class="card-img-top"
-                                 th:alt="${producto.nombre}">
+                            <img th:src="@{'/img/' + ${producto.imagen}}" class="card-img-top"
+                                th:alt="${producto.nombre}">
 
                             <div class="card-body">
 
-                                <h5 class="card-title fw-bold"
-                                    th:text="${producto.nombre}">
+                                <h5 class="card-title fw-bold" th:text="${producto.nombre}">
                                     Nombre producto
                                 </h5>
 
-                                <p class="card-text"
-                                   th:text="${producto.descripcion}">
+                                <p class="card-text" th:text="${producto.descripcion}">
                                     Descripción
                                 </p>
 
@@ -294,35 +229,22 @@
                                     </span>
                                 </p>
 
-                                <a th:href="@{'/carrito/agregar/' + ${producto.id}}"
-                                   class="btn btn-warning">
+                                <a th:href="@{'/carrito/agregar/' + ${producto.id}}" class="btn btn-warning">
 
                                     <i class="bi bi-cart-plus-fill"></i>
                                     Agregar al carrito
-
                                 </a>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </section>
-
     </main>
-
 
     <!-- PIE DE PÁGINA -->
     <footer th:replace="~{fragmentos/layout :: pie}"></footer>
-
     <!-- SCRIPTS COMUNES -->
     <th:block th:replace="~{fragmentos/layout :: scripts}"></th:block>
-
 </body>
-
 </html>
