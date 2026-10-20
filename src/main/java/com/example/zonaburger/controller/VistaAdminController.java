@@ -41,14 +41,14 @@ public class VistaAdminController {
     @GetMapping("/vista-admin")
     public String vistaAdmin(Model model) {
 
-        // PRODUCTOS (desde ProductoService)
+        // PRODUCTOS 
         List<Producto> productos = productoService.listarProductos();
 
-        // CLIENTES Y ADMINISTRADORES (desde UsuarioService)
+        // CLIENTES Y ADMINISTRADORES 
         List<Usuario> clientes = usuarioService.listarClientes();
         List<Usuario> administradores = usuarioService.listarAdministradores();
 
-        // PEDIDOS (desde PedidoService)
+        // PEDIDOS 
         List<Pedido> pedidos = pedidoService.listarPedidos();
         double ventasTotales = pedidoService.calcularVentasTotales();
 
@@ -58,7 +58,6 @@ public class VistaAdminController {
         model.addAttribute("administradores", administradores);
         model.addAttribute("pedidos", pedidos);
         model.addAttribute("ventasTotales", ventasTotales);
-
         return "paginas-internas/pg_vista_admin";
     }
 
@@ -69,7 +68,7 @@ public class VistaAdminController {
             HttpSession session,
             RedirectAttributes redirectAttributes) {
 
-        // Solo un administrador con sesión activa puede crear otro administrador
+        // Solo un administrador con sesion activa puede crear otro administrador
         if (!esAdministrador(session)) {
             return "redirect:/login";
         }
@@ -194,7 +193,7 @@ public class VistaAdminController {
         return "redirect:/vista-admin#seccionProductos";
     }
 
-    // PEDIDOS (solo se puede cambiar el estado)
+    // PEDIDOS: SOLO CAMBIA EL ESTADO
     @PostMapping("/vista-admin/pedidos/{id}/estado")
     public String cambiarEstadoPedido(
             @PathVariable int id,
@@ -208,7 +207,7 @@ public class VistaAdminController {
 
         if (pedidoService.cambiarEstado(id, estado)) {
             redirectAttributes.addFlashAttribute("mensajeAdmin",
-                    "Estado del pedido #00" + id + " actualizado a \"" + estado + "\".");
+                    "Estado del pedido " + String.format("PE%03d", id) + " actualizado a \"" + estado + "\".");
         } else {
             redirectAttributes.addFlashAttribute("errorAdmin", "No se pudo cambiar el estado del pedido.");
         }
@@ -245,7 +244,7 @@ public class VistaAdminController {
             return "redirect:/vista-admin" + seccion;
         }
 
-        // Si el administrador se editó a sí mismo, se refresca la sesión
+        // Si el administrador se edito a si mismo, se refresca la sesion
         Usuario activo = (Usuario) session.getAttribute("usuarioActivo");
         if (activo != null && activo.getId() != null && activo.getId() == id) {
             session.setAttribute("usuarioActivo", usuarioService.buscarPorId(id));
@@ -282,6 +281,7 @@ public class VistaAdminController {
         try {
             usuarioService.eliminarUsuario(id);
         } catch (DataIntegrityViolationException e) {
+            // Tiene pedidos u otros registros asociados en la base de datos
             redirectAttributes.addFlashAttribute("errorAdmin",
                     "No se puede eliminar a \"" + objetivo.getUsuario()
                             + "\" porque tiene pedidos o registros asociados.");

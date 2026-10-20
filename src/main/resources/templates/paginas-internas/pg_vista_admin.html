@@ -3,6 +3,7 @@
 <head th:replace="~{fragmentos/layout :: cabecera('Zona Burger - Administración', 'estilo_vista_admin.css')}">
 </head>
 <body>
+
     <!-- BARRA DE NAVEGACIÓN -->
     <nav th:replace="~{fragmentos/layout :: barraNavegacion('admin')}"></nav>
     <!-- CONTENIDO PRINCIPAL -->
@@ -18,6 +19,7 @@
                         <i class="bi bi-speedometer2"></i>
                         Panel de Administración
                     </h1>
+
                     <p>
                         Gestiona y consulta la información principal
                         de Zona Burger.
@@ -30,19 +32,15 @@
 
                     <div>
 
-                        <strong
-                            th:text="${session.usuarioActivo != null ? session.usuarioActivo.usuario : 'Administrador'}">
+                        <strong th:text="${session.usuarioActivo != null ? session.usuarioActivo.usuario : 'Administrador'}">
                             Administrador
                         </strong>
 
                         <small th:text="${session.usuarioActivo != null ? session.usuarioActivo.rol : 'Sesión activa'}">
                             Sesión activa
                         </small>
-
                     </div>
-
                 </div>
-
             </div>
 
             <!-- MENSAJES -->
@@ -67,62 +65,58 @@
                         <i class="bi bi-lightning-fill"></i>
                         Accesos rápidos
                     </h5>
-
                 </div>
 
                 <div class="card-body">
 
                     <div class="row g-3">
 
-
                         <div class="col-md-4">
 
-                            <button type="button" class="btn btn-acceso w-100" data-destino="seccionPedidos">
+                            <button
+                                type="button"
+                                class="btn btn-acceso w-100"
+                                data-destino="seccionPedidos">
 
                                 <i class="bi bi-cart-plus-fill"></i>
 
                                 <span>
                                     Gestionar pedidos
                                 </span>
-
                             </button>
-
                         </div>
-
 
                         <div class="col-md-4">
 
-                            <button type="button" class="btn btn-acceso w-100" data-destino="seccionProductos">
+                            <button
+                                type="button"
+                                class="btn btn-acceso w-100"
+                                data-destino="seccionProductos">
 
                                 <i class="bi bi-box-seam-fill"></i>
 
                                 <span>
                                     Gestionar productos
                                 </span>
-
                             </button>
-
                         </div>
-
 
                         <div class="col-md-4">
 
-                            <button type="button" class="btn btn-acceso w-100" data-destino="seccionClientes">
+                            <button
+                                type="button"
+                                class="btn btn-acceso w-100"
+                                data-destino="seccionClientes">
 
                                 <i class="bi bi-people-fill"></i>
 
                                 <span>
                                     Ver clientes
                                 </span>
-
                             </button>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
 
             <!-- TARJETAS DE RESUMEN -->
@@ -152,11 +146,8 @@
                             <p>
                                 Pedidos registrados
                             </p>
-
                         </div>
-
                     </div>
-
                 </div>
 
                 <!-- PRODUCTOS -->
@@ -183,11 +174,8 @@
                             <p>
                                 Productos disponibles
                             </p>
-
                         </div>
-
                     </div>
-
                 </div>
 
                 <!-- CLIENTES -->
@@ -214,11 +202,8 @@
                             <p>
                                 Clientes registrados
                             </p>
-
                         </div>
-
                     </div>
-
                 </div>
 
                 <!-- VENTAS -->
@@ -245,7 +230,6 @@
                             <p>
                                 Total generado
                             </p>
-
                         </div>
                     </div>
                 </div>
@@ -263,7 +247,7 @@
 
                     <div class="input-group input-group-sm buscador-administracion">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
-                        <input type="text" id="buscarPedidos" class="form-control" placeholder="Buscar por cliente...">
+                        <input type="text" id="buscarPedidos" class="form-control" placeholder="Buscar por ID (ej. PE001)...">
                     </div>
 
                 </div>
@@ -273,10 +257,9 @@
                     <div class="table-responsive">
 
                         <table class="table table-hover align-middle" id="tablaPedidos">
-
                             <thead>
                                 <tr>
-                                    <th>N.º Pedido</th>
+                                    <th>ID</th>
                                     <th>Cliente</th>
                                     <th>Total</th>
                                     <th>Estado</th>
@@ -285,11 +268,10 @@
                             </thead>
 
                             <tbody>
-
                                 <tr th:each="pedido : ${pedidos}">
 
-                                    <td th:text="${'#00' + pedido.id}">
-                                        #001
+                                    <td class="fw-bold" th:text="${'PE' + #numbers.formatInteger(pedido.id, 3)}">
+                                        PE001
                                     </td>
 
                                     <td th:text="${pedido.cliente}">
@@ -325,12 +307,15 @@
                                         <!-- Productos del pedido (los lee el modal de detalle) -->
                                         <div class="d-none detalle-items">
                                             <div th:each="item : ${pedido.items}" class="item-detalle"
-                                                th:attr="data-nombre=${item.producto.nombre},data-cantidad=${item.cantidad},data-subtotal=${'S/ ' + #numbers.formatDecimal(item.subtotal, 1, 2)}">
-                                            </div>
+                                                th:attr="data-nombre=${item.producto.nombre},data-cantidad=${item.cantidad},data-subtotal=${'S/ ' + #numbers.formatDecimal(item.subtotal, 1, 2)}"></div>
                                         </div>
+
                                     </td>
+
                                 </tr>
+
                                 <tr class="fila-vacia" th:if="${#lists.isEmpty(pedidos)}">
+
                                     <td colspan="5" class="text-center text-muted">
                                         No hay pedidos registrados.
                                     </td>
@@ -338,7 +323,7 @@
                             </tbody>
                         </table>
                         <p class="text-center text-muted mensaje-sin-resultados d-none" data-tabla="tablaPedidos">
-                            No se encontraron pedidos con ese nombre.
+                            No se encontraron pedidos con ese ID.
                         </p>
                     </div>
                 </div>
@@ -353,16 +338,17 @@
                         <i class="bi bi-basket-fill"></i>
                         Productos
                     </h5>
-
                     <div class="d-flex flex-wrap align-items-center gap-2">
-
                         <div class="input-group input-group-sm buscador-administracion">
                             <span class="input-group-text"><i class="bi bi-search"></i></span>
-                            <input type="text" id="buscarProductos" class="form-control"
-                                placeholder="Buscar por producto...">
+                            <input type="text" id="buscarProductos" class="form-control" placeholder="Buscar por ID (ej. P001)...">
                         </div>
 
-                        <button type="button" class="btn btn-inicio-sesion btn-sm" id="btnAgregarProducto">
+                        <button
+                            type="button"
+                            class="btn btn-inicio-sesion btn-sm"
+                            id="btnAgregarProducto">
+
                             <i class="bi bi-plus-lg"></i>
                             Agregar producto
                         </button>
@@ -373,7 +359,9 @@
                     <div class="table-responsive">
                         <table class="table table-hover align-middle" id="tablaProductos">
                             <thead>
+
                                 <tr>
+                                    <th>ID</th>
                                     <th>Producto</th>
                                     <th>Categoría</th>
                                     <th>Precio</th>
@@ -382,8 +370,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-
                                 <tr th:each="producto : ${productos}">
+
+                                    <td class="fw-bold" th:text="${'P' + #numbers.formatInteger(producto.id, 3)}">
+                                        P001
+                                    </td>
 
                                     <td th:text="${producto.nombre}">
                                         Producto
@@ -419,15 +410,14 @@
 
                                 <tr class="fila-vacia" th:if="${#lists.isEmpty(productos)}">
 
-                                    <td colspan="5" class="text-center text-muted">
+                                    <td colspan="6" class="text-center text-muted">
                                         No hay productos registrados.
                                     </td>
-
                                 </tr>
                             </tbody>
                         </table>
                         <p class="text-center text-muted mensaje-sin-resultados d-none" data-tabla="tablaProductos">
-                            No se encontraron productos con ese nombre.
+                            No se encontraron productos con ese ID.
                         </p>
                     </div>
                 </div>
@@ -435,7 +425,6 @@
 
             <!-- CLIENTES -->
             <div class="card seccion-administracion mb-4" id="seccionClientes">
-
                 <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
 
                     <h5>
@@ -445,17 +434,15 @@
 
                     <div class="input-group input-group-sm buscador-administracion">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
-                        <input type="text" id="buscarClientes" class="form-control" placeholder="Buscar por usuario...">
+                        <input type="text" id="buscarClientes" class="form-control" placeholder="Buscar por ID (ej. C001)...">
                     </div>
-
                 </div>
-
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-hover align-middle" id="tablaClientes">
-
                             <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>Nombre completo</th>
                                     <th>Correo electrónico</th>
                                     <th>Usuario</th>
@@ -463,9 +450,12 @@
                                     <th>Acción</th>
                                 </tr>
                             </thead>
-
                             <tbody>
                                 <tr th:each="cliente : ${clientes}">
+
+                                    <td class="fw-bold" th:text="${'C' + #numbers.formatInteger(cliente.id, 3)}">
+                                        C001
+                                    </td>
 
                                     <td th:text="${cliente.nombreCompleto}">
                                         Nombre completo
@@ -505,7 +495,7 @@
 
                                 <tr class="fila-vacia" th:if="${#lists.isEmpty(clientes)}">
 
-                                    <td colspan="5" class="text-center text-muted">
+                                    <td colspan="6" class="text-center text-muted">
                                         No hay clientes registrados.
                                     </td>
 
@@ -514,9 +504,8 @@
                             </tbody>
 
                         </table>
-
                         <p class="text-center text-muted mensaje-sin-resultados d-none" data-tabla="tablaClientes">
-                            No se encontraron clientes con ese nombre.
+                            No se encontraron clientes con ese ID.
                         </p>
                     </div>
                 </div>
@@ -536,28 +525,27 @@
 
                         <div class="input-group input-group-sm buscador-administracion">
                             <span class="input-group-text"><i class="bi bi-search"></i></span>
-                            <input type="text" id="buscarAdministradores" class="form-control"
-                                placeholder="Buscar por usuario...">
+                            <input type="text" id="buscarAdministradores" class="form-control" placeholder="Buscar por ID (ej. A001)...">
                         </div>
 
-                        <button type="button" class="btn btn-inicio-sesion btn-sm" data-bs-toggle="modal"
+                        <button
+                            type="button"
+                            class="btn btn-inicio-sesion btn-sm"
+                            data-bs-toggle="modal"
                             data-bs-target="#modalNuevoAdministrador">
 
                             <i class="bi bi-person-plus-fill"></i>
                             Agregar administrador
-
                         </button>
                     </div>
                 </div>
-
                 <div class="card-body">
 
                     <div class="table-responsive">
-
                         <table class="table table-hover align-middle" id="tablaAdministradores">
-
                             <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>Nombre completo</th>
                                     <th>Correo electrónico</th>
                                     <th>Usuario</th>
@@ -566,8 +554,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-
                                 <tr th:each="admin : ${administradores}">
+
+                                    <td class="fw-bold" th:text="${'A' + #numbers.formatInteger(admin.id, 3)}">
+                                        A001
+                                    </td>
 
                                     <td th:text="${admin.nombreCompleto}">
                                         Nombre completo
@@ -586,9 +577,7 @@
                                             ROL
                                         </span>
                                     </td>
-
                                     <td>
-
                                         <button type="button" class="btn btn-sm btn-outline-primary btn-editar-usuario"
                                             title="Editar"
                                             th:attr="data-id=${admin.id},data-nombre=${admin.nombreCompleto},data-correo=${admin.correo},data-usuario=${admin.usuario},data-rol=${admin.rol}">
@@ -600,27 +589,23 @@
                                             th:attr="data-url=@{/vista-admin/usuarios/{id}/eliminar(id=${admin.id})},data-texto=${'a ' + admin.usuario}">
                                             <i class="bi bi-trash"></i>
                                         </button>
-
                                     </td>
-
                                 </tr>
-
                                 <tr class="fila-vacia" th:if="${#lists.isEmpty(administradores)}">
-
-                                    <td colspan="5" class="text-center text-muted">
+                                    <td colspan="6" class="text-center text-muted">
                                         No hay administradores registrados.
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <p class="text-center text-muted mensaje-sin-resultados d-none"
-                            data-tabla="tablaAdministradores">
-                            No se encontraron administradores con ese nombre.
+                        <p class="text-center text-muted mensaje-sin-resultados d-none" data-tabla="tablaAdministradores">
+                            No se encontraron administradores con ese ID.
                         </p>
                     </div>
                 </div>
             </div>
         </div>
+
     </main>
 
     <!-- MODAL: AGREGAR NUEVO ADMINISTRADOR -->
@@ -628,8 +613,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
-                <form th:action="@{/vista-admin/administradores/agregar}" method="post"
-                    id="formularioNuevoAdministrador">
+                <form th:action="@{/vista-admin/administradores/agregar}" method="post" id="formularioNuevoAdministrador">
 
                     <div class="modal-header">
                         <h5 class="modal-title">
@@ -695,7 +679,7 @@
         </div>
     </div>
 
-    <!-- MODAL: AGREGAR / EDITAR PRODUCTO -->
+    <!-- MODAL: AGREGAR O EDITAR PRODUCTO -->
     <div class="modal fade" id="modalProducto" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -724,21 +708,21 @@
 
                         <div class="mb-3">
                             <label for="productoNombre" class="form-label">Nombre del producto</label>
-                            <input type="text" class="form-control" id="productoNombre" name="nombre" minlength="3"
-                                maxlength="100" required>
+                            <input type="text" class="form-control" id="productoNombre" name="nombre"
+                                minlength="3" maxlength="100" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="productoDescripcion" class="form-label">Descripción</label>
-                            <textarea class="form-control" id="productoDescripcion" name="descripcion" rows="3"
-                                minlength="10" maxlength="255" required></textarea>
+                            <textarea class="form-control" id="productoDescripcion" name="descripcion"
+                                rows="3" minlength="10" maxlength="255" required></textarea>
                         </div>
 
                         <div class="row">
                             <div class="col-6 mb-3">
                                 <label for="productoPrecio" class="form-label">Precio (S/)</label>
-                                <input type="number" class="form-control" id="productoPrecio" name="precio" step="0.01"
-                                    min="0.01" max="999.99" required>
+                                <input type="number" class="form-control" id="productoPrecio" name="precio"
+                                    step="0.01" min="0.01" max="999.99" required>
                             </div>
 
                             <div class="col-6 mb-3">
@@ -770,7 +754,7 @@
         </div>
     </div>
 
-    <!-- MODAL: EDITAR CLIENTE / ADMINISTRADOR -->
+    <!-- MODAL: EDITAR CLIENTE O ADMINISTRADOR -->
     <div class="modal fade" id="modalUsuario" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -795,14 +779,14 @@
 
                         <div class="mb-3">
                             <label for="usuarioCorreo" class="form-label">Correo electrónico</label>
-                            <input type="email" class="form-control" id="usuarioCorreo" name="correo" maxlength="120"
-                                required>
+                            <input type="email" class="form-control" id="usuarioCorreo" name="correo"
+                                maxlength="120" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="usuarioUsuario" class="form-label">Usuario</label>
-                            <input type="text" class="form-control" id="usuarioUsuario" name="usuario" maxlength="50"
-                                required>
+                            <input type="text" class="form-control" id="usuarioUsuario" name="usuario"
+                                maxlength="50" required>
                         </div>
 
                         <div class="mb-3">
@@ -829,6 +813,7 @@
                             <input type="text" class="form-control" id="usuarioRol" disabled>
                             <div class="form-text">El rol no se puede modificar.</div>
                         </div>
+
                     </div>
 
                     <div class="modal-footer">
@@ -840,7 +825,9 @@
                             Guardar cambios
                         </button>
                     </div>
+
                 </form>
+
             </div>
         </div>
     </div>
@@ -888,7 +875,9 @@
                             Guardar estado
                         </button>
                     </div>
+
                 </form>
+
             </div>
         </div>
     </div>
@@ -905,6 +894,7 @@
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
+
                 <div class="modal-body">
 
                     <p class="mb-1"><strong>Cliente:</strong> <span id="detalleClientePedido"></span></p>
@@ -928,11 +918,12 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cerrar</button>
                 </div>
+
             </div>
         </div>
     </div>
 
-    <!-- MODAL: CONFIRMAR ELIMINACIÓN -->
+    <!-- MODAL: CONFIRMAR ELIMINACION -->
     <div class="modal fade" id="modalEliminar" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -961,11 +952,12 @@
                             Sí, eliminar
                         </button>
                     </div>
+
                 </form>
+
             </div>
         </div>
     </div>
-
     <!-- SCRIPTS -->
     <th:block th:replace="~{fragmentos/layout :: scripts}"></th:block>
     <!-- Javascript PROPIO -->

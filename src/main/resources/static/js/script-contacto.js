@@ -1,13 +1,22 @@
-// Validación básica del formulario de contacto
+// Formulario de contacto
 document.addEventListener("DOMContentLoaded", function () {
-    const formulario = document.querySelector("form");
-    if (!formulario) return;
+    // Validacion basica en el navegador 
+    const formulario = document.getElementById("formularioContacto");
 
-    formulario.addEventListener("submit", function (evento) {
-        if (!formulario.checkValidity()) {
-            evento.preventDefault();
-            evento.stopPropagation();
-        }
-        formulario.classList.add("was-validated");
-    });
+    if (formulario) {
+        formulario.addEventListener("submit", function (evento) {
+            if (!formulario.checkValidity()) {
+                evento.preventDefault();
+                evento.stopPropagation();
+            }
+            formulario.classList.add("was-validated");
+        });
+    }
+
+    // Si el mensaje se guardo, se muestra la ventana de confirmacion
+    const modal = document.getElementById("modalContacto");
+
+    if (modal && modal.dataset.abrir === "true") {
+        bootstrap.Modal.getOrCreateInstance(modal).show();
+    }
 });

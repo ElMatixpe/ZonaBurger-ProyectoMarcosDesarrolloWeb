@@ -1,5 +1,5 @@
-/* ADMINISTRACIÓN */
-/* ACCESOS RÁPIDOS: */
+/* ADMINISTRACION ZONA BURGER */
+/* ACCESOS RAPIDOS: llevan directo a cada sección de la página */
 const botonesAcceso =
     document.querySelectorAll(".btn-acceso");
 
@@ -21,10 +21,12 @@ const baseAdmin =
     document.querySelector("main.contenedor-administracion").dataset.base || "/vista-admin";
 
 function abrirModal(idModal) {
+
     bootstrap.Modal.getOrCreateInstance(document.getElementById(idModal)).show();
+
 }
 
-/* MOSTRAR / OCULTAR CONTRASEÑA*/
+/* MOSTRAR O OCULTAR CONTRASEÑA */
 document.querySelectorAll(".btn-ojo-contrasena").forEach(function (boton) {
 
     boton.addEventListener("click", function () {
@@ -32,11 +34,13 @@ document.querySelectorAll(".btn-ojo-contrasena").forEach(function (boton) {
         const campo = document.getElementById(boton.dataset.objetivo);
         const icono = boton.querySelector("i");
         const mostrar = campo.type === "password";
+
         campo.type = mostrar ? "text" : "password";
         icono.classList.toggle("bi-eye", !mostrar);
         icono.classList.toggle("bi-eye-slash", mostrar);
 
     });
+
 });
 
 // Al cerrar un modal con contraseña, vuelve a quedar oculta
@@ -48,6 +52,7 @@ document.querySelectorAll(".modal").forEach(function (modal) {
 
             const campo = document.getElementById(boton.dataset.objetivo);
             const icono = boton.querySelector("i");
+
             campo.type = "password";
             icono.classList.add("bi-eye");
             icono.classList.remove("bi-eye-slash");
@@ -61,7 +66,7 @@ document.querySelectorAll(".btn-ver-pedido").forEach(function (boton) {
 
     boton.addEventListener("click", function () {
 
-        document.getElementById("detalleNumeroPedido").textContent = "#00" + boton.dataset.id;
+        document.getElementById("detalleNumeroPedido").textContent = "PE" + boton.dataset.id.padStart(3, "0");
         document.getElementById("detalleClientePedido").textContent = boton.dataset.cliente;
         document.getElementById("detalleEstadoPedido").textContent = boton.dataset.estado;
         document.getElementById("detalleTotalPedido").textContent = boton.dataset.total;
@@ -98,7 +103,7 @@ document.querySelectorAll(".btn-editar-pedido").forEach(function (boton) {
 
     boton.addEventListener("click", function () {
 
-        document.getElementById("estadoNumeroPedido").textContent = "#00" + boton.dataset.id;
+        document.getElementById("estadoNumeroPedido").textContent = "PE" + boton.dataset.id.padStart(3, "0");
         document.getElementById("estadoClientePedido").value = boton.dataset.cliente;
         document.getElementById("estadoPedido").value = boton.dataset.estado;
 
@@ -117,7 +122,9 @@ document.getElementById("btnAgregarProducto").addEventListener("click", function
     formularioProducto.reset();
     formularioProducto.action = baseAdmin + "/productos/agregar";
     document.getElementById("tituloModalProducto").textContent = "Agregar producto";
+
     abrirModal("modalProducto");
+
 });
 
 document.querySelectorAll(".btn-editar-producto").forEach(function (boton) {
@@ -139,7 +146,7 @@ document.querySelectorAll(".btn-editar-producto").forEach(function (boton) {
 
 });
 
-/* CLIENTES Y ADMINISTRADORES: EDITAR*/
+/* CLIENTES Y ADMINISTRADORES: EDITAR */
 document.querySelectorAll(".btn-editar-usuario").forEach(function (boton) {
 
     boton.addEventListener("click", function () {
@@ -158,28 +165,22 @@ document.querySelectorAll(".btn-editar-usuario").forEach(function (boton) {
             baseAdmin + "/usuarios/" + boton.dataset.id + "/editar";
 
         abrirModal("modalUsuario");
-
     });
-
 });
 
-/* ELIMINAR (productos, clientes y administradores): pide confirmación */
+/* ELIMINAR (productos, clientes y administradores) */
 document.querySelectorAll(".btn-eliminar").forEach(function (boton) {
 
     boton.addEventListener("click", function () {
 
         document.getElementById("textoEliminar").textContent = boton.dataset.texto;
         document.getElementById("formularioEliminar").action = boton.dataset.url;
-
         abrirModal("modalEliminar");
-
     });
-
 });
 
-/* BUSCADORES POR NOMBRE */
+/* BUSCADORES POR ID*/
 function habilitarBusqueda(idInput, idTabla, indiceColumna) {
-
     const input = document.getElementById(idInput);
     const tabla = document.getElementById(idTabla);
 
@@ -225,15 +226,13 @@ function habilitarBusqueda(idInput, idTabla, indiceColumna) {
             mensajeSinResultados.classList.toggle("d-none", !sinResultados);
 
         }
-
     });
-
 }
 
-habilitarBusqueda("buscarPedidos", "tablaPedidos", 1);
+habilitarBusqueda("buscarPedidos", "tablaPedidos", 0);
 habilitarBusqueda("buscarProductos", "tablaProductos", 0);
-habilitarBusqueda("buscarClientes", "tablaClientes", 2);
-habilitarBusqueda("buscarAdministradores", "tablaAdministradores", 2);
+habilitarBusqueda("buscarClientes", "tablaClientes", 0);
+habilitarBusqueda("buscarAdministradores", "tablaAdministradores", 0);
 
 window.addEventListener("load", function () {
     console.log(

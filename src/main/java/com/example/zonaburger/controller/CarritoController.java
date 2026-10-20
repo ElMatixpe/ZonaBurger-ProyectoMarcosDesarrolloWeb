@@ -76,23 +76,25 @@ public class CarritoController {
     @PostMapping("/carrito/confirmar")
     public String confirmarPedido(HttpSession session, RedirectAttributes redirectAttributes) {
 
-        // Para hacer un pedido hay que haber iniciado sesión
+        // Para hacer un pedido hay que haber iniciado sesion
         Usuario usuario = (Usuario) session.getAttribute("usuarioActivo");
         if (usuario == null) {
             return "redirect:/login";
         }
 
-        // Si el carrito está vacío no se crea ningún pedido
+        // Si el carrito está vacío no se crea ningun pedido
         if (carritoService.listarCarrito().isEmpty()) {
             return "redirect:/carrito";
         }
 
-        String cliente = usuario.getNombreCompleto();
-        if (cliente == null || cliente.isBlank()) {
-            cliente = usuario.getUsuario();
+        Pedido pedido;
+        try {
+            pedido = pedidoService.crearPedido(usuario, carritoService.listarCarrito());
+        } catch (IllegalStateException e) {
+            redirectAttributes.addFlashAttribute("errorPedido", e.getMessage());
+            return "redirect:/carrito";
         }
 
-        Pedido pedido = pedidoService.crearPedido(cliente, carritoService.listarCarrito());
         carritoService.vaciarCarrito();
 
         redirectAttributes.addFlashAttribute("pedidoConfirmado", pedido.getId());

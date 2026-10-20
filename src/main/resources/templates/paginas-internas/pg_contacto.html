@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="~{fragmentos/layout :: cabecera('Zona Burger - Contáctanos', 'styles-custom.css')}">
 </head>
-
 <body>
     <!-- BARRA DE NAVEGACIÓN -->
     <nav th:replace="~{fragmentos/layout :: barraNavegacion('contacto')}"></nav>
@@ -26,9 +24,7 @@
                     ¿Tienes alguna consulta, sugerencia o quieres realizar un pedido?
                     Déjanos tus datos y nos pondremos en contacto contigo.
                 </p>
-
             </div>
-
         </section>
 
         <!-- Formulario de Contacto -->
@@ -37,54 +33,64 @@
                 <h3 class="card-title">
                     Datos del cliente
                 </h3>
-                <form id="formularioContacto">
-
+                <form id="formularioContacto" th:action="@{/contacto}" th:object="${contactoForm}" method="post">
                     <div class="row">
-
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">
+                            <label class="form-label" for="nombre">
                                 Nombre
                             </label>
-                            <input type="text" id="nombre" class="form-control" placeholder="Ingrese su nombre"
-                                required>
+                            <input type="text" th:field="*{nombre}" class="form-control"
+                                th:classappend="${#fields.hasErrors('nombre')} ? 'is-invalid'"
+                                placeholder="Ingrese su nombre" maxlength="60" required>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">
+                            </div>
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">
+                            <label class="form-label" for="apellido">
                                 Apellido
                             </label>
-                            <input type="text" id="apellido" class="form-control" placeholder="Ingrese su apellido"
-                                required>
+                            <input type="text" th:field="*{apellido}" class="form-control"
+                                th:classappend="${#fields.hasErrors('apellido')} ? 'is-invalid'"
+                                placeholder="Ingrese su apellido" maxlength="60" required>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('apellido')}"
+                                th:errors="*{apellido}"></div>
                         </div>
-
                     </div>
 
                     <div class="row">
 
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">
+                            <label class="form-label" for="correo">
                                 Correo electrónico
                             </label>
-                            <input type="email" id="correo" class="form-control" placeholder="ejemplo@correo.com"
-                                required>
+                            <input type="email" th:field="*{correo}" class="form-control"
+                                th:classappend="${#fields.hasErrors('correo')} ? 'is-invalid'"
+                                placeholder="ejemplo@correo.com" maxlength="120" required>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}">
+                            </div>
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">
+                            <label class="form-label" for="telefono">
                                 Teléfono
                             </label>
-                            <input type="tel" id="telefono" class="form-control"
-                                placeholder="Ingrese su número de teléfono" required>
+                            <input type="tel" th:field="*{telefono}" class="form-control"
+                                th:classappend="${#fields.hasErrors('telefono')} ? 'is-invalid'"
+                                placeholder="Ingrese su número de teléfono" maxlength="20" pattern="\+?[0-9 ]{7,19}"
+                                title="Solo números (7 a 15 dígitos); puede empezar con +" required>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('telefono')}"
+                                th:errors="*{telefono}"></div>
                         </div>
-
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">
+                        <label class="form-label" for="motivo">
                             Motivo de contacto
                         </label>
 
-                        <select id="motivo" class="form-select" required>
+                        <select th:field="*{motivo}" class="form-select"
+                            th:classappend="${#fields.hasErrors('motivo')} ? 'is-invalid'" required>
 
                             <option value="">
                                 Seleccione una opción
@@ -115,33 +121,34 @@
                             </option>
 
                         </select>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('motivo')}" th:errors="*{motivo}">
+                        </div>
                     </div>
 
                     <div class="mb-3">
 
-                        <label class="form-label">
+                        <label class="form-label" for="mensaje">
                             Mensaje
                         </label>
 
-                        <textarea id="mensaje" class="form-control" rows="4"
-                            placeholder="Escriba aquí su consulta o comentario..." required></textarea>
-
+                        <textarea th:field="*{mensaje}" class="form-control" rows="4"
+                            th:classappend="${#fields.hasErrors('mensaje')} ? 'is-invalid'"
+                            placeholder="Escriba aquí su consulta o comentario..." minlength="10" maxlength="1000"
+                            required></textarea>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('mensaje')}" th:errors="*{mensaje}">
+                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-send-fill"></i>
                         Enviar mensaje
                     </button>
-
                 </form>
-
             </div>
-
         </div>
 
         <!-- Modal -->
-
-        <div class="modal fade" id="modalContacto" tabindex="-1">
+        <div class="modal fade" id="modalContacto" tabindex="-1" th:attr="data-abrir=${contactoEnviado != null}">
 
             <div class="modal-dialog">
 
@@ -155,38 +162,28 @@
 
                         <button class="btn-close btn-close-white" data-bs-dismiss="modal">
                         </button>
-
                     </div>
 
                     <div class="modal-body">
-
                         <p>
                             ¡Gracias por contactarnos!
                             Hemos recibido correctamente sus datos.
                         </p>
-
                         <hr>
-
-                        <p id="resumenContacto"></p>
-
+                        <p id="resumenContacto">
+                            Motivo: <strong th:text="${contactoMotivo}">Motivo</strong><br>
+                            Te responderemos al correo: <strong th:text="${contactoCorreo}">correo@ejemplo.com</strong>
+                        </p>
                     </div>
 
                     <div class="modal-footer">
-
                         <button class="btn btn-secondary" data-bs-dismiss="modal">
                             Cerrar
                         </button>
-
                     </div>
-
                 </div>
-
             </div>
-            ```
-
         </div>
-
-
     </main>
 
     <!-- PIE DE PÁGINA -->
@@ -197,7 +194,5 @@
 
     <!-- JavaScript propio -->
     <script th:src="@{/js/script-contacto.js}"></script>
-
 </body>
-
 </html>
