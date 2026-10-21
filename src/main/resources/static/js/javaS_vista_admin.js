@@ -1,7 +1,6 @@
 /* ADMINISTRACION ZONA BURGER */
-/* ACCESOS RAPIDOS: llevan directo a cada sección de la página */
-const botonesAcceso =
-    document.querySelectorAll(".btn-acceso");
+/* ACCESOS RAPIDOS */
+const botonesAcceso = document.querySelectorAll(".btn-acceso");
 
 botonesAcceso.forEach(function (boton) {
 
@@ -16,9 +15,7 @@ botonesAcceso.forEach(function (boton) {
     });
 });
 
-/* UTILIDADES PARA LOS PANELES MODALES */
-const baseAdmin =
-    document.querySelector("main.contenedor-administracion").dataset.base || "/vista-admin";
+const baseAdmin = document.querySelector("main.contenedor-administracion").dataset.base || "/vista-admin";
 
 function abrirModal(idModal) {
 
@@ -38,9 +35,7 @@ document.querySelectorAll(".btn-ojo-contrasena").forEach(function (boton) {
         campo.type = mostrar ? "text" : "password";
         icono.classList.toggle("bi-eye", !mostrar);
         icono.classList.toggle("bi-eye-slash", mostrar);
-
     });
-
 });
 
 // Al cerrar un modal con contraseña, vuelve a quedar oculta
@@ -56,12 +51,11 @@ document.querySelectorAll(".modal").forEach(function (modal) {
             campo.type = "password";
             icono.classList.add("bi-eye");
             icono.classList.remove("bi-eye-slash");
-
         });
     });
 });
 
-/* PEDIDOS: VER DETALLE */
+/* EN PEDIDOS PARA VER DETALLE */
 document.querySelectorAll(".btn-ver-pedido").forEach(function (boton) {
 
     boton.addEventListener("click", function () {
@@ -91,14 +85,12 @@ document.querySelectorAll(".btn-ver-pedido").forEach(function (boton) {
 
             fila.append(celdaNombre, celdaCantidad, celdaSubtotal);
             cuerpo.appendChild(fila);
-
         });
-
         abrirModal("modalPedidoDetalle");
     });
 });
 
-/* PEDIDOS: CAMBIAR ESTADO */
+/* EN PEDIDOS PARA CAMBIAR ESTADO */
 document.querySelectorAll(".btn-editar-pedido").forEach(function (boton) {
 
     boton.addEventListener("click", function () {
@@ -114,7 +106,7 @@ document.querySelectorAll(".btn-editar-pedido").forEach(function (boton) {
     });
 });
 
-/* PRODUCTOS: AGREGAR Y EDITAR */
+/* EN PRODUCTOS AGREGAR Y EDITAR */
 const formularioProducto = document.getElementById("formularioProducto");
 
 document.getElementById("btnAgregarProducto").addEventListener("click", function () {
@@ -231,6 +223,7 @@ function habilitarBusqueda(idInput, idTabla, indiceColumna) {
 
 habilitarBusqueda("buscarPedidos", "tablaPedidos", 0);
 habilitarBusqueda("buscarProductos", "tablaProductos", 0);
+habilitarBusqueda("buscarProductos", "tablaProductosInactivos", 0);
 habilitarBusqueda("buscarClientes", "tablaClientes", 0);
 habilitarBusqueda("buscarAdministradores", "tablaAdministradores", 0);
 

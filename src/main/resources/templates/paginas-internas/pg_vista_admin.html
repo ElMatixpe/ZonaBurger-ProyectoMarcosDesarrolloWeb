@@ -8,12 +8,9 @@
     <nav th:replace="~{fragmentos/layout :: barraNavegacion('admin')}"></nav>
     <!-- CONTENIDO PRINCIPAL -->
     <main class="contenedor-administracion" th:attr="data-base=@{/vista-admin}">
-
         <div class="container py-5">
-
             <!-- ENCABEZADO -->
             <div class="encabezado-administracion mb-4">
-
                 <div>
                     <h1>
                         <i class="bi bi-speedometer2"></i>
@@ -27,11 +24,8 @@
                 </div>
 
                 <div class="usuario-administrador">
-
                     <i class="bi bi-person-circle"></i>
-
                     <div>
-
                         <strong th:text="${session.usuarioActivo != null ? session.usuarioActivo.usuario : 'Administrador'}">
                             Administrador
                         </strong>
@@ -56,11 +50,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
             </div>
 
-            <!-- ACCESOS RÁPIDOS -->
+            <!-- ACCESOS RAPIDOS -->
             <div class="card seccion-administracion mb-4">
-
                 <div class="card-header">
-
                     <h5>
                         <i class="bi bi-lightning-fill"></i>
                         Accesos rápidos
@@ -68,11 +60,8 @@
                 </div>
 
                 <div class="card-body">
-
                     <div class="row g-3">
-
                         <div class="col-md-4">
-
                             <button
                                 type="button"
                                 class="btn btn-acceso w-100"
@@ -87,7 +76,6 @@
                         </div>
 
                         <div class="col-md-4">
-
                             <button
                                 type="button"
                                 class="btn btn-acceso w-100"
@@ -102,7 +90,6 @@
                         </div>
 
                         <div class="col-md-4">
-
                             <button
                                 type="button"
                                 class="btn btn-acceso w-100"
@@ -124,15 +111,10 @@
 
                 <!-- PEDIDOS -->
                 <div class="col-md-6 col-xl-3">
-
                     <div class="card tarjeta-resumen h-100">
-
                         <div class="card-body">
-
                             <div class="icono-resumen">
-
                                 <i class="bi bi-cart-check-fill"></i>
-
                             </div>
 
                             <h6>
@@ -152,15 +134,10 @@
 
                 <!-- PRODUCTOS -->
                 <div class="col-md-6 col-xl-3">
-
                     <div class="card tarjeta-resumen h-100">
-
                         <div class="card-body">
-
                             <div class="icono-resumen">
-
                                 <i class="bi bi-basket-fill"></i>
-
                             </div>
 
                             <h6>
@@ -180,15 +157,10 @@
 
                 <!-- CLIENTES -->
                 <div class="col-md-6 col-xl-3">
-
                     <div class="card tarjeta-resumen h-100">
-
                         <div class="card-body">
-
                             <div class="icono-resumen">
-
                                 <i class="bi bi-people-fill"></i>
-
                             </div>
 
                             <h6>
@@ -304,7 +276,6 @@
                                             <i class="bi bi-pencil"></i>
                                         </button>
 
-                                        <!-- Productos del pedido (los lee el modal de detalle) -->
                                         <div class="d-none detalle-items">
                                             <div th:each="item : ${pedido.items}" class="item-detalle"
                                                 th:attr="data-nombre=${item.producto.nombre},data-cantidad=${item.cantidad},data-subtotal=${'S/ ' + #numbers.formatDecimal(item.subtotal, 1, 2)}"></div>
@@ -356,7 +327,7 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <div class="table-responsive tabla-scroll">
                         <table class="table table-hover align-middle" id="tablaProductos">
                             <thead>
 
@@ -417,8 +388,65 @@
                             </tbody>
                         </table>
                         <p class="text-center text-muted mensaje-sin-resultados d-none" data-tabla="tablaProductos">
-                            No se encontraron productos con ese ID.
+                            No se encontraron productos activos con ese ID.
                         </p>
+                    </div>
+
+                    <!-- PRODUCTOS ELIMINADOS -->
+                    <div class="mt-4" th:if="${!#lists.isEmpty(productosInactivos)}">
+
+                        <h6 class="text-muted">
+                            <i class="bi bi-archive"></i>
+                            Productos eliminados
+                        </h6>
+
+                        <div class="table-responsive tabla-scroll">
+                            <table class="table table-hover align-middle" id="tablaProductosInactivos">
+                                <thead>
+
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Producto</th>
+                                        <th>Categoría</th>
+                                        <th>Precio</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="inactivo : ${productosInactivos}">
+
+                                        <td class="fw-bold" th:text="${'P' + #numbers.formatInteger(inactivo.id, 3)}">
+                                            P001
+                                        </td>
+
+                                        <td th:text="${inactivo.nombre}">
+                                            Producto
+                                        </td>
+
+                                        <td th:text="${inactivo.categoria.nombre}">
+                                            Categoría
+                                        </td>
+
+                                        <td th:text="${'S/ ' + #numbers.formatDecimal(inactivo.precio, 1, 2)}">
+                                            S/ 0.00
+                                        </td>
+
+                                        <td>
+                                            <form method="post" class="d-inline"
+                                                th:action="@{/vista-admin/productos/{id}/reactivar(id=${inactivo.id})}">
+                                                <button type="submit" class="btn btn-sm btn-outline-success" title="Reactivar">
+                                                    <i class="bi bi-arrow-counterclockwise"></i>
+                                                    Reactivar
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-center text-muted mensaje-sin-resultados d-none" data-tabla="tablaProductosInactivos">
+                                No se encontraron productos eliminados con ese ID.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -731,11 +759,6 @@
                                     placeholder="ejemplo.png" maxlength="100" required>
                             </div>
                         </div>
-
-                        <div class="form-text">
-                            La imagen debe estar en la carpeta <strong>img</strong> del proyecto.
-                        </div>
-
                     </div>
 
                     <div class="modal-footer">

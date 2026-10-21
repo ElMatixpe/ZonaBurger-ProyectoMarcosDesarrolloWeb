@@ -1,4 +1,4 @@
-package com.example.zonaburger.util;
+package com.example.zonaburger.form;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -8,9 +8,8 @@ public final class ErroresFormulario {
     private ErroresFormulario() {
     }
 
-    /**
-     * Devuelve el mensaje del primer error, revisando los campos en el orden indicado
-     * Devuelve null si no hay errores. */
+    /* Devuelve el mensaje del primer error, revisando los campos 
+    /* Devuelve null si no hay errores */
     public static String primerMensaje(BindingResult resultado, String... camposEnOrden) {
         for (String campo : camposEnOrden) {
             FieldError error = resultado.getFieldError(campo);

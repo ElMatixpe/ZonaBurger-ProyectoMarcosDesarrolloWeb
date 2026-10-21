@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.example.zonaburger.form.RegistroForm;
 import com.example.zonaburger.service.UsuarioService;
-import com.example.zonaburger.util.ErroresFormulario;
+import com.example.zonaburger.form.ErroresFormulario;
 import jakarta.validation.Valid;
 
 @Controller

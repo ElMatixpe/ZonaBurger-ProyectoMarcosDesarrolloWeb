@@ -20,21 +20,25 @@ public class ProductoService {
                 this.categoriaRepository = categoriaRepository;
         }
 
-        /** Solo los productos activos (los "eliminados" no se muestran). */
+        /*Solo los productos activos */
         public List<Producto> listarProductos() {
                 return productoRepository.findByActivoTrueOrderByIdAsc();
+        }
+
+        /* Solo los productos eliminados */
+        public List<Producto> listarProductosInactivos() {
+                return productoRepository.findByActivoFalseOrderByIdAsc();
         }
 
         public List<Categoria> listarCategorias() {
                 return categoriaRepository.findAllByOrderByIdAsc();
         }
 
-        /** Busca cualquier producto, activo o no (lo usan los pedidos antiguos). */
         public Producto buscarPorId(int id) {
                 return productoRepository.findById(id).orElse(null);
         }
 
-        /** Busca solo productos activos (lo usa el carrito). */
+        /* Busca solo productos activos */
         public Producto buscarActivoPorId(int id) {
                 return productoRepository.findByIdAndActivoTrue(id).orElse(null);
         }
@@ -103,6 +107,17 @@ public class ProductoService {
                         return false;
                 }
                 producto.setActivo(false);
+                productoRepository.save(producto);
+                return true;
+        }
+
+        /* Vuelve a activar un producto eliminado */
+        public boolean reactivarProducto(int id) {
+                Producto producto = productoRepository.findById(id).orElse(null);
+                if (producto == null || producto.isActivo()) {
+                        return false;
+                }
+                producto.setActivo(true);
                 productoRepository.save(producto);
                 return true;
         }

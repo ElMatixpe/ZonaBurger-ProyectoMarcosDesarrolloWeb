@@ -9,6 +9,8 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 
     List<Producto> findByActivoTrueOrderByIdAsc();
 
+    List<Producto> findByActivoFalseOrderByIdAsc();
+
     Optional<Producto> findByIdAndActivoTrue(Integer id);
 
     Optional<Producto> findByNombreIgnoreCase(String nombre);

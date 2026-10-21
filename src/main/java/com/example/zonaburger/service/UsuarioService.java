@@ -5,7 +5,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import com.example.zonaburger.model.Usuario;
 import com.example.zonaburger.repository.UsuarioRepository;
-import com.example.zonaburger.util.ValidadorContrasena;
+import com.example.zonaburger.form.ContrasenaSegura;
+import com.example.zonaburger.form.ContrasenaSeguraValidator;
 
 @Service
 public class UsuarioService {
@@ -65,9 +66,7 @@ public class UsuarioService {
         return usuarioRepository.findById(id).orElse(null);
     }
 
-    /**
-     * Actualiza nombre, correo, usuario y contraseña. El rol no se cambia.
-     * Si contrasena viene vacía se conserva la actual. */
+    /* Actualiza nombre, correo, usuario y contraseña. */
     public String actualizarUsuario(int id, String nombreCompleto, String correo,
             String usuario, String contrasena) {
 
@@ -95,8 +94,8 @@ public class UsuarioService {
         }
 
         boolean cambiaContrasena = contrasena != null && !contrasena.isEmpty();
-        if (cambiaContrasena && !ValidadorContrasena.esValida(contrasena)) {
-            return ValidadorContrasena.MENSAJE;
+        if (cambiaContrasena && !ContrasenaSeguraValidator.esValida(contrasena)) {
+            return ContrasenaSegura.MENSAJE;
         }
 
         actual.setNombreCompleto(nombre);

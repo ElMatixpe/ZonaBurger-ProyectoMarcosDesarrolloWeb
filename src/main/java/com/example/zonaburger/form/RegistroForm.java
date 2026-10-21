@@ -1,14 +1,10 @@
 package com.example.zonaburger.form;
 
-import com.example.zonaburger.util.ValidadorContrasena;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-/**
- * Datos para crear una cuenta (registro de cliente o nuevo administrador).
- * Los nombres de los campos coinciden con los "name" de los formularios HTML. */
+/* Datos para crear una cuenta adminsitrador o cliente */
 public record RegistroForm(
 
         @NotBlank(message = "El nombre completo es obligatorio.")
@@ -25,6 +21,6 @@ public record RegistroForm(
         String usuario,
 
         @NotBlank(message = "La contraseña es obligatoria.")
-        @Pattern(regexp = ValidadorContrasena.REGEX, message = ValidadorContrasena.MENSAJE)
+        @ContrasenaSegura
         String contrasena) {
 }

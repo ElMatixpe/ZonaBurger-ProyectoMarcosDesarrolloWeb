@@ -18,7 +18,7 @@ import com.example.zonaburger.service.UsuarioService;
 import com.example.zonaburger.form.EditarUsuarioForm;
 import com.example.zonaburger.form.ProductoForm;
 import com.example.zonaburger.form.RegistroForm;
-import com.example.zonaburger.util.ErroresFormulario;
+import com.example.zonaburger.form.ErroresFormulario;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -41,18 +41,19 @@ public class VistaAdminController {
     @GetMapping("/vista-admin")
     public String vistaAdmin(Model model) {
 
-        // PRODUCTOS 
+        // PRODUCTOS
         List<Producto> productos = productoService.listarProductos();
 
-        // CLIENTES Y ADMINISTRADORES 
+        // CLIENTES Y ADMINISTRADORES
         List<Usuario> clientes = usuarioService.listarClientes();
         List<Usuario> administradores = usuarioService.listarAdministradores();
 
-        // PEDIDOS 
+        // PEDIDOS
         List<Pedido> pedidos = pedidoService.listarPedidos();
         double ventasTotales = pedidoService.calcularVentasTotales();
 
         model.addAttribute("productos", productos);
+        model.addAttribute("productosInactivos", productoService.listarProductosInactivos());
         model.addAttribute("categorias", productoService.listarCategorias());
         model.addAttribute("clientes", clientes);
         model.addAttribute("administradores", administradores);
@@ -100,7 +101,6 @@ public class VistaAdminController {
         return "redirect:/vista-admin#seccionAdministradores";
     }
 
-    // Utilidades
     private boolean esAdministrador(HttpSession session) {
         Usuario activo = (Usuario) session.getAttribute("usuarioActivo");
         return activo != null && "ADMINISTRADOR".equals(activo.getRol());
@@ -193,7 +193,25 @@ public class VistaAdminController {
         return "redirect:/vista-admin#seccionProductos";
     }
 
-    // PEDIDOS: SOLO CAMBIA EL ESTADO
+    @PostMapping("/vista-admin/productos/{id}/reactivar")
+    public String reactivarProducto(
+            @PathVariable int id,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+
+        if (!esAdministrador(session)) {
+            return "redirect:/login";
+        }
+
+        if (productoService.reactivarProducto(id)) {
+            redirectAttributes.addFlashAttribute("mensajeAdmin", "Producto reactivado correctamente.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorAdmin", "El producto no existe o ya está activo.");
+        }
+        return "redirect:/vista-admin#seccionProductos";
+    }
+
+    // EN PEDIDOS SOLO CAMBIA EL ESTADO
     @PostMapping("/vista-admin/pedidos/{id}/estado")
     public String cambiarEstadoPedido(
             @PathVariable int id,
@@ -214,7 +232,7 @@ public class VistaAdminController {
         return "redirect:/vista-admin#seccionPedidos";
     }
 
-    // CLIENTES Y ADMINISTRADORES 
+    // CLIENTES Y ADMINISTRADORES
     @PostMapping("/vista-admin/usuarios/{id}/editar")
     public String editarUsuario(
             @PathVariable int id,

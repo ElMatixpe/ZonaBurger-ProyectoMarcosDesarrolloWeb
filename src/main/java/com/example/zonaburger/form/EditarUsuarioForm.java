@@ -1,15 +1,10 @@
 package com.example.zonaburger.form;
 
-import com.example.zonaburger.util.ValidadorContrasena;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-/**
- * Datos para editar un cliente o administrador desde el panel.
- * La contraseña es opcional: vacía significa "conservar la actual". */
+/* Datos para editar un cliente o administrador desde el panel administracion */
 public record EditarUsuarioForm(
 
         @NotBlank(message = "El nombre completo es obligatorio.")
@@ -25,6 +20,6 @@ public record EditarUsuarioForm(
         @Size(max = 50, message = "El usuario no puede superar los 50 caracteres.")
         String usuario,
 
-        @Pattern(regexp = "^$|" + ValidadorContrasena.REGEX, message = ValidadorContrasena.MENSAJE)
+        @ContrasenaSegura(opcional = true)
         String contrasena) {
 }
