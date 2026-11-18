@@ -2,6 +2,7 @@ package com.example.zonaburger.service;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.zonaburger.model.Usuario;
 import com.example.zonaburger.repository.UsuarioRepository;
@@ -12,18 +13,11 @@ import com.example.zonaburger.form.ContrasenaSeguraValidator;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
-    }
-
-    public Usuario validarUsuario(String usuario, String contrasena) {
-        Optional<Usuario> encontrado = usuarioRepository.findByUsuarioIgnoreCase(usuario);
-
-        if (encontrado.isPresent() && encontrado.get().getContrasena().equals(contrasena)) {
-            return encontrado.get();
-        }
-        return null;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public boolean existeUsuario(String usuario) {
@@ -46,7 +40,7 @@ public class UsuarioService {
         if (existeUsuario(usuario) || existeCorreo(correo)) {
             return false;
         }
-        usuarioRepository.save(new Usuario(usuario, contrasena, rol, nombreCompleto, correo));
+        usuarioRepository.save(new Usuario(usuario, passwordEncoder.encode(contrasena), rol, nombreCompleto, correo));
         return true;
     }
 
@@ -66,7 +60,8 @@ public class UsuarioService {
         return usuarioRepository.findById(id).orElse(null);
     }
 
-    /* Actualiza nombre, correo, usuario y contraseña. */
+    /**Actualiza nombre, correo, usuario y contraseña. El rol no se cambia
+     * Si contrasena viene vacía se conserva la actual */
     public String actualizarUsuario(int id, String nombreCompleto, String correo,
             String usuario, String contrasena) {
 
@@ -102,7 +97,7 @@ public class UsuarioService {
         actual.setCorreo(mail);
         actual.setUsuario(user);
         if (cambiaContrasena) {
-            actual.setContrasena(contrasena);
+            actual.setContrasena(passwordEncoder.encode(contrasena));
         }
         usuarioRepository.save(actual);
         return null;

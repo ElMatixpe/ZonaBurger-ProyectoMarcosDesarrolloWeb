@@ -1,14 +1,10 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="~{fragmentos/layout :: cabecera('Zona Burger - Iniciar Sesión', 'estilo_login.css')}">
 </head>
-
 <body>
-
-    <!-- BARRA DE NAVEGACIÓN -->
+    <!-- BARRA DE NAVEGACION -->
     <nav th:replace="~{fragmentos/layout :: barraNavegacion('login')}"></nav>
-
 
     <!-- CONTENIDO PRINCIPAL -->
     <main class="seccion-inicio-sesion" id="inicioSesion">
@@ -17,7 +13,7 @@
 
             <div class="row justify-content-center align-items-center">
 
-                <!-- PRESENTACIÓN -->
+                <!-- PRESENTACION -->
                 <div class="col-lg-6 d-none d-lg-block">
 
                     <div class="presentacion">
@@ -61,7 +57,7 @@
                 </div>
 
 
-                <!-- FORMULARIO DE INICIO DE SESIÓN -->
+                <!-- FORMULARIO DE INICIO DE SESION -->
                 <div class="col-12 col-md-8 col-lg-5">
 
                     <div class="contenedor-inicio-sesion">
@@ -138,7 +134,7 @@
 
                             </div>
 
-                            <!-- RECORDAR SESIÓN -->
+                            <!-- RECORDAR SESION -->
                             <div class="d-flex justify-content-between align-items-center mb-4">
 
                                 <div class="form-check">
@@ -160,7 +156,7 @@
 
                             </div>
 
-                            <!-- BOTÓN DE INGRESO -->
+                            <!-- BOTON DE INGRESO -->
                             <button type="submit" class="btn btn-inicio-sesion w-100">
 
                                 <i class="bi bi-box-arrow-in-right"></i>
@@ -168,9 +164,14 @@
                             </button>
 
                             <!-- MENSAJE DE RESULTADO -->
-                            <div th:if="${errorLogin}" class="alert alert-danger mt-3" role="alert">
+                            <div th:if="${errorLogin != null or param.error != null}" class="alert alert-danger mt-3" role="alert">
                                 <i class="bi bi-exclamation-triangle-fill"></i>
-                                <span th:text="${errorLogin}">Usuario o contraseña incorrectos.</span>
+                                <span th:text="${errorLogin != null ? errorLogin : 'Usuario o contraseña incorrectos.'}">Usuario o contraseña incorrectos.</span>
+                            </div>
+
+                            <div th:if="${param.logout != null}" class="alert alert-info mt-3" role="alert">
+                                <i class="bi bi-info-circle-fill"></i>
+                                <span>Has cerrado sesión correctamente.</span>
                             </div>
 
                             <div th:if="${registroExitoso}" class="alert alert-success mt-3" role="alert">
@@ -264,10 +265,6 @@
 
     <!-- SCRIPTS -->
     <th:block th:replace="~{fragmentos/layout :: scripts}"></th:block>
-
-    <!-- JavaScript propio -->
     <script th:src="@{/js/javaS_login.js}"></script>
-
 </body>
-
 </html>

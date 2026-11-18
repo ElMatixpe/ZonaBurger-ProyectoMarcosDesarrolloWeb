@@ -4,13 +4,16 @@
 </head>
 <body>
 
-    <!-- BARRA DE NAVEGACIÓN -->
+    <!-- BARRA DE NAVEGACION -->
     <nav th:replace="~{fragmentos/layout :: barraNavegacion('admin')}"></nav>
     <!-- CONTENIDO PRINCIPAL -->
     <main class="contenedor-administracion" th:attr="data-base=@{/vista-admin}">
+
         <div class="container py-5">
+
             <!-- ENCABEZADO -->
             <div class="encabezado-administracion mb-4">
+
                 <div>
                     <h1>
                         <i class="bi bi-speedometer2"></i>
@@ -24,13 +27,16 @@
                 </div>
 
                 <div class="usuario-administrador">
+
                     <i class="bi bi-person-circle"></i>
+
                     <div>
-                        <strong th:text="${session.usuarioActivo != null ? session.usuarioActivo.usuario : 'Administrador'}">
+
+                        <strong th:text="${usuarioActual != null ? usuarioActual.usuario : 'Administrador'}">
                             Administrador
                         </strong>
 
-                        <small th:text="${session.usuarioActivo != null ? session.usuarioActivo.rol : 'Sesión activa'}">
+                        <small th:text="${usuarioActual != null ? usuarioActual.rol : 'Sesión activa'}">
                             Sesión activa
                         </small>
                     </div>
@@ -52,7 +58,9 @@
 
             <!-- ACCESOS RAPIDOS -->
             <div class="card seccion-administracion mb-4">
+
                 <div class="card-header">
+
                     <h5>
                         <i class="bi bi-lightning-fill"></i>
                         Accesos rápidos
@@ -60,8 +68,11 @@
                 </div>
 
                 <div class="card-body">
+
                     <div class="row g-3">
+
                         <div class="col-md-4">
+
                             <button
                                 type="button"
                                 class="btn btn-acceso w-100"
@@ -76,6 +87,7 @@
                         </div>
 
                         <div class="col-md-4">
+
                             <button
                                 type="button"
                                 class="btn btn-acceso w-100"
@@ -90,6 +102,7 @@
                         </div>
 
                         <div class="col-md-4">
+
                             <button
                                 type="button"
                                 class="btn btn-acceso w-100"
@@ -111,10 +124,15 @@
 
                 <!-- PEDIDOS -->
                 <div class="col-md-6 col-xl-3">
+
                     <div class="card tarjeta-resumen h-100">
+
                         <div class="card-body">
+
                             <div class="icono-resumen">
+
                                 <i class="bi bi-cart-check-fill"></i>
+
                             </div>
 
                             <h6>
@@ -134,10 +152,15 @@
 
                 <!-- PRODUCTOS -->
                 <div class="col-md-6 col-xl-3">
+
                     <div class="card tarjeta-resumen h-100">
+
                         <div class="card-body">
+
                             <div class="icono-resumen">
+
                                 <i class="bi bi-basket-fill"></i>
+
                             </div>
 
                             <h6>
@@ -157,10 +180,15 @@
 
                 <!-- CLIENTES -->
                 <div class="col-md-6 col-xl-3">
+
                     <div class="card tarjeta-resumen h-100">
+
                         <div class="card-body">
+
                             <div class="icono-resumen">
+
                                 <i class="bi bi-people-fill"></i>
+
                             </div>
 
                             <h6>
@@ -392,7 +420,7 @@
                         </p>
                     </div>
 
-                    <!-- PRODUCTOS ELIMINADOS -->
+                    <!-- PRODUCTOS ELIMINADOS (INACTIVOS) -->
                     <div class="mt-4" th:if="${!#lists.isEmpty(productosInactivos)}">
 
                         <h6 class="text-muted">
@@ -713,6 +741,7 @@
             <div class="modal-content">
 
                 <form method="post" id="formularioProducto">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
                     <div class="modal-header">
                         <h5 class="modal-title">
@@ -759,6 +788,11 @@
                                     placeholder="ejemplo.png" maxlength="100" required>
                             </div>
                         </div>
+
+                        <div class="form-text">
+                            La imagen debe estar en la carpeta <strong>img</strong> del proyecto.
+                        </div>
+
                     </div>
 
                     <div class="modal-footer">
@@ -783,6 +817,7 @@
             <div class="modal-content">
 
                 <form method="post" id="formularioUsuario">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
                     <div class="modal-header">
                         <h5 class="modal-title">
@@ -861,6 +896,7 @@
             <div class="modal-content">
 
                 <form method="post" id="formularioPedidoEstado">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
                     <div class="modal-header">
                         <h5 class="modal-title">
@@ -952,6 +988,7 @@
             <div class="modal-content">
 
                 <form method="post" id="formularioEliminar">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
                     <div class="modal-header">
                         <h5 class="modal-title">
@@ -983,7 +1020,6 @@
     </div>
     <!-- SCRIPTS -->
     <th:block th:replace="~{fragmentos/layout :: scripts}"></th:block>
-    <!-- Javascript PROPIO -->
     <script th:src="@{/js/javaS_vista_admin.js}"></script>
 </body>
 </html>

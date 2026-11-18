@@ -25,17 +25,20 @@ public class PedidoService {
         this.usuarioService = usuarioService;
     }
 
-    /** Del más reciente al más antiguo. */
     public List<Pedido> listarPedidos() {
         return pedidoRepository.findAllByOrderByIdDesc();
+    }
+
+    /* Pedidos de un cliente, del mas reciente al mas antiguo */
+    public List<Pedido> listarPedidosDeUsuario(int usuarioId) {
+        return pedidoRepository.findByUsuarioIdOrderByIdDesc(usuarioId);
     }
 
     public Pedido buscarPorId(int id) {
         return pedidoRepository.findById(id).orElse(null);
     }
 
-    /**
-     * Crea el pedido a partir del carrito. Los precios se toman de la base de datos*/
+    /* Crea el pedido a partir del carrito. Los precios se toman de la base de datos*/
     @Transactional
     public Pedido crearPedido(Usuario usuarioSesion, List<ItemCarrito> itemsCarrito) {
 

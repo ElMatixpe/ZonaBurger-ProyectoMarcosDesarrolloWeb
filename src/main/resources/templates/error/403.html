@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/layout :: cabecera('Zona Burger - Acceso denegado', 'styles-custom.css')}">
+</head>
+<body>
+    <!-- BARRA DE NAVEGACION -->
+    <nav th:replace="~{fragmentos/layout :: barraNavegacion('')}"></nav>
+
+    <!-- Contenido Principal -->
+    <main>
+        <section class="py-5">
+            <div class="container text-center py-5">
+
+                <i class="bi bi-shield-lock-fill text-warning" style="font-size: 4rem;"></i>
+
+                <h1 class="fw-bold mt-3">Acceso denegado</h1>
+
+                <p class="text-muted mb-4">
+                    No tienes permiso para ver esta página.
+                </p>
+
+                <a th:href="@{/}" class="btn btn-warning fw-bold">
+                    Volver al inicio
+                </a>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- PIE DE PAGINA -->
+    <footer th:replace="~{fragmentos/layout :: pie}"></footer>
+
+    <!-- SCRIPTS -->
+    <th:block th:replace="~{fragmentos/layout :: scripts}"></th:block>
+</body>
+</html>

@@ -12,6 +12,10 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
     @EntityGraph(attributePaths = {"usuario", "items", "items.producto"})
     List<Pedido> findAllByOrderByIdDesc();
 
+    // Pedidos de un solo cliente 
+    @EntityGraph(attributePaths = {"usuario", "items", "items.producto"})
+    List<Pedido> findByUsuarioIdOrderByIdDesc(Integer usuarioId);
+
     @Query("select coalesce(sum(d.cantidad * d.precioUnitario), 0.0) from DetallePedido d")
     Double sumarVentas();
 }

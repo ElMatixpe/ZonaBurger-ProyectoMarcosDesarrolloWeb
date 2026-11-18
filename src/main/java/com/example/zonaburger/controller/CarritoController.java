@@ -1,5 +1,6 @@
 package com.example.zonaburger.controller;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,24 +10,28 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.zonaburger.model.Pedido;
 import com.example.zonaburger.model.Producto;
 import com.example.zonaburger.model.Usuario;
+import com.example.zonaburger.security.UsuarioPrincipal;
 import com.example.zonaburger.service.CarritoService;
 import com.example.zonaburger.service.PedidoService;
 import com.example.zonaburger.service.ProductoService;
-import jakarta.servlet.http.HttpSession;
+import com.example.zonaburger.service.UsuarioService;
 
 @Controller
 public class CarritoController {
     private final CarritoService carritoService;
     private final ProductoService productoService;
     private final PedidoService pedidoService;
+    private final UsuarioService usuarioService;
 
     public CarritoController(
             CarritoService carritoService,
             ProductoService productoService,
-            PedidoService pedidoService) {
+            PedidoService pedidoService,
+            UsuarioService usuarioService) {
         this.carritoService = carritoService;
         this.productoService = productoService;
         this.pedidoService = pedidoService;
+        this.usuarioService = usuarioService;
     }
 
     @GetMapping("/carrito")
@@ -74,15 +79,17 @@ public class CarritoController {
     }
 
     @PostMapping("/carrito/confirmar")
-    public String confirmarPedido(HttpSession session, RedirectAttributes redirectAttributes) {
+    public String confirmarPedido(
+            @AuthenticationPrincipal UsuarioPrincipal principal,
+            RedirectAttributes redirectAttributes) {
 
         // Para hacer un pedido hay que haber iniciado sesion
-        Usuario usuario = (Usuario) session.getAttribute("usuarioActivo");
+        Usuario usuario = principal == null ? null : usuarioService.buscarPorId(principal.getId());
         if (usuario == null) {
             return "redirect:/login";
         }
 
-        // Si el carrito está vacío no se crea ningun pedido
+        // Si el carrito está vacio no se crea ningun pedido
         if (carritoService.listarCarrito().isEmpty()) {
             return "redirect:/carrito";
         }

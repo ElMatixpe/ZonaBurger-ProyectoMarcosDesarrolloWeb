@@ -1,6 +1,7 @@
 package com.example.zonaburger.controller;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.zonaburger.model.Pedido;
 import com.example.zonaburger.model.Producto;
 import com.example.zonaburger.model.Usuario;
+import com.example.zonaburger.security.UsuarioPrincipal;
 import com.example.zonaburger.service.PedidoService;
 import com.example.zonaburger.service.ProductoService;
 import com.example.zonaburger.service.UsuarioService;
@@ -19,7 +21,6 @@ import com.example.zonaburger.form.EditarUsuarioForm;
 import com.example.zonaburger.form.ProductoForm;
 import com.example.zonaburger.form.RegistroForm;
 import com.example.zonaburger.form.ErroresFormulario;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import java.util.List;
 
@@ -41,14 +42,14 @@ public class VistaAdminController {
     @GetMapping("/vista-admin")
     public String vistaAdmin(Model model) {
 
-        // PRODUCTOS
+        // PRODUCTOS 
         List<Producto> productos = productoService.listarProductos();
 
-        // CLIENTES Y ADMINISTRADORES
+        // CLIENTES Y ADMINISTRADORES 
         List<Usuario> clientes = usuarioService.listarClientes();
         List<Usuario> administradores = usuarioService.listarAdministradores();
 
-        // PEDIDOS
+        // PEDIDOS 
         List<Pedido> pedidos = pedidoService.listarPedidos();
         double ventasTotales = pedidoService.calcularVentasTotales();
 
@@ -66,13 +67,7 @@ public class VistaAdminController {
     public String agregarAdministrador(
             @Valid RegistroForm form,
             BindingResult resultado,
-            HttpSession session,
             RedirectAttributes redirectAttributes) {
-
-        // Solo un administrador con sesion activa puede crear otro administrador
-        if (!esAdministrador(session)) {
-            return "redirect:/login";
-        }
 
         if (resultado.hasErrors()) {
             redirectAttributes.addFlashAttribute("errorAdmin", ErroresFormulario.primerMensaje(
@@ -101,11 +96,6 @@ public class VistaAdminController {
         return "redirect:/vista-admin#seccionAdministradores";
     }
 
-    private boolean esAdministrador(HttpSession session) {
-        Usuario activo = (Usuario) session.getAttribute("usuarioActivo");
-        return activo != null && "ADMINISTRADOR".equals(activo.getRol());
-    }
-
     private String seccionDe(Usuario u) {
         return u != null && "ADMINISTRADOR".equals(u.getRol())
                 ? "#seccionAdministradores"
@@ -117,12 +107,7 @@ public class VistaAdminController {
     public String agregarProducto(
             @Valid ProductoForm form,
             BindingResult resultado,
-            HttpSession session,
             RedirectAttributes redirectAttributes) {
-
-        if (!esAdministrador(session)) {
-            return "redirect:/login";
-        }
 
         if (resultado.hasErrors()) {
             redirectAttributes.addFlashAttribute("errorAdmin", ErroresFormulario.primerMensaje(
@@ -150,12 +135,7 @@ public class VistaAdminController {
             @PathVariable int id,
             @Valid ProductoForm form,
             BindingResult resultado,
-            HttpSession session,
             RedirectAttributes redirectAttributes) {
-
-        if (!esAdministrador(session)) {
-            return "redirect:/login";
-        }
 
         if (resultado.hasErrors()) {
             redirectAttributes.addFlashAttribute("errorAdmin", ErroresFormulario.primerMensaje(
@@ -178,12 +158,7 @@ public class VistaAdminController {
     @PostMapping("/vista-admin/productos/{id}/eliminar")
     public String eliminarProducto(
             @PathVariable int id,
-            HttpSession session,
             RedirectAttributes redirectAttributes) {
-
-        if (!esAdministrador(session)) {
-            return "redirect:/login";
-        }
 
         if (productoService.eliminarProducto(id)) {
             redirectAttributes.addFlashAttribute("mensajeAdmin", "Producto eliminado correctamente.");
@@ -196,12 +171,7 @@ public class VistaAdminController {
     @PostMapping("/vista-admin/productos/{id}/reactivar")
     public String reactivarProducto(
             @PathVariable int id,
-            HttpSession session,
             RedirectAttributes redirectAttributes) {
-
-        if (!esAdministrador(session)) {
-            return "redirect:/login";
-        }
 
         if (productoService.reactivarProducto(id)) {
             redirectAttributes.addFlashAttribute("mensajeAdmin", "Producto reactivado correctamente.");
@@ -211,17 +181,12 @@ public class VistaAdminController {
         return "redirect:/vista-admin#seccionProductos";
     }
 
-    // EN PEDIDOS SOLO CAMBIA EL ESTADO
+    // PEDIDOS: SOLO CAMBIA EL ESTADO
     @PostMapping("/vista-admin/pedidos/{id}/estado")
     public String cambiarEstadoPedido(
             @PathVariable int id,
             @RequestParam("estado") String estado,
-            HttpSession session,
             RedirectAttributes redirectAttributes) {
-
-        if (!esAdministrador(session)) {
-            return "redirect:/login";
-        }
 
         if (pedidoService.cambiarEstado(id, estado)) {
             redirectAttributes.addFlashAttribute("mensajeAdmin",
@@ -232,18 +197,13 @@ public class VistaAdminController {
         return "redirect:/vista-admin#seccionPedidos";
     }
 
-    // CLIENTES Y ADMINISTRADORES
+    // CLIENTES Y ADMINISTRADORES 
     @PostMapping("/vista-admin/usuarios/{id}/editar")
     public String editarUsuario(
             @PathVariable int id,
             @Valid EditarUsuarioForm form,
             BindingResult resultado,
-            HttpSession session,
             RedirectAttributes redirectAttributes) {
-
-        if (!esAdministrador(session)) {
-            return "redirect:/login";
-        }
 
         Usuario objetivo = usuarioService.buscarPorId(id);
         String seccion = seccionDe(objetivo);
@@ -262,12 +222,6 @@ public class VistaAdminController {
             return "redirect:/vista-admin" + seccion;
         }
 
-        // Si el administrador se edito a si mismo, se refresca la sesion
-        Usuario activo = (Usuario) session.getAttribute("usuarioActivo");
-        if (activo != null && activo.getId() != null && activo.getId() == id) {
-            session.setAttribute("usuarioActivo", usuarioService.buscarPorId(id));
-        }
-
         redirectAttributes.addFlashAttribute("mensajeAdmin", "Datos actualizados correctamente.");
         return "redirect:/vista-admin" + seccion;
     }
@@ -275,12 +229,8 @@ public class VistaAdminController {
     @PostMapping("/vista-admin/usuarios/{id}/eliminar")
     public String eliminarUsuario(
             @PathVariable int id,
-            HttpSession session,
+            @AuthenticationPrincipal UsuarioPrincipal principal,
             RedirectAttributes redirectAttributes) {
-
-        if (!esAdministrador(session)) {
-            return "redirect:/login";
-        }
 
         Usuario objetivo = usuarioService.buscarPorId(id);
         String seccion = seccionDe(objetivo);
@@ -290,8 +240,7 @@ public class VistaAdminController {
             return "redirect:/vista-admin" + seccion;
         }
 
-        Usuario activo = (Usuario) session.getAttribute("usuarioActivo");
-        if (activo != null && activo.getId() != null && activo.getId() == id) {
+        if (principal != null && principal.getId() == id) {
             redirectAttributes.addFlashAttribute("errorAdmin", "No puedes eliminar tu propia cuenta.");
             return "redirect:/vista-admin" + seccion;
         }
