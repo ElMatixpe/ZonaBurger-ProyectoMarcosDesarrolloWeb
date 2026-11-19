@@ -12,7 +12,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
-/* Genera y valida los tokens JWT de la API REST. */
+/* Genera y valida los tokens JWT de la API REST */
 @Component
 public class JwtService {
 

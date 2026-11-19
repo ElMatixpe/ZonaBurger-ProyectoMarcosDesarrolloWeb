@@ -1,11 +1,11 @@
-package com.example.zonaburger.security;
+package com.example.zonaburger.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import com.example.zonaburger.repository.UsuarioRepository;
+import com.example.zonaburger.security.UsuarioPrincipal;
 
 /* Le dice a Spring Security como buscar un usuario por su nombre de usuario */
 @Service

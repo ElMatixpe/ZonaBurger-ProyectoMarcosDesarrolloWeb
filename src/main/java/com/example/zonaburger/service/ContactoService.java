@@ -17,9 +17,8 @@ public class ContactoService {
         this.usuarioService = usuarioService;
     }
 
-    /**
-     * Guarda el mensaje. Si quien escribe tiene sesión iniciada se asocia a su usuario;
-     * si es un visitante, usuario_id queda en null. */
+    /** Guarda el mensaje. Si quien escribe tiene sesion iniciada se asocia a su usuario;
+     * si es un visitante, usuario_id queda en null */
     public Contacto registrar(ContactoForm form, Usuario usuarioSesion) {
 
         Usuario autor = null;
